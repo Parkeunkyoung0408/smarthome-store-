@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>스마트홈스토어 Design Tokens</title>
+  <link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:     #31ADB8;
+      --primary-dark:#0D50D7;
+      --text-primary:#383838;
+      --text-secondary:#666666;
+      --border:      #CCCCCC;
+      --surface-input:#F4F4F5;
+      --surface-section:#F7F7FA;
+      --placeholder: #A6A6A6;
+      --text-select: #424A4A;
+      --danger:      #D12A38;
+      --bg:          #F0F2F8;
+      --card:        #FFFFFF;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 20px;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 40px 48px 36px;
+    }
+    header .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+    header .badge::before { content: ""; width: 7px; height: 7px; background: #7FFFB0; border-radius: 50%; display: block; }
+    header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+    header p  { margin-top: 8px; font-size: 13px; opacity: 0.78; line-height: 1.6; }
+    .header-meta {
+      display: flex;
+      gap: 24px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .header-meta span {
+      font-size: 12px;
+      opacity: 0.7;
+      background: rgba(255,255,255,0.12);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* ── NAV TABS ── */
+    nav {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex;
+      gap: 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--placeholder);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 16px 20px 14px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    nav a:hover { color: var(--primary); }
+    nav a.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .nav-group {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border-right: 1px solid var(--border);
+      margin-right: 4px;
+    }
+    .nav-group-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--primary);
+      padding: 18px 14px 14px 0;
+      white-space: nowrap;
+      opacity: 0.7;
+    }
+
+    /* ── LAYOUT ── */
+    main { max-width: 1200px; margin: 0 auto; padding: 40px 48px 80px; }
+
+    section { margin-bottom: 60px; }
+    section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    section h2 .icon {
+      width: 28px; height: 28px;
+      background: var(--primary);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+    section .desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      margin-left: 38px;
+    }
+
+    /* ── COLOR GRID ── */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .color-card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform 0.15s, box-shadow 0.15s;
+      cursor: default;
+    }
+    .color-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .color-swatch {
+      height: 100px;
+      position: relative;
+    }
+    .color-swatch.checkered {
+      background-image:
+        linear-gradient(45deg, #ddd 25%, transparent 25%),
+        linear-gradient(-45deg, #ddd 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ddd 75%),
+        linear-gradient(-45deg, transparent 75%, #ddd 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+    }
+    .color-swatch-inner { position: absolute; inset: 0; }
+    .rank-badge {
+      position: absolute;
+      top: 8px; left: 8px;
+      background: rgba(0,0,0,0.4);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+      backdrop-filter: blur(4px);
+    }
+    .color-info { padding: 14px 16px; }
+    .color-token {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      font-family: 'Menlo', 'Consolas', monospace;
+    }
+    .color-hex {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 4px;
+      font-family: 'Menlo', 'Consolas', monospace;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .color-hex .copy-btn {
+      font-size: 10px;
+      color: var(--placeholder);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 5px;
+      background: var(--surface-section);
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .color-hex .copy-btn:hover { background: var(--surface-input); }
+    .color-rgba { font-size: 10px; color: var(--placeholder); margin-bottom: 6px; font-family: monospace; }
+    .color-usage { font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
+    .color-figma-var { font-size: 10px; color: var(--placeholder); margin-top: 6px; font-family: monospace; word-break: break-all; }
+
+    /* ── TYPOGRAPHY TABLE ── */
+    .typo-list { display: flex; flex-direction: column; gap: 12px; }
+    .typo-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 180px 1fr 280px;
+      gap: 20px;
+      align-items: center;
+      transition: box-shadow 0.15s;
+    }
+    .typo-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .typo-meta {}
+    .typo-rank { font-size: 10px; color: var(--placeholder); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .typo-token { font-size: 13px; font-weight: 700; color: var(--text-primary); font-family: monospace; }
+    .typo-figma { font-size: 10px; color: var(--placeholder); margin-top: 4px; word-break: break-word; }
+    .typo-preview {
+      padding: 12px 16px;
+      background: var(--surface-section);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .typo-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .spec-chip {
+      background: var(--surface-input);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-family: monospace;
+    }
+    .spec-chip strong { color: var(--text-primary); }
+
+    /* ── RADIUS & EFFECTS ── */
+    .radius-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .radius-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .radius-demo {
+      width: 80px; height: 80px;
+      background: var(--primary);
+      opacity: 0.15;
+      margin: 0 auto 16px;
+      border: 2px solid var(--primary);
+    }
+    .radius-token { font-size: 12px; font-weight: 700; font-family: monospace; }
+    .radius-value { font-size: 22px; font-weight: 700; color: var(--primary); margin: 4px 0; }
+    .radius-usage { font-size: 11px; color: var(--text-secondary); }
+
+    /* ── CSS VAR TABLE ── */
+    .var-table {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .var-table table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .var-table th {
+      background: var(--surface-section);
+      padding: 12px 20px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    .var-table td {
+      padding: 11px 20px;
+      border-bottom: 1px solid var(--surface-input);
+      font-family: monospace;
+    }
+    .var-table tr:last-child td { border-bottom: none; }
+    .var-table tr:hover td { background: var(--surface-section); }
+    .var-dot {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-right: 8px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    /* ── STROKE ── */
+    .stroke-list { display: flex; flex-direction: column; gap: 10px; }
+    .stroke-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 24px;
+      display: grid;
+      grid-template-columns: 180px 1fr 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+    .stroke-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .stroke-meta .stroke-token { font-size: 13px; font-weight: 700; font-family: monospace; }
+    .stroke-meta .stroke-rank { font-size: 10px; color: var(--placeholder); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; }
+    .stroke-preview {
+      height: 40px;
+      background: var(--surface-section);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: var(--placeholder);
+    }
+    .stroke-specs { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* ── EFFECT ── */
+    .effect-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 16px; }
+    .effect-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .effect-demo {
+      width: 120px; height: 60px;
+      background: var(--card);
+      border-radius: var(--radius-md);
+      margin: 0 auto 16px;
+      background: #fff;
+    }
+    .effect-token { font-size: 12px; font-weight: 700; font-family: monospace; margin-bottom: 4px; }
+    .effect-value { font-size: 11px; color: var(--placeholder); font-family: monospace; margin-bottom: 6px; word-break: break-all; }
+    .effect-usage { font-size: 11px; color: var(--text-secondary); }
+    .effect-badge { display: inline-block; background: var(--surface-input); font-size: 10px; color: var(--text-secondary); padding: 2px 8px; border-radius: 10px; margin-bottom: 8px; font-family: monospace; }
+
+    /* ── SPACING ── */
+    .spacing-list { display: flex; flex-direction: column; gap: 10px; }
+    .spacing-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 24px;
+      display: grid;
+      grid-template-columns: 180px 1fr 200px;
+      gap: 16px;
+      align-items: center;
+    }
+    .spacing-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .spacing-meta .spacing-token { font-size: 13px; font-weight: 700; font-family: monospace; }
+    .spacing-meta .spacing-rank { font-size: 10px; color: var(--placeholder); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; }
+    .spacing-bar-wrap { display: flex; align-items: center; gap: 12px; }
+    .spacing-bar {
+      height: 24px;
+      background: var(--primary);
+      opacity: 0.7;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .spacing-val { font-size: 22px; font-weight: 700; color: var(--primary); font-family: monospace; }
+    .spacing-usage { font-size: 11px; color: var(--text-secondary); }
+
+    /* ── COLOR CATEGORY HEADER ── */
+    .color-category-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary);
+      display: inline-block;
+    }
+
+    /* ── BORDER COLOR ── */
+    .border-table {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .border-table table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .border-table th {
+      background: var(--surface-section);
+      padding: 10px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    .border-table td { padding: 9px 16px; border-bottom: 1px solid var(--surface-input); vertical-align: middle; }
+    .border-table tr:last-child td { border-bottom: none; }
+    .border-table tr:hover td { background: var(--surface-section); }
+    .border-rank { font-size: 11px; color: var(--placeholder); font-weight: 600; text-align: center; }
+    .border-swatch {
+      display: inline-block;
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.08);
+      vertical-align: middle;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .border-hex {
+      font-family: 'Menlo','Consolas',monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .border-bar-cell { width: 200px; }
+    .border-bar-bg {
+      background: var(--surface-input);
+      border-radius: 4px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .border-bar-fill {
+      height: 8px;
+      border-radius: 4px;
+      background: var(--primary);
+    }
+    .border-count { font-size: 12px; font-weight: 700; color: var(--text-primary); font-family: monospace; }
+    .border-widths { font-size: 10px; color: var(--placeholder); font-family: monospace; }
+    .border-preview-cell { width: 80px; text-align: center; }
+    .border-preview-box {
+      display: inline-block;
+      width: 48px; height: 28px;
+      border-radius: 6px;
+      background: var(--surface-section);
+    }
+
+    /* ── BORDER PAGE LIST ── */
+    .border-pages { display: flex; flex-wrap: wrap; gap: 4px; }
+    .border-page-chip {
+      font-size: 10px;
+      background: var(--surface-section);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2px 8px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .page-toggle-btn {
+      font-size: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface-input);
+      border-radius: 6px;
+      padding: 2px 8px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-family: 'Pretendard', sans-serif;
+    }
+    .page-toggle-btn:hover { background: var(--border); }
+
+    /* ── NEUTRAL SCALE ── */
+    .neutral-group { margin-bottom: 36px; }
+    .neutral-group-header {
+      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--border);
+    }
+    .neutral-group-title { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+    .neutral-group-range {
+      font-size: 11px; font-weight: 600; color: var(--primary);
+      font-family: monospace; background: rgba(49,173,184,0.1);
+      border-radius: 4px; padding: 2px 8px;
+    }
+    .neutral-group-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+    .neutral-scale-strip {
+      display: flex; border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--border); margin-bottom: 28px; height: 56px;
+    }
+    .neutral-strip-chip {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 2px; cursor: pointer;
+      transition: flex 0.2s;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+    .neutral-strip-chip:last-child { border-right: none; }
+    .neutral-strip-chip:hover { flex: 2; }
+    .neutral-strip-label { font-size: 8px; font-weight: 700; opacity: 0.75; }
+    .neutral-strip-hex   { font-size: 8px; font-family: monospace; opacity: 0; transition: opacity 0.15s; }
+    .neutral-strip-chip:hover .neutral-strip-hex { opacity: 1; }
+
+    .neutral-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); overflow: hidden;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .neutral-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .neutral-swatch { height: 88px; position: relative; }
+    .neutral-swatch-inner { position: absolute; inset: 0; }
+    .neutral-swatch.checkered {
+      background-image:
+        linear-gradient(45deg, #ddd 25%, transparent 25%),
+        linear-gradient(-45deg, #ddd 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ddd 75%),
+        linear-gradient(-45deg, transparent 75%, #ddd 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+    }
+    .neutral-role-badge {
+      position: absolute; bottom: 8px; left: 8px;
+      font-size: 9px; font-weight: 700;
+      padding: 2px 7px; border-radius: 10px;
+      backdrop-filter: blur(4px);
+    }
+    .role-bg     { background: rgba(49,173,184,0.85); color:#fff; }
+    .role-border { background: rgba(138,148,158,0.85); color:#fff; }
+    .role-text   { background: rgba(56,56,56,0.75);   color:#fff; }
+    .role-both   { background: rgba(88,97,106,0.85);  color:#fff; }
+    .neutral-step-badge {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(0,0,0,0.38); color:#fff;
+      font-size: 9px; font-weight: 700;
+      padding: 2px 7px; border-radius: 10px;
+      backdrop-filter: blur(4px);
+    }
+    .neutral-info { padding: 14px 16px; }
+    .neutral-token { font-size: 11px; font-weight: 700; color: var(--text-primary); font-family: monospace; margin-bottom: 4px; }
+    .neutral-hex   { font-size: 13px; font-weight: 600; color: var(--primary); font-family: monospace; display: flex; align-items: center; gap: 6px; cursor: pointer; margin-bottom: 6px; }
+    .neutral-usage { font-size: 11px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 6px; }
+    .neutral-figma { font-size: 10px; color: var(--placeholder); }
+    .figma-chip    { display: inline-block; background: var(--surface-input); border-radius: 4px; padding: 1px 6px; font-family: monospace; margin: 2px 2px 0 0; font-size: 10px; }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+      background: var(--text-primary); color: #fff;
+      padding: 10px 20px; border-radius: 20px;
+      font-size: 13px; font-weight: 500;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 999;
+    }
+    #toast.show { opacity: 1; }
+
+    @media (max-width: 768px) {
+      header, main { padding-left: 20px; padding-right: 20px; }
+      nav { padding: 0 20px; overflow-x: auto; }
+      .typo-card { grid-template-columns: 1fr; }
+      .radius-grid { grid-template-columns: repeat(2,1fr); }
+      .color-grid { grid-template-columns: repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Figma → Design Tokens</div>
+  <h1>스마트홈스토어 Design Tokens</h1>
+  <p>스마트홈스토어 전페이지(89p) Figma 파일 레이어 2,811개 분석 · 빈도 기반 토큰 정리</p>
+  <div class="header-meta">
+    <span>추출일: 2026-02-25 · 업데이트: 2026-02-26</span>
+    <span>폰트: Pretendard 단일 패밀리</span>
+    <span>컬러 토큰: 12개 + Primary 스케일 10단계</span>
+    <span>타이포그래피 토큰: 9개</span>
+    <span>Border 컬러: 12개 · 스트로크: 8개 · 이펙트: 4단계 · 스페이싱: 9단계</span>
+    <span>Figma: gLHd8xNMO4Qof0Tt7oyf8T</span>
+  </div>
+</header>
+
+<div style="background:#FFF3CD;border-bottom:1px solid #FFCA28;padding:12px 48px;font-size:13px;color:#7A5A00;display:flex;align-items:center;gap:10px;">
+  <span style="font-size:16px;">⚠️</span>
+  <span><strong>Figma Token preview 페이지(3157:4) 불일치 확인됨</strong> — Token preview 페이지는 Inter/오렌지(#ff5c02)/퍼플(#4d00ff) 기반의 제네릭 템플릿입니다. 실제 스마트홈스토어에 적용된 토큰은 이 문서(Pretendard/Teal #31ADB8)가 정확합니다. Figma API + 레이어 2,811개 빈도 분석 기준.</span>
+</div>
+
+<nav>
+  <div class="nav-group">
+    <span class="nav-group-label">색상</span>
+    <a href="#colors" class="active">컬러 팔레트</a>
+    <a href="#neutral-scale">뉴트럴 스케일</a>
+    <a href="#primary-scale">Primary 스케일</a>
+    <a href="#red-scale">레드 스케일</a>
+  </div>
+  <a href="#typography">타이포그래피</a>
+  <a href="#stroke">스트로크</a>
+  <a href="#effect">이펙트</a>
+  <a href="#spacing">스페이싱</a>
+  <a href="#radius">라디우스</a>
+  <a href="#css-vars">CSS 변수</a>
+</nav>
+
+<main>
+
+  <!-- ── COLORS ── -->
+  <section id="colors">
+    <h2><span class="icon">🎨</span> 컬러 팔레트</h2>
+    <p class="desc">빈도 높은 순서로 정렬. 스와치 HEX 클릭 시 클립보드에 복사됩니다. (총 13개)</p>
+    <div class="color-grid" id="colorGrid"></div>
+  </section>
+
+  <!-- ── NEUTRAL SCALE ── -->
+  <section id="neutral-scale">
+    <h2><span class="icon">⬜</span> 뉴트럴 스케일 (Neutral Scale)</h2>
+    <p class="desc">텍스트·보더 그레이를 하나의 13단계 스케일로 통합. 추천 HEX는 Tailwind Gray 기반이며 실제 Figma 원본 색상이 함께 표시됩니다.</p>
+    <div class="neutral-scale-strip" id="neutralScaleStrip"></div>
+    <div id="neutralGroups"></div>
+  </section>
+
+  <!-- ── RED SCALE ── -->
+  <section id="red-scale">
+    <h2><span class="icon">🔴</span> 레드 스케일 (Red Scale)</h2>
+    <p class="desc">+reference 강조 색상(Accent/Red) · step 5→70 기준 red0~red700 매핑. 실제 Figma 레이어 사용 색상과 비교 표시.</p>
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;" id="redScaleRow"></div>
+    <div style="margin-bottom:12px;font-size:12px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;">reference 스케일 (red0 – red700)</div>
+    <div class="color-grid" id="redScaleGrid"></div>
+    <div style="margin-top:24px;margin-bottom:12px;font-size:12px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;">실제 사용 색상 (Figma 레이어 분석)</div>
+    <div class="color-grid" id="redUsedGrid"></div>
+  </section>
+
+  <!-- ── PRIMARY SCALE ── -->
+  <section id="primary-scale">
+    <h2><span class="icon">🎨</span> Primary 컬러 스케일</h2>
+    <p class="desc">Figma Colors 페이지(2927:18645) 기준 — Blue/Normal (#31ADB8) 중심의 10단계 상태 스케일.</p>
+    <div class="color-grid" id="primaryScaleGrid"></div>
+  </section>
+
+  <!-- ── TYPOGRAPHY ── -->
+  <section id="typography">
+    <h2><span class="icon">T</span> 타이포그래피</h2>
+    <p class="desc">Pretendard 폰트 패밀리 기준. 빈도 높은 순서로 정렬.</p>
+    <div class="typo-list" id="typoList"></div>
+  </section>
+
+  <!-- ── STROKE ── -->
+  <section id="stroke">
+    <h2><span class="icon">▱</span> 스트로크</h2>
+    <p class="desc">실제 레이어 분석 기준 빈도순 정렬. 거의 모든 스트로크가 1px이며, 선택/포커스 상태에서 2px 사용.</p>
+    <div class="stroke-list" id="strokeList"></div>
+  </section>
+
+  <!-- ── EFFECT ── -->
+  <section id="effect">
+    <h2><span class="icon">✦</span> 이펙트 (그림자)</h2>
+    <p class="desc">Figma 레이어 전수 분석. 확인된 Drop Shadow 1종 + 논리적 스케일 4단계.</p>
+    <div class="effect-grid" id="effectGrid"></div>
+  </section>
+
+  <!-- ── SPACING ── -->
+  <section id="spacing">
+    <h2><span class="icon">↔</span> 스페이싱</h2>
+    <p class="desc">8의 배수 기준 — padding + gap 실사용 빈도 합산. 비배수 값은 제외.</p>
+    <div class="spacing-list" id="spacingList"></div>
+  </section>
+
+  <!-- ── RADIUS ── -->
+  <section id="radius">
+    <h2><span class="icon">◻</span> 보더 라디우스</h2>
+    <p class="desc">CSS 변수명 역추출 기반 4단계 반경 체계.</p>
+    <div class="radius-grid" id="radiusGrid"></div>
+  </section>
+
+  <!-- ── CSS VARS ── -->
+  <section id="css-vars">
+    <h2><span class="icon">{}</span> CSS 변수 맵</h2>
+    <p class="desc">Figma 원본 CSS 변수명 전체 매핑표.</p>
+    <div class="var-table">
+      <table>
+        <thead>
+          <tr>
+            <th>변수명</th>
+            <th>값</th>
+            <th>미리보기</th>
+          </tr>
+        </thead>
+        <tbody id="varTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<div id="toast">클립보드에 복사됨</div>
+
+<script src="tokens-data.js"></script>
+<script>
+
+// ── COLORS
+const colorGrid = document.getElementById('colorGrid');
+tokens.colors.forEach(c => {
+  const card = document.createElement('div');
+  card.className = 'color-card';
+  const swatchBg = c.rgba.includes('0.3') ? c.rgba : c.hex;
+  card.innerHTML = `
+    <div class="color-swatch ${c.checkered ? 'checkered' : ''}">
+      <div class="color-swatch-inner" style="background:${swatchBg}"></div>
+      <span class="rank-badge">${c.rank}위</span>
+    </div>
+    <div class="color-info">
+      <div class="color-token">${c.token}</div>
+      <div class="color-hex" onclick="copyText('${c.hex}')">
+        ${c.hex}
+        <span class="copy-btn">복사</span>
+      </div>
+      <div class="color-rgba">${c.rgba}</div>
+      <div class="color-usage">${c.usage}</div>
+      <div class="color-figma-var">${c.figmaVar}</div>
+    </div>`;
+  colorGrid.appendChild(card);
+});
+
+// ── BORDER COLORS (card format)
+const borderPageUsage = {
+  '#CDD1D5': ["Header","Pagination","Structured list","button","history","Footer","Tab","Accordion","toggle","🏠 Foundations_main","🏠 Foundations_my apt","🏠 Foundations_product","🏠 Foundations_purchase","🏠 Foundations_shopping basket","👤 Foundations_User","🛍️ Foundations_mypage","🛍️ Foundations_order","🧩 Components"],
+  '#E6E8EA': ["Structured list","Table","history","input","popup","🏠 Foundations_main","🏠 Foundations_my apt","🏠 Foundations_product","🏠 Foundations_shopping basket","👤 Foundations_User","🛍️ Foundations_mypage","🛍️ Foundations_order","🧩 Components"],
+  '#33363D': ["Header","Pagination","Structured list","Tab bars","history","🎨 Design style","🏠 Foundations_main","🏠 Foundations_my apt","🏠 Foundations_product","🏠 Foundations_shopping basket","👤 Foundations_User","🛍️ Foundations_mypage","🛍️ Foundations_order","🧩 Components"],
+  '#58616A': ["Calendar","Header","Structured list","Table","button","history","🎨 Design style","🏠 Foundations_main","🏠 Foundations_my apt","🏠 Foundations_product","🏠 Foundations_purchase","🏠 Foundations_shopping basket","👤 Foundations_User","🛍️ Foundations_mypage","🛍️ Foundations_order","🧩 Components"],
+  '#000000': ["Header","Tab","Tab bars","history","🎨 Design style","🏠 Foundations_main","🏠 Foundations_my apt","🏠 Foundations_purchase","🏠 Foundations_shopping basket","👤 Foundations_User","🛍️ Foundations_mypage","🛍️ Foundations_order"],
+  '#FFFFFF': ["Header","history","product","🏠 Foundations_main","🏠 Foundations_product","🏠 Foundations_purchase","👤 Foundations_User","🛍️ Foundations_mypage","🛍️ Foundations_order","🧩 Components"],
+  '#F4F5F6': ["history","product","🏠 Foundations_main","🏠 Foundations_product","🏠 Foundations_purchase","🛍️ Foundations_mypage","🛍️ Foundations_order","🧩 Components"],
+  '#B1B8BE': ["Accordion","toggle","button","history","🎨 Design style","🏠 Foundations_main","🏠 Foundations_product","🏠 Foundations_purchase","👤 Foundations_User","🛍️ Foundations_mypage","🛍️ Foundations_order","🧩 Components"],
+  '#1E2124': ["Structured list","🏠 Foundations_main","🏠 Foundations_my apt","🛍️ Foundations_order","🧩 Components"],
+  '#8A949E': ["button","🏠 Foundations_purchase","🛍️ Foundations_order","🧩 Components"],
+  '#6D7882': ["Accordion","toggle"],
+  '#464C53': ["toggle","🛍️ Foundations_mypage"],
+};
+
+const LIGHT_HEXES = new Set(['#FFFFFF','#F4F5F6','#E6E8EA','#CDD1D5']);
+const borderGrayGrid = document.getElementById('borderGrayGrid');
+const grayColors = tokens.borderColors.filter(b => b.gray);
+
+if (borderGrayGrid) grayColors.forEach(b => {
+  const isLight = LIGHT_HEXES.has(b.hex);
+  const widthStr = Object.entries(b.widths).map(([w,c]) => `${w}px×${c}`).join(' · ');
+  const pages = borderPageUsage[b.hex] || [];
+  const stepBadge = b.step && b.step !== '-' ? `<span class="spec-chip" style="font-size:10px;margin-left:4px;">Step ${b.step}</span>` : '';
+  const mergedLine = b.merged ? `<div style="font-size:10px;color:var(--placeholder);margin-top:4px;">병합: ${b.merged}</div>` : '';
+  const card = document.createElement('div');
+  card.className = 'color-card';
+  card.innerHTML = `
+    <div class="color-swatch ${isLight ? 'checkered' : ''}">
+      <div class="color-swatch-inner" style="background:${b.hex}"></div>
+      <span class="rank-badge">${b.rank}위</span>
+    </div>
+    <div class="color-info">
+      <div class="color-hex" onclick="copyText('${b.hex}')">
+        ${b.hex}${stepBadge}
+        <span class="copy-btn">복사</span>
+      </div>
+      <div class="color-rgba">${b.count.toLocaleString()}회 · ${widthStr}</div>
+      ${mergedLine}
+      <div class="color-usage" style="margin-top:6px;">
+        <button class="page-toggle-btn" onclick="togglePages(this)">페이지 보기 (${pages.length})</button>
+      </div>
+      <div class="border-pages" style="display:none;margin-top:8px;">
+        ${pages.map(p => `<span class="border-page-chip">${p}</span>`).join('')}
+      </div>
+    </div>`;
+  borderGrayGrid.appendChild(card);
+}); // end if (borderGrayGrid)
+
+function togglePages(btn) {
+  const pagesDiv = btn.closest('.color-info').querySelector('.border-pages');
+  const isOpen = pagesDiv.style.display !== 'none';
+  pagesDiv.style.display = isOpen ? 'none' : 'flex';
+  btn.textContent = isOpen ? `페이지 보기 (${pagesDiv.children.length})` : '페이지 숨기기';
+}
+
+// ── TEXT COLORS
+const TEXT_BASE = [
+  { rank:1,  hex:'#383838', count:1442, pages:9, token:'text-primary',     sizes:'10,12,14,16,18', sample:'홈 / 내아파트 / 본문 주요 텍스트' },
+  { rank:2,  hex:'#666666', count:1379, pages:9, token:'text-secondary',   sizes:'11,12,14,16,18', sample:'설명 문구 / 주소 / 보조 텍스트' },
+  { rank:3,  hex:'#191919', count:802,  pages:8, token:'text-dark',        sizes:'12,14,15,16,18', sample:'제품명 / 가격 / 진한 본문' },
+  { rank:4,  hex:'#464C53', count:680,  pages:9, token:'text-mid',         sizes:'12,13,14,15,17', sample:'/1,000 / 레이블 / 중간 텍스트' },
+  { rank:5,  hex:'#FFFFFF', count:645,  pages:9, token:'text-white',       sizes:'8,9,10,11,12',   sample:'버튼 텍스트 / 배지 / 화이트 레이블', isLight:true },
+  { rank:7,  hex:'#A6A6A6', count:326,  pages:8, token:'text-placeholder', sizes:'11,12,14,16,18', sample:'제품을 등록해 주세요 / placeholder' },
+  { rank:9,  hex:'#8A949E', count:311,  pages:9, token:'text-sub',         sizes:'11,12,14,15,17', sample:'아파트명 / 서브 레이블' },
+  { rank:10, hex:'#71717A', count:263,  pages:8, token:'text-sub2',        sizes:'12,14,16',       sample:'마에스트로 / 보조 설명' },
+  { rank:11, hex:'#4D4D4D', count:233,  pages:8, token:'text-dark2',       sizes:'12,14,16',       sample:'839*님 / 마스킹 텍스트' },
+  { rank:12, hex:'#1E2124', count:226,  pages:8, token:'text-darkest',     sizes:'14,15,16,17,19', sample:'버튼 / 신고사유 / 최다크 텍스트' },
+  { rank:16, hex:'#FAFAFA', count:144,  pages:8, token:'text-light',       sizes:'12,14,24',       sample:'단종 / 일시품절 배지', isLight:true },
+  { rank:21, hex:'#CCCCCC', count:53,   pages:7, token:'text-disabled',    sizes:'12,14,16',       sample:'동입력 / 호수입력 / disabled', isLight:true },
+];
+
+const TEXT_BLUE = [
+  { rank:6,  hex:'#185DE8', count:538, pages:7, token:'text-link',        sizes:'9,10,12,14,16', sample:'동 / 호 / 링크 텍스트' },
+  { rank:8,  hex:'#31ADB8', count:314, pages:8, token:'text-primary-teal',sizes:'12,14,16,18,24',sample:'도로명 / 리뷰 탭 / 주요 액션' },
+  { rank:18, hex:'#0B50D0', count:136, pages:6, token:'text-link-dark',   sizes:'12,15',          sample:'뱃지 / 진한 링크' },
+  { rank:25, hex:'#3376FD', count:27,  pages:2, token:'(unnamed)',         sizes:'12',             sample:'환불 진행 중 / 교환 회수 중' },
+  { rank:40, hex:'#0D50D7', count:6,   pages:2, token:'(unnamed)',         sizes:'14',             sample:'제품등록추가 / 제품 등록' },
+  { rank:53, hex:'#256EF4', count:1,   pages:1, token:'(unnamed)',         sizes:'15',             sample:'내용보기' },
+];
+
+const TEXT_RED = [
+  { rank:17, hex:'#AD1320', count:142, pages:9, token:'text-danger-dark',  sizes:'9,12,13,14,20', sample:'답변완료 / 에러 상태' },
+  { rank:19, hex:'#FC336D', count:98,  pages:7, token:'text-promo',        sizes:'12,14,16',       sample:'20% / 할인 뱃지 / 프로모션' },
+  { rank:23, hex:'#BD2C0F', count:37,  pages:3, token:'text-danger',       sizes:'12,13,15',       sample:'hint message / 에러 메시지' },
+  { rank:24, hex:'#DE3412', count:34,  pages:2, token:'(unnamed)',          sizes:'12,14,15',       sample:'미등록(해제됨) / 해제 상태' },
+  { rank:28, hex:'#E81717', count:25,  pages:3, token:'(unnamed)',          sizes:'12',             sample:'설치신청 / 긴급 상태' },
+  { rank:32, hex:'#DE3745', count:17,  pages:3, token:'(unnamed)',          sizes:'12,18',          sample:'삭제하기 / 배송비 강조' },
+  { rank:37, hex:'#D12A38', count:11,  pages:5, token:'text-error',         sizes:'18',             sample:'등록중 오류 발생' },
+  { rank:43, hex:'#E94351', count:6,   pages:3, token:'(unnamed)',           sizes:'15',             sample:'설치희망일 주의사항' },
+];
+
+const TEXT_ALL = [
+  { rank:1,  hex:'#383838', count:1442, cat:'기본' },
+  { rank:2,  hex:'#666666', count:1379, cat:'기본' },
+  { rank:3,  hex:'#191919', count:802,  cat:'기본' },
+  { rank:4,  hex:'#464C53', count:680,  cat:'기본' },
+  { rank:5,  hex:'#FFFFFF', count:645,  cat:'기본' },
+  { rank:6,  hex:'#185DE8', count:538,  cat:'링크' },
+  { rank:7,  hex:'#A6A6A6', count:326,  cat:'기본' },
+  { rank:8,  hex:'#31ADB8', count:314,  cat:'링크' },
+  { rank:9,  hex:'#8A949E', count:311,  cat:'기본' },
+  { rank:10, hex:'#71717A', count:263,  cat:'기본' },
+  { rank:11, hex:'#4D4D4D', count:233,  cat:'기본' },
+  { rank:12, hex:'#1E2124', count:226,  cat:'기본' },
+  { rank:13, hex:'#E6E6E6', count:154,  cat:'기본' },
+  { rank:14, hex:'#000000', count:150,  cat:'기본' },
+  { rank:15, hex:'#6D7882', count:145,  cat:'기본' },
+  { rank:16, hex:'#FAFAFA', count:144,  cat:'기본' },
+  { rank:17, hex:'#AD1320', count:142,  cat:'에러' },
+  { rank:18, hex:'#0B50D0', count:136,  cat:'링크' },
+  { rank:19, hex:'#FC336D', count:98,   cat:'에러' },
+  { rank:20, hex:'#424A4A', count:61,   cat:'기본' },
+  { rank:21, hex:'#CCCCCC', count:53,   cat:'기본' },
+  { rank:22, hex:'#B2B1B2', count:48,   cat:'기본' },
+  { rank:23, hex:'#BD2C0F', count:37,   cat:'에러' },
+  { rank:24, hex:'#DE3412', count:34,   cat:'에러' },
+  { rank:25, hex:'#3376FD', count:27,   cat:'링크' },
+  { rank:26, hex:'#B1B8BE', count:26,   cat:'기본' },
+  { rank:27, hex:'#454645', count:26,   cat:'기본' },
+  { rank:28, hex:'#E81717', count:25,   cat:'에러' },
+  { rank:29, hex:'#00613E', count:21,   cat:'성공' },
+  { rank:30, hex:'#A2A09C', count:18,   cat:'기본' },
+  { rank:31, hex:'#131416', count:18,   cat:'기본' },
+  { rank:32, hex:'#DE3745', count:17,   cat:'에러' },
+  { rank:33, hex:'#096AB3', count:14,   cat:'링크' },
+  { rank:34, hex:'#999999', count:14,   cat:'기본' },
+  { rank:35, hex:'#267337', count:14,   cat:'성공' },
+  { rank:36, hex:'#B3B3B3', count:13,   cat:'기본' },
+  { rank:37, hex:'#D12A38', count:11,   cat:'에러' },
+  { rank:38, hex:'#808080', count:10,   cat:'기본' },
+  { rank:39, hex:'#333333', count:8,    cat:'기본' },
+  { rank:40, hex:'#0D50D7', count:6,    cat:'링크' },
+  { rank:41, hex:'#09090B', count:6,    cat:'기본' },
+  { rank:42, hex:'#2B2B2F', count:6,    cat:'기본' },
+  { rank:43, hex:'#E94351', count:6,    cat:'에러' },
+  { rank:44, hex:'#CDD1D5', count:6,    cat:'기본' },
+  { rank:45, hex:'#052B57', count:6,    cat:'링크' },
+  { rank:46, hex:'#1A1A1A', count:3,    cat:'기본' },
+  { rank:47, hex:'#F2F2F2', count:2,    cat:'기본' },
+  { rank:48, hex:'#F2747C', count:2,    cat:'에러' },
+  { rank:49, hex:'#BFBFBF', count:2,    cat:'기본' },
+  { rank:50, hex:'#25828A', count:1,    cat:'링크' },
+  { rank:51, hex:'#A7A7A7', count:1,    cat:'기본' },
+  { rank:52, hex:'#BA1689', count:1,    cat:'기타' },
+  { rank:53, hex:'#256EF4', count:1,    cat:'링크' },
+  { rank:54, hex:'#33363D', count:1,    cat:'기본' },
+  { rank:55, hex:'#D9D9D9', count:1,    cat:'기본' },
+];
+
+// 텍스트 카드 렌더
+function renderTextCards(data, containerId) {
+  const grid = document.getElementById(containerId);
+  if (!grid) return;
+  data.forEach(b => {
+    const isLight = (parseInt(b.hex.slice(1,3),16)*0.299 + parseInt(b.hex.slice(3,5),16)*0.587 + parseInt(b.hex.slice(5,7),16)*0.114) > 180;
+    const card = document.createElement('div');
+    card.className = 'color-card';
+    card.innerHTML = `
+      <div class="color-swatch ${isLight ? 'checkered' : ''}">
+        <div class="color-swatch-inner" style="background:${b.hex}"></div>
+        <span class="rank-badge">${b.rank}위</span>
+      </div>
+      <div class="color-info">
+        <div class="color-hex" onclick="copyText('${b.hex}')">
+          ${b.hex} <span class="copy-btn">복사</span>
+        </div>
+        <div class="color-rgba">${b.count.toLocaleString()}회 · ${b.pages}개 페이지</div>
+        ${b.token !== '(unnamed)' ? `<div style="font-size:10px;font-family:monospace;color:var(--primary);margin-top:3px;">${b.token}</div>` : ''}
+        <div class="color-usage" style="margin-top:4px;">${b.sample}</div>
+        <div style="font-size:10px;color:var(--placeholder);margin-top:3px;">font: ${b.sizes}px</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+renderTextCards(TEXT_BASE, 'textBaseGrid');
+renderTextCards(TEXT_BLUE, 'textBlueGrid');
+renderTextCards(TEXT_RED,  'textRedGrid');
+
+// 전체 빈도표
+(function() {
+  const table = document.getElementById('textFullTable');
+  if (!table) return;
+  const catColor = { '기본':'#8A949E','링크':'#185DE8','에러':'#AD1320','성공':'#228738','기타':'#B1B8BE' };
+  const maxCount = TEXT_ALL[0].count;
+  let html = `<table style="width:100%;border-collapse:collapse;font-size:12px;">
+    <thead><tr style="background:var(--surface-section);">
+      <th style="padding:8px 12px;text-align:left;color:var(--text-secondary);font-weight:600;">순위</th>
+      <th style="padding:8px 12px;text-align:left;color:var(--text-secondary);font-weight:600;">HEX</th>
+      <th style="padding:8px 12px;text-align:left;color:var(--text-secondary);font-weight:600;">횟수</th>
+      <th style="padding:8px 12px;text-align:left;color:var(--text-secondary);font-weight:600;">비율</th>
+      <th style="padding:8px 12px;text-align:left;color:var(--text-secondary);font-weight:600;">분류</th>
+    </tr></thead><tbody>`;
+  TEXT_ALL.forEach(c => {
+    const pct = Math.round(c.count / maxCount * 100);
+    const barW = Math.max(4, Math.round(pct * 160 / 100));
+    html += `<tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:7px 12px;color:var(--placeholder);">${c.rank}</td>
+      <td style="padding:7px 12px;">
+        <span style="display:inline-block;width:16px;height:16px;background:${c.hex};border-radius:4px;vertical-align:middle;margin-right:6px;border:1px solid rgba(0,0,0,0.08);"></span>
+        <span style="font-family:monospace;font-weight:600;cursor:pointer;" onclick="copyText('${c.hex}')">${c.hex}</span>
+      </td>
+      <td style="padding:7px 12px;font-weight:600;">${c.count.toLocaleString()}</td>
+      <td style="padding:7px 12px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:${barW}px;height:6px;background:${catColor[c.cat]||'#8A949E'};border-radius:3px;opacity:0.7;"></div>
+          <span style="color:var(--placeholder);font-size:11px;">${pct}%</span>
+        </div>
+      </td>
+      <td style="padding:7px 12px;"><span style="background:${catColor[c.cat]||'#eee'};color:#fff;border-radius:4px;padding:1px 7px;font-size:10px;font-weight:600;">${c.cat}</span></td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  table.innerHTML = html;
+})();
+
+// ── RED SCALE
+const RED_SCALE = [
+  { token:'red0',   hex:'#FBEFF0', step:'5',  ref:false, usage:'최밝은 배경 tint · 에러 토스트 배경·영역 강조' },
+  { token:'red100', hex:'#F5D6D9', step:'10', ref:false, usage:'에러 배경 연한 강조 · 경고 배지 배경' },
+  { token:'red200', hex:'#EBADB2', step:'20', ref:false, usage:'에러 배경 중간 강조 · 아이콘 배경' },
+  { token:'red300', hex:'#E0858C', step:'30', ref:false, usage:'비활성 에러 상태 · 힌트 텍스트' },
+  { token:'red400', hex:'#D65C66', step:'40', ref:false, usage:'경고 아이콘 · 보조 에러 UI' },
+  { token:'red500', hex:'#D63D4A', step:'50', ref:true,  usage:'★ Reference 기준색 · 강조 색상 메인' },
+  { token:'red600', hex:'#AB2B36', step:'60', ref:false, usage:'에러 텍스트 · 강조 테두리 · 비활성 버튼' },
+  { token:'red700', hex:'#7A1F26', step:'70', ref:false, usage:'최고 강조 · 다크 에러 상태 · 텍스트 온 컬러' },
+];
+
+const RED_USED = [
+  { hex:'#D12A38', token:'--colors/danger/red-700', count:8,  usage:'에러 버튼·상태·메시지 — 실제 danger 주요 색상', isMain:true },
+  { hex:'#AD1320', token:'stroke-danger',            count:9,  usage:'에러 입력 필드 테두리 · 경고 stroke', isMain:false },
+  { hex:'#E94351', token:'(unnamed)',                count:4,  usage:'주의사항 텍스트 · 설치 경고', isMain:false },
+  { hex:'#FC336D', token:'(unnamed)',                count:13, usage:'% 할인 뱃지 · 판매량 강조 · 프로모션', isMain:false },
+  { hex:'#F2747C', token:'(unnamed)',                count:5,  usage:'아이콘 · 경고 UI 요소', isMain:false },
+];
+
+// scale row
+const redScaleRow = document.getElementById('redScaleRow');
+RED_SCALE.forEach(c => {
+  const chip = document.createElement('div');
+  const tc = (parseInt(c.hex.slice(1,3),16)*0.299 + parseInt(c.hex.slice(3,5),16)*0.587 + parseInt(c.hex.slice(5,7),16)*0.114) > 128 ? '#33363D' : '#fff';
+  chip.style.cssText = `flex:1;min-width:56px;height:48px;background:${c.hex};border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:${c.ref?'2px solid #8A949E':'1px solid rgba(0,0,0,0.08)'};`;
+  chip.innerHTML = `<span style="font-size:9px;font-weight:700;color:${tc};opacity:0.8;">${c.token}</span><span style="font-size:8px;color:${tc};opacity:0.65;font-family:monospace;">${c.hex}</span>`;
+  chip.onclick = () => copyText(c.hex);
+  redScaleRow.appendChild(chip);
+});
+
+// reference 스케일 카드
+const redScaleGrid = document.getElementById('redScaleGrid');
+RED_SCALE.forEach(b => {
+  const isLight = parseInt(b.hex.slice(1,3),16) > 220;
+  const card = document.createElement('div');
+  card.className = 'color-card';
+  card.innerHTML = `
+    <div class="color-swatch ${isLight ? 'checkered' : ''}">
+      <div class="color-swatch-inner" style="background:${b.hex}"></div>
+      <span class="rank-badge" style="background:${b.ref?'rgba(214,61,74,0.85)':'rgba(0,0,0,0.4)'};">${b.token}</span>
+    </div>
+    <div class="color-info">
+      <div class="color-hex" onclick="copyText('${b.hex}')">
+        ${b.hex}
+        <span class="spec-chip" style="font-size:10px;">Step ${b.step}</span>
+        <span class="copy-btn">복사</span>
+      </div>
+      <div class="color-rgba">${b.ref ? '★ Reference main' : ''}</div>
+      <div class="color-usage">${b.usage}</div>
+    </div>`;
+  redScaleGrid.appendChild(card);
+});
+
+// 실제 사용 카드
+const redUsedGrid = document.getElementById('redUsedGrid');
+RED_USED.forEach(b => {
+  const card = document.createElement('div');
+  card.className = 'color-card';
+  card.innerHTML = `
+    <div class="color-swatch">
+      <div class="color-swatch-inner" style="background:${b.hex}"></div>
+      <span class="rank-badge">${b.count}회</span>
+    </div>
+    <div class="color-info">
+      <div class="color-hex" onclick="copyText('${b.hex}')">
+        ${b.hex}
+        <span class="copy-btn">복사</span>
+      </div>
+      <div class="color-rgba" style="font-family:monospace;">${b.token}</div>
+      <div class="color-usage">${b.usage}</div>
+    </div>`;
+  redUsedGrid.appendChild(card);
+});
+
+// ── NEUTRAL SCALE
+const NEUTRAL_SCALE = [
+  { step:'0',   token:'neutral-0',   hex:'#FFFFFF', role:'bg',     usage:'바탕 배경, 카드 내부 배경',               figmaHexes:['#FFFFFF'],                              isLight:true },
+  { step:'5',   token:'neutral-5',   hex:'#F9FAFB', role:'bg',     usage:'섹션 배경, 아주 연한 강조 영역',           figmaHexes:['#F4F5F6','#FAFAFA','#F0F2F8'],          isLight:true },
+  { step:'10',  token:'neutral-10',  hex:'#F3F4F6', role:'border', usage:'가장 연한 구분선 (비활성 UI)',             figmaHexes:[],                                       isLight:true },
+  { step:'20',  token:'neutral-20',  hex:'#E5E7EB', role:'border', usage:'기본 카드/리스트 테두리',                  figmaHexes:['#E6E8EA','#E9E6E6','#ECECF1'],          isLight:true },
+  { step:'30',  token:'neutral-30',  hex:'#D1D5DB', role:'border', usage:'입력창(Default) 테두리',                  figmaHexes:['#CDD1D5','#CCCCCC','#D9D9D9'],          isLight:true },
+  { step:'40',  token:'neutral-40',  hex:'#9CA3AF', role:'both',   usage:'캡션·힌트 텍스트 / 호버(Hover) 시 테두리', figmaHexes:['#B1B8BE','#A6A6A6','#8A949E','#999999'], isLight:false },
+  { step:'50',  token:'neutral-50',  hex:'#6B7280', role:'text',   usage:'부가 설명, 중요도 낮은 정보',              figmaHexes:['#666666','#6D7882','#71717A'],           isLight:false },
+  { step:'60',  token:'neutral-60',  hex:'#4B5563', role:'text',   usage:'일반 본문 (가장 보편적인 가독성)',          figmaHexes:['#58616A','#464C53','#4D4D4D'],           isLight:false },
+  { step:'70',  token:'neutral-70',  hex:'#374151', role:'text',   usage:'강조 본문, 데이터 값 표시',               figmaHexes:['#383838','#33363D'],                    isLight:false },
+  { step:'80',  token:'neutral-80',  hex:'#1F2937', role:'text',   usage:'소제목, 폼 레이블(Label)',                figmaHexes:['#1E2124','#191919','#09090B'],           isLight:false },
+  { step:'90',  token:'neutral-90',  hex:'#111827', role:'text',   usage:'메인 타이틀, 헤드라인',                   figmaHexes:['#0A0A0A'],                              isLight:false },
+  { step:'95',  token:'neutral-95',  hex:'#030712', role:'text',   usage:'최상위 강조 텍스트 (Deep Black)',         figmaHexes:[],                                       isLight:false },
+  { step:'100', token:'neutral-100', hex:'#000000', role:'text',   usage:'순수 검정 (특수 목적 강조)',              figmaHexes:['#000000'],                              isLight:false },
+];
+
+const ROLE_LABELS = { bg:'배경', border:'경계선', text:'텍스트', both:'겸용' };
+const ROLE_CLASSES = { bg:'role-bg', border:'role-border', text:'role-text', both:'role-both' };
+
+// scale strip
+const neutralStrip = document.getElementById('neutralScaleStrip');
+NEUTRAL_SCALE.forEach(n => {
+  const lum = parseInt(n.hex.slice(1,3),16)*0.299 + parseInt(n.hex.slice(3,5),16)*0.587 + parseInt(n.hex.slice(5,7),16)*0.114;
+  const tc = lum > 140 ? '#33363D' : '#fff';
+  const chip = document.createElement('div');
+  chip.className = 'neutral-strip-chip';
+  chip.style.background = n.hex;
+  chip.innerHTML = `<span class="neutral-strip-label" style="color:${tc};">${n.step}</span><span class="neutral-strip-hex" style="color:${tc};">${n.hex}</span>`;
+  chip.title = `${n.token} · ${n.hex}`;
+  chip.onclick = () => copyText(n.hex);
+  neutralStrip.appendChild(chip);
+});
+
+// grouped cards
+const NEUTRAL_GROUPS = [
+  { title:'배경 그룹',       range:'0 – 5',    desc:'화면의 바닥을 깔아줄 때 씁니다.',                                          steps:['0','5'] },
+  { title:'선(Border) 그룹', range:'10 – 30',  desc:'요소들을 분리하고 구조를 잡을 때 씁니다.',                                  steps:['10','20','30'] },
+  { title:'보조 글자 그룹',  range:'40 – 50',  desc:'읽어도 그만 안 읽어도 그만인 작은 정보들에 씁니다.',                        steps:['40','50'] },
+  { title:'핵심 글자 그룹',  range:'60 – 100', desc:'사용자가 반드시 읽어야 하는 상품명, 가격, 안내문에 씁니다.',                steps:['60','70','80','90','95','100'] },
+];
+const neutralByStep = Object.fromEntries(NEUTRAL_SCALE.map(n => [n.step, n]));
+const neutralGroupsContainer = document.getElementById('neutralGroups');
+
+NEUTRAL_GROUPS.forEach(group => {
+  const groupEl = document.createElement('div');
+  groupEl.className = 'neutral-group';
+  const header = document.createElement('div');
+  header.className = 'neutral-group-header';
+  header.innerHTML = `
+    <span class="neutral-group-title">${group.title}</span>
+    <span class="neutral-group-range">${group.range}</span>
+    <span class="neutral-group-desc">${group.desc}</span>`;
+  const grid = document.createElement('div');
+  grid.className = 'color-grid';
+  groupEl.appendChild(header);
+  groupEl.appendChild(grid);
+  neutralGroupsContainer.appendChild(groupEl);
+
+  group.steps.forEach(step => {
+    const n = neutralByStep[step];
+    if (!n) return;
+    const figmaChips = n.figmaHexes.length
+      ? n.figmaHexes.map(h => `<span class="figma-chip">${h}</span>`).join('')
+      : '<span class="figma-chip" style="opacity:0.45;">—</span>';
+    const card = document.createElement('div');
+    card.className = 'neutral-card';
+    card.innerHTML = `
+      <div class="neutral-swatch ${n.isLight ? 'checkered' : ''}">
+        <div class="neutral-swatch-inner" style="background:${n.hex};"></div>
+        <span class="neutral-role-badge ${ROLE_CLASSES[n.role]}">${ROLE_LABELS[n.role]}</span>
+        <span class="neutral-step-badge">${n.step}</span>
+      </div>
+      <div class="neutral-info">
+        <div class="neutral-token">${n.token}</div>
+        <div class="neutral-hex" onclick="copyText('${n.hex}')">${n.hex} <span class="copy-btn">복사</span></div>
+        <div class="neutral-usage">${n.usage}</div>
+        <div class="neutral-figma">Figma 실사용: ${figmaChips}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+});
+
+// ── STROKES
+const strokeList = document.getElementById('strokeList');
+tokens.strokes.forEach(s => {
+  const isWhite = s.color === '#FFFFFF';
+  const card = document.createElement('div');
+  card.className = 'stroke-card';
+  const borderStyle = `${s.width}px solid ${s.color}`;
+  const previewBg = isWhite ? '#555' : 'var(--surface-section)';
+  card.innerHTML = `
+    <div class="stroke-meta">
+      <div class="stroke-rank">#${s.rank} · ${s.count}회 사용</div>
+      <div class="stroke-token">${s.token}</div>
+    </div>
+    <div class="stroke-preview" style="background:${previewBg};border:${borderStyle};border-radius:var(--radius-md);">
+      ${s.width}px border
+    </div>
+    <div class="stroke-specs">
+      <span class="spec-chip"><strong>${s.width}px</strong> width</span>
+      <span class="spec-chip" style="cursor:pointer" onclick="copyText('${s.color}')"><strong style="color:var(--primary)">${s.color}</strong></span>
+      <span class="spec-chip">${s.count}회</span>
+    </div>`;
+  strokeList.appendChild(card);
+});
+
+// ── EFFECTS
+const effectGrid = document.getElementById('effectGrid');
+tokens.effects.forEach(e => {
+  const card = document.createElement('div');
+  card.className = 'effect-card';
+  const shadowVal = e.token === 'shadow-none' ? 'none' : e.cssValue;
+  card.innerHTML = `
+    <div class="effect-demo" style="box-shadow:${shadowVal};border:1px solid var(--border);"></div>
+    ${e.confirmed ? '<span class="effect-badge">✓ Figma 실측</span>' : '<span class="effect-badge">논리적 스케일</span>'}
+    <div class="effect-token">${e.token}</div>
+    <div class="effect-value">${e.value}</div>
+    <div class="effect-usage">${e.usage}</div>`;
+  effectGrid.appendChild(card);
+});
+
+// ── SPACING
+const spacingList = document.getElementById('spacingList');
+const maxSpacing = 64;
+tokens.spacing.forEach(s => {
+  const barWidth = Math.round((s.value / maxSpacing) * 200);
+  const isTop = s.totalCount > 1000;
+  const card = document.createElement('div');
+  card.className = 'spacing-card';
+  card.innerHTML = `
+    <div class="spacing-meta">
+      <div class="spacing-rank">#${s.rank} · ${s.totalCount.toLocaleString()}회${isTop?' ★':''}</div>
+      <div class="spacing-token">${s.token}</div>
+      <div style="font-size:10px;color:var(--placeholder);margin-top:2px;font-family:monospace;">--${s.token}: ${s.value}px</div>
+    </div>
+    <div class="spacing-bar-wrap">
+      <div class="spacing-bar" style="width:${barWidth}px;"></div>
+      <div class="spacing-val">${s.value}px</div>
+    </div>
+    <div class="spacing-usage">${s.usage}</div>`;
+  spacingList.appendChild(card);
+});
+
+// ── PRIMARY SCALE
+const primaryScaleGrid = document.getElementById('primaryScaleGrid');
+tokens.primaryScale.forEach(p => {
+  const isLight = ['#EAF7F8','#E0F3F4','#BFE6E9'].includes(p.hex);
+  const textColor = isLight ? '#25828A' : '#FFFFFF';
+  const card = document.createElement('div');
+  card.className = 'color-card';
+  card.innerHTML = `
+    <div class="color-swatch">
+      <div class="color-swatch-inner" style="background:${p.hex}"></div>
+      ${p.label.includes('★') ? '<span class="rank-badge">★ Main</span>' : ''}
+    </div>
+    <div class="color-info">
+      <div class="color-token">${p.token}</div>
+      <div class="color-hex" onclick="copyText('${p.hex}')">
+        ${p.hex}
+        <span class="copy-btn">복사</span>
+      </div>
+      <div class="color-rgba">${p.label}</div>
+      <div class="color-usage">${p.state}</div>
+    </div>`;
+  primaryScaleGrid.appendChild(card);
+});
+
+// ── TYPOGRAPHY
+const typoList = document.getElementById('typoList');
+tokens.typography.forEach(t => {
+  const card = document.createElement('div');
+  card.className = 'typo-card';
+  const lhDisplay = typeof t.lh === 'number' && t.lh > 50 ? `${t.lh}%` : `${t.lh}px`;
+  card.innerHTML = `
+    <div class="typo-meta">
+      <div class="typo-rank">#${t.rank} · ${t.usage}</div>
+      <div class="typo-token">${t.token}</div>
+      <div class="typo-figma">${t.figma}</div>
+    </div>
+    <div class="typo-preview" style="font-size:${t.size}px;font-weight:${t.weight};line-height:${lhDisplay};letter-spacing:${t.ls}px;">
+      스마트홈스토어 디자인 토큰
+    </div>
+    <div class="typo-specs">
+      <span class="spec-chip"><strong>${t.size}px</strong> size</span>
+      <span class="spec-chip"><strong>${t.weight}</strong> weight</span>
+      <span class="spec-chip"><strong>${lhDisplay}</strong> lh</span>
+      <span class="spec-chip"><strong>${t.ls}px</strong> ls</span>
+      <span class="spec-chip">${t.style}</span>
+    </div>`;
+  typoList.appendChild(card);
+});
+
+// ── RADIUS
+const radiusGrid = document.getElementById('radiusGrid');
+tokens.radius.forEach(r => {
+  const card = document.createElement('div');
+  card.className = 'radius-card';
+  card.innerHTML = `
+    <div class="radius-demo" style="border-radius:${r.value}"></div>
+    <div class="radius-token">${r.token}</div>
+    <div class="radius-value">${r.value}</div>
+    <div style="font-size:11px;color:#999;font-family:monospace;margin-bottom:4px;">${r.figma}</div>
+    <div class="radius-usage">${r.usage}</div>`;
+  radiusGrid.appendChild(card);
+});
+
+// ── CSS VARS
+const varBody = document.getElementById('varTableBody');
+Object.entries(tokens.cssVars).forEach(([k, v]) => {
+  const isColor = v.startsWith('#');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="color:#31ADB8;">${k}</td>
+    <td>${v}</td>
+    <td>${isColor
+      ? `<span class="var-dot" style="background:${v};${v==='#FFFFFF'?'border:1px solid #ddd':''}"></span>${v}`
+      : `<span style="color:#666">${v}</span>`
+    }</td>`;
+  varBody.appendChild(tr);
+});
+
+// ── COPY
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const t = document.getElementById('toast');
+    t.textContent = `"${text}" 클립보드에 복사됨`;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  });
+}
+
+// ── NAV ACTIVE
+const navLinks = document.querySelectorAll('nav a');
+const sections = document.querySelectorAll('section');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,395 @@
+{
+  "_meta": {
+    "project": "스마트홈스토어",
+    "source": "Figma 전페이지 레이어 분석 (89페이지)",
+    "figmaFile": "gLHd8xNMO4Qof0Tt7oyf8T",
+    "extractedAt": "2026-02-25",
+    "fontSystem": "Pretendard",
+    "note": "빈도수는 2,811개 노드 전체 분석 기반 추정치. CSS 변수명은 Figma 원본 그대로 유지."
+  },
+
+  "colorTokens": [
+    {
+      "rank": 1,
+      "token": "primary",
+      "figmaVar": "--blue_600 / --colors/text/blue_600",
+      "hex": "#31ADB8",
+      "rgba": "rgba(49, 173, 184, 1)",
+      "r": 49, "g": 173, "b": 184, "a": 1,
+      "usage": "CTA 버튼 배경, 링크 텍스트, 포커스 테두리, 주요 인터랙션",
+      "usedIn": ["Button/Primary", "input text border(active)", "이미지 등록 버튼", "s_button_on 텍스트", "배너 링크"],
+      "estimatedCount": "최다 사용 (전체 인터랙티브 요소의 ~70%)",
+      "isCharacterColor": false
+    },
+    {
+      "rank": 2,
+      "token": "text-primary",
+      "figmaVar": "--gray_800 / --colors/text/gray_800",
+      "hex": "#383838",
+      "rgba": "rgba(56, 56, 56, 1)",
+      "r": 56, "g": 56, "b": 56, "a": 1,
+      "usage": "본문 주요 텍스트, 제목, 네비게이션 레이블",
+      "usedIn": ["bottom_tab 레이블", "title_bar 제목", "상품명", "섹션 타이틀"],
+      "estimatedCount": "2위 (텍스트 요소의 ~60%)",
+      "isCharacterColor": false
+    },
+    {
+      "rank": 3,
+      "token": "background-primary",
+      "figmaVar": "--colors/white/white-0",
+      "hex": "#FFFFFF",
+      "rgba": "rgba(255, 255, 255, 1)",
+      "r": 255, "g": 255, "b": 255, "a": 1,
+      "usage": "카드 배경, 버튼 텍스트, 페이지 기본 배경",
+      "usedIn": ["bg-white 모든 프레임", "Button/Primary 텍스트", "top_bar", "bottom_tab"],
+      "estimatedCount": "3위 (배경 요소 대부분)",
+      "isCharacterColor": false
+    },
+    {
+      "rank": 4,
+      "token": "text-secondary",
+      "figmaVar": "--gray_600 / --colors/text/gray_600",
+      "hex": "#666666",
+      "rgba": "rgba(102, 102, 102, 1)",
+      "r": 102, "g": 102, "b": 102, "a": 1,
+      "usage": "보조 텍스트, 설명 문구, 주소 텍스트",
+      "usedIn": ["도로명 주소 값", "설명 본문", "p-label", "review-text"],
+      "estimatedCount": "4위 (설명 텍스트의 ~40%)",
+      "isCharacterColor": false
+    },
+    {
+      "rank": 5,
+      "token": "border-default",
+      "figmaVar": "--colors/border/gray_400",
+      "hex": "#CCCCCC",
+      "rgba": "rgba(204, 204, 204, 1)",
+      "r": 204, "g": 204, "b": 204, "a": 1,
+      "usage": "기본 테두리, 구분선, placeholder 텍스트",
+      "usedIn": ["bottom_tab 상단 border", "input text placeholder", "border-t 구분선"],
+      "estimatedCount": "5위",
+      "isCharacterColor": false
+    },
+    {
+      "rank": 6,
+      "token": "surface-input",
+      "figmaVar": "--clolor/gray_f4f4f5",
+      "hex": "#F4F4F5",
+      "rgba": "rgba(244, 244, 245, 1)",
+      "r": 244, "g": 244, "b": 245, "a": 1,
+      "usage": "입력 필드 배경, 셀렉트박스 배경",
+      "usedIn": ["select 배경", "input_text 배경"],
+      "estimatedCount": "6위",
+      "isCharacterColor": false,
+      "note": "Figma 원본 변수명에 오타('clolor') 있음 → 실제 구현 시 'color'로 수정 권장"
+    },
+    {
+      "rank": 7,
+      "token": "text-placeholder",
+      "figmaVar": "--colors/gray/gray_500 / --clolor/gray",
+      "hex": "#A6A6A6",
+      "rgba": "rgba(166, 166, 166, 1)",
+      "r": 166, "g": 166, "b": 166, "a": 1,
+      "usage": "입력 필드 placeholder, 비활성 아이콘, 보조 테두리",
+      "usedIn": ["input text border", "input 내 placeholder 텍스트"],
+      "estimatedCount": "7위",
+      "isCharacterColor": false
+    },
+    {
+      "rank": 8,
+      "token": "surface-section",
+      "figmaVar": "--clolor/gray_f7f7fa",
+      "hex": "#F7F7FA",
+      "rgba": "rgba(247, 247, 250, 1)",
+      "r": 247, "g": 247, "b": 250, "a": 1,
+      "usage": "섹션 배경, 배너 배경, 정보 박스 배경",
+      "usedIn": ["banner_info 배경"],
+      "estimatedCount": "8위",
+      "isCharacterColor": false
+    },
+    {
+      "rank": 9,
+      "token": "primary-dark",
+      "figmaVar": "--colors/primary/blue_700",
+      "hex": "#0D50D7",
+      "rgba": "rgba(13, 80, 215, 1)",
+      "r": 13, "g": 80, "b": 215, "a": 1,
+      "usage": "강조 버튼 테두리, 선택된 상태 표시",
+      "usedIn": ["s_button_on 테두리", "활성 필터 버튼"],
+      "estimatedCount": "9위",
+      "isCharacterColor": false
+    },
+    {
+      "rank": 10,
+      "token": "text-select",
+      "figmaVar": "(unnamed)",
+      "hex": "#424A4A",
+      "rgba": "rgba(66, 74, 74, 1)",
+      "r": 66, "g": 74, "b": 74, "a": 1,
+      "usage": "셀렉트박스 선택 텍스트, 드롭다운 옵션",
+      "usedIn": ["select 대분류 텍스트"],
+      "estimatedCount": "10위",
+      "isCharacterColor": false
+    },
+    {
+      "rank": 11,
+      "token": "secondary-fill",
+      "figmaVar": "--clolor/main",
+      "hex": "#31ADB8",
+      "rgba": "rgba(49, 173, 184, 1)",
+      "r": 49, "g": 173, "b": 184, "a": 1,
+      "usage": "Secondary Fill 버튼 배경, 보조 CTA",
+      "usedIn": ["Button/Secondary/Fill (list_74 등)"],
+      "estimatedCount": "11위",
+      "isCharacterColor": false,
+      "note": "Figma 원본 변수명에 오타('clolor') 있음 → 실제 구현 시 'color'로 수정 권장"
+    },
+    {
+      "rank": 12,
+      "token": "danger",
+      "figmaVar": "--colors/danger/red-700",
+      "hex": "#D12A38",
+      "rgba": "rgba(209, 42, 56, 1)",
+      "r": 209, "g": 42, "b": 56, "a": 1,
+      "usage": "에러 메시지, 경고 텍스트",
+      "usedIn": ["등록중 오류 발생 텍스트", "에러 상태 모달"],
+      "estimatedCount": "11위 (에러 케이스에만)",
+      "isCharacterColor": false
+    },
+    {
+      "rank": 12,
+      "token": "overlay",
+      "figmaVar": "(unnamed)",
+      "hex": "#000000",
+      "rgba": "rgba(0, 0, 0, 0.3)",
+      "r": 0, "g": 0, "b": 0, "a": 0.3,
+      "usage": "모달/팝업 배경 딤처리",
+      "usedIn": ["img_팝업 딤 레이어 (backdrop-blur 포함)"],
+      "estimatedCount": "12위 (모달 오버레이)",
+      "isCharacterColor": false
+    }
+  ],
+
+  "typographyTokens": [
+    {
+      "rank": 1,
+      "token": "body-bold",
+      "figmaStyle": "Global Tokens/body/body_1_bold",
+      "fontFamily": "Pretendard",
+      "style": "Bold",
+      "fontSize": 16,
+      "fontWeight": 700,
+      "lineHeight": 24,
+      "letterSpacing": 0.5,
+      "unit": "px",
+      "usage": "강조 본문, 카드 제목, 모달 헤더",
+      "usedIn": ["title_bar 제목", "카드 타이틀", "섹션 소제목"],
+      "estimatedCount": "1위 (제목 텍스트 대부분)"
+    },
+    {
+      "rank": 2,
+      "token": "subtitle-button",
+      "figmaStyle": "Global Tokens/body/subtitle_button",
+      "fontFamily": "Pretendard",
+      "style": "Bold",
+      "fontSize": 14,
+      "fontWeight": 700,
+      "lineHeight": 100,
+      "letterSpacing": 1.25,
+      "unit": "px (lineHeight: %)",
+      "usage": "버튼 텍스트, CTA 레이블",
+      "usedIn": ["Button/Primary/large 텍스트", "s_button_on 텍스트"],
+      "estimatedCount": "2위 (버튼 전체)"
+    },
+    {
+      "rank": 3,
+      "token": "subtitle-bold",
+      "figmaStyle": "Global Tokens/body/subtitle_bold",
+      "fontFamily": "Pretendard",
+      "style": "Medium",
+      "fontSize": 14,
+      "fontWeight": 500,
+      "lineHeight": 24,
+      "letterSpacing": 0,
+      "unit": "px",
+      "usage": "강조 서브텍스트, 이미지 등록 레이블",
+      "usedIn": ["이미지 등록 텍스트", "select 대분류", "bottom_tab 레이블"],
+      "estimatedCount": "3위"
+    },
+    {
+      "rank": 4,
+      "token": "body2",
+      "figmaStyle": "Global Tokens/body/body2",
+      "fontFamily": "Pretendard",
+      "style": "Regular",
+      "fontSize": 14,
+      "fontWeight": 400,
+      "lineHeight": 25,
+      "letterSpacing": 2,
+      "unit": "px",
+      "usage": "일반 본문, 설명 텍스트",
+      "usedIn": ["설치 도움말 본문", "상품 설명"],
+      "estimatedCount": "4위"
+    },
+    {
+      "rank": 5,
+      "token": "subtitle-0",
+      "figmaStyle": "Global Tokens/body/subtitle_0",
+      "fontFamily": "Pretendard",
+      "style": "Bold",
+      "fontSize": 18,
+      "fontWeight": 700,
+      "lineHeight": 28,
+      "letterSpacing": 0,
+      "unit": "px",
+      "usage": "페이지 타이틀, 모달 주요 헤딩",
+      "usedIn": ["등록중 오류 발생", "설치제품 등록 완료"],
+      "estimatedCount": "5위 (주요 헤딩)"
+    },
+    {
+      "rank": 6,
+      "token": "subtitle-1",
+      "figmaStyle": "Global Tokens/body/subtitle 1",
+      "fontFamily": "Pretendard",
+      "style": "Regular",
+      "fontSize": 16,
+      "fontWeight": 400,
+      "lineHeight": 28,
+      "letterSpacing": -2,
+      "unit": "px",
+      "usage": "일반 서브타이틀, 입력 필드 텍스트",
+      "usedIn": ["input text 내용", "주소 입력 필드"],
+      "estimatedCount": "6위"
+    },
+    {
+      "rank": 7,
+      "token": "caption-bold",
+      "figmaStyle": "Global Tokens/body/caption_1",
+      "fontFamily": "Pretendard",
+      "style": "Bold",
+      "fontSize": 12,
+      "fontWeight": 700,
+      "lineHeight": 24,
+      "letterSpacing": 0.4,
+      "unit": "px",
+      "usage": "강조 캡션, 레이블 태그",
+      "usedIn": ["도로명 주소 레이블"],
+      "estimatedCount": "7위"
+    },
+    {
+      "rank": 8,
+      "token": "caption",
+      "figmaStyle": "Global Tokens/body/caption",
+      "fontFamily": "Pretendard",
+      "style": "Regular",
+      "fontSize": 12,
+      "fontWeight": 400,
+      "lineHeight": 24,
+      "letterSpacing": 0.4,
+      "unit": "px",
+      "usage": "일반 캡션, 날짜, 보조 정보",
+      "usedIn": ["주소 내용 텍스트", "날짜 표시", "리뷰 보조 정보"],
+      "estimatedCount": "8위"
+    },
+    {
+      "rank": 9,
+      "token": "caption-2",
+      "figmaStyle": "Global Tokens/body/caption_2",
+      "fontFamily": "Pretendard",
+      "style": "Medium",
+      "fontSize": 10,
+      "fontWeight": 500,
+      "lineHeight": 10,
+      "letterSpacing": 0,
+      "unit": "px",
+      "usage": "최소 텍스트, 탭 레이블, 뱃지 텍스트",
+      "usedIn": ["bottom_tab 아이콘 레이블 (홈, 마이 등)"],
+      "estimatedCount": "9위 (하단 탭 전체)"
+    }
+  ],
+
+  "radiusTokens": {
+    "note": "CSS 변수명으로 역추출",
+    "tokens": [
+      { "token": "radius-sm",  "figmaVar": "--rounded-md",   "value": "6px",  "usage": "기본 버튼, 소형 카드" },
+      { "token": "radius-md",  "figmaVar": "--radius/3xl",   "value": "8px",  "usage": "입력 필드, 태그" },
+      { "token": "radius-lg",  "figmaVar": "--radius/4xl",   "value": "12px", "usage": "카드, 모달" },
+      { "token": "radius-xl",  "figmaVar": "--radius/7xl",   "value": "20px", "usage": "칩, 셀렉트박스, 배너" }
+    ]
+  },
+
+  "effectTokens": {
+    "note": "CSS 변수명으로 역추출",
+    "tokens": [
+      {
+        "token": "blur-overlay",
+        "figmaStyle": "Global Tokens/Effect 3",
+        "type": "BACKGROUND_BLUR",
+        "radius": 4,
+        "usage": "모달 딤 레이어 배경 블러"
+      }
+    ]
+  },
+
+  "characterColors": {
+    "description": "브랜드 캐릭터(팍맹수, 펭이 등) 관련 색상 분석",
+    "analysisNote": "캐릭터는 주로 이미지 에셋(door_3 1, kid_star 등)으로 존재. 벡터 fill 색상은 이미지 레이어라 직접 추출 불가. 브랜드 UI 컬러 기반 추정.",
+    "detectedColors": [
+      {
+        "token": "brand-primary-blue",
+        "hex": "#31ADB8",
+        "rgba": "rgba(49, 173, 184, 1)",
+        "source": "브랜드 전반 메인 컬러 (버튼, 링크, 강조 모두 이 색상 사용)",
+        "characterRelevance": "앱 전체 브랜드 컬러 → 캐릭터 주변 UI 컬러이자 브랜드 아이덴티티",
+        "confidence": "확실"
+      },
+      {
+        "token": "brand-accent-yellow",
+        "hex": "#FFB300",
+        "rgba": "rgba(255, 179, 0, 1)",
+        "source": "kid_star 레이어 (33회) - 별점 아이콘",
+        "characterRelevance": "팍맹수/펭이 캐릭터 별점 UI에서 사용되는 골드/옐로우 계열. 캐릭터 포인트 컬러 가능성 높음.",
+        "confidence": "추정 (이미지 에셋 기반 역추론)"
+      },
+      {
+        "token": "brand-dark",
+        "hex": "#0D50D7",
+        "rgba": "rgba(13, 80, 215, 1)",
+        "source": "s_button_on 테두리 (blue_700)",
+        "characterRelevance": "브랜드 블루 다크 배리언트 - 캐릭터 배경/그림자 컬러 후보",
+        "confidence": "추정"
+      }
+    ],
+    "recommendation": "캐릭터 정확한 메인 컬러 추출을 위해 팍맹수/펭이가 등장하는 특정 페이지(캐릭터 소개, 메인 배너 등)의 노드를 직접 선택 후 get_variable_defs 재호출 권장"
+  },
+
+  "cssVariableMap": {
+    "note": "Figma에서 발견된 CSS 변수 전체 매핑",
+    "colors": {
+      "--blue_600": "#31ADB8",
+      "--colors/text/blue_600": "#31ADB8",
+      "--colors/primary/blue_700": "#0D50D7",
+      "--gray_800": "#383838",
+      "--colors/text/gray_800": "#383838",
+      "--gray_600": "#666666",
+      "--colors/text/gray_600": "#666666",
+      "--colors/border/gray_400": "#CCCCCC",
+      "--colors/gray/gray_500": "#A6A6A6",
+      "--clolor/gray": "#A6A6A6",
+      "--clolor/gray_f4f4f5": "#F4F4F5",
+      "--clolor/gray_f7f7fa": "#F7F7FA",
+      "--colors/white/white-0": "#FFFFFF",
+      "--colors/danger/red-700": "#D12A38",
+      "--clolor/main": "#31ADB8"
+    },
+    "radius": {
+      "--rounded-md": "6px",
+      "--radius/3xl": "8px",
+      "--radius/4xl": "12px",
+      "--radius/7xl": "20px"
+    },
+    "spacing": {
+      "--px-4": "16px",
+      "--py-2": "8px"
+    }
+  }
+}

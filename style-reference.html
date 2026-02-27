@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>스마트홈스토어 Style Reference</title>
+  <link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #31ADB8;
+      --dark:    #1E2124;
+      --text:    #33363D;
+      --sub:     #58616A;
+      --border:  #CDD1D5;
+      --bg:      #F4F5F6;
+      --card:    #FFFFFF;
+      --radius:  12px;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--dark);
+      color: #fff;
+      padding: 40px 48px 36px;
+    }
+    header .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px; padding: 4px 12px;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+    header .badge::before { content:""; width:7px; height:7px; background:#7FFFB0; border-radius:50%; display:block; }
+    header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+    header p  { margin-top: 8px; font-size: 13px; opacity: 0.7; line-height: 1.6; }
+    .header-meta { display: flex; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+    .header-meta span {
+      font-size: 12px; opacity: 0.65;
+      background: rgba(255,255,255,0.08);
+      padding: 4px 10px; border-radius: 6px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex; gap: 0;
+      position: sticky; top: 0; z-index: 10;
+      overflow-x: auto;
+    }
+    nav a {
+      text-decoration: none;
+      color: #8A949E;
+      font-size: 13px; font-weight: 500;
+      padding: 16px 20px 14px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    nav a:hover { color: var(--primary); }
+    nav a.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    /* ── LAYOUT ── */
+    main { max-width: 1200px; margin: 0 auto; padding: 48px 48px 100px; }
+    section { margin-bottom: 72px; }
+
+    .section-header { margin-bottom: 28px; }
+    .section-header h2 { font-size: 20px; font-weight: 700; color: var(--dark); display: flex; align-items: center; gap: 10px; }
+    .section-header h2 .icon {
+      width: 28px; height: 28px; background: var(--primary); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff;
+    }
+    .section-header p { font-size: 13px; color: var(--sub); margin-top: 6px; line-height: 1.6; padding-left: 38px; }
+
+    /* ── COLOR SCALE (가로 띠) ── */
+    .scale-group { margin-bottom: 32px; }
+    .scale-label {
+      font-size: 12px; font-weight: 700; color: var(--sub);
+      text-transform: uppercase; letter-spacing: 0.6px;
+      margin-bottom: 10px;
+    }
+    .scale-label span {
+      font-size: 10px; font-weight: 400; color: #B1B8BE;
+      text-transform: none; letter-spacing: 0; margin-left: 8px;
+    }
+    .scale-row {
+      display: flex; border-radius: var(--radius); overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .scale-chip {
+      flex: 1; min-width: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+      padding: 0 4px 10px;
+      height: 88px;
+      position: relative;
+      cursor: pointer;
+      transition: flex 0.2s;
+    }
+    .scale-chip:hover { flex: 1.4; }
+    .scale-chip:hover .chip-hex { opacity: 1; }
+    .chip-step {
+      font-size: 9px; font-weight: 700;
+      margin-bottom: 3px;
+      opacity: 0.7;
+    }
+    .chip-hex {
+      font-size: 9px; font-family: 'Menlo', monospace;
+      opacity: 0; transition: opacity 0.15s;
+      white-space: nowrap;
+    }
+    .chip-star {
+      position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.35); color: #fff;
+      font-size: 8px; font-weight: 700;
+      padding: 2px 6px; border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    /* ── COLOR GRID (세로 카드) ── */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .color-card {
+      background: var(--card); border-radius: var(--radius);
+      overflow: hidden; border: 1px solid var(--border);
+      transition: transform 0.15s, box-shadow 0.15s; cursor: pointer;
+    }
+    .color-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .color-swatch { height: 80px; position: relative; }
+    .color-info { padding: 12px 14px; }
+    .color-hex { font-size: 12px; font-weight: 700; color: var(--primary); font-family: monospace; margin-bottom: 3px; }
+    .color-name { font-size: 11px; color: var(--sub); }
+
+    /* ── SYSTEM COLOR GRID ── */
+    .system-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .system-card {
+      background: var(--card); border-radius: var(--radius);
+      border: 1px solid var(--border); overflow: hidden;
+    }
+    .system-card-header {
+      padding: 14px 20px;
+      display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .system-card-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .system-card-title { font-size: 13px; font-weight: 700; }
+    .system-card-sub { font-size: 11px; color: var(--sub); margin-left: auto; }
+    .system-scale-row { display: flex; height: 56px; }
+    .system-chip {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+      padding-bottom: 8px; cursor: pointer;
+      transition: flex 0.2s;
+    }
+    .system-chip:hover { flex: 1.6; }
+    .system-chip:hover .sys-hex { opacity: 1; }
+    .sys-step { font-size: 8px; font-weight: 700; opacity: 0.65; margin-bottom: 2px; }
+    .sys-hex { font-size: 8px; font-family: monospace; opacity: 0; transition: opacity 0.15s; }
+
+    /* ── COMPARISON TABLE ── */
+    .cmp-table {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .cmp-table table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .cmp-table th {
+      background: #F4F5F6; padding: 11px 20px;
+      text-align: left; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px; color: var(--sub);
+      border-bottom: 1px solid var(--border);
+    }
+    .cmp-table td { padding: 10px 20px; border-bottom: 1px solid #F4F5F6; vertical-align: middle; }
+    .cmp-table tr:last-child td { border-bottom: none; }
+    .cmp-table tr:hover td { background: #F4F5F6; }
+    .dot { display: inline-block; width: 20px; height: 20px; border-radius: 5px; vertical-align: middle; margin-right: 8px; border: 1px solid rgba(0,0,0,0.06); }
+    .mono { font-family: monospace; font-weight: 700; color: var(--primary); }
+    .tag {
+      display: inline-block; font-size: 10px; padding: 2px 8px;
+      border-radius: 10px; font-weight: 500; margin-right: 4px;
+    }
+    .tag-palette { background: #EDF6F8; color: #17505E; }
+    .tag-border  { background: #EAF6EC; color: #285D33; }
+    .tag-stroke  { background: #FFF3DB; color: #614100; }
+    .tag-ref     { background: #F5D6D9; color: #7A1F26; }
+
+    /* ── BORDER CARD (그레이 섹션 전용) ── */
+    .color-swatch { position: relative; }
+    .color-swatch-inner { position: absolute; inset: 0; }
+    .color-swatch.checkered {
+      background-image:
+        linear-gradient(45deg, #ddd 25%, transparent 25%),
+        linear-gradient(-45deg, #ddd 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ddd 75%),
+        linear-gradient(-45deg, transparent 75%, #ddd 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+    }
+    .rank-badge {
+      position: absolute; top: 8px; left: 8px;
+      background: rgba(0,0,0,0.4); color: #fff;
+      font-size: 10px; font-weight: 700;
+      padding: 2px 7px; border-radius: 10px;
+      backdrop-filter: blur(4px);
+    }
+    .spec-chip {
+      background: #F4F5F6; border-radius: 6px;
+      padding: 2px 8px; font-size: 10px;
+      color: var(--sub); font-family: monospace;
+      display: inline-block;
+    }
+    .border-pages { display: flex; flex-wrap: wrap; gap: 4px; }
+    .border-page-chip {
+      font-size: 10px; background: #F4F5F6;
+      border: 1px solid #E6E8EA; border-radius: 10px;
+      padding: 2px 8px; color: var(--sub); white-space: nowrap;
+    }
+    .page-toggle-btn {
+      font-size: 10px; border: 1px solid #E6E8EA;
+      background: #F4F5F6; border-radius: 6px;
+      padding: 3px 8px; cursor: pointer; color: var(--sub);
+      font-family: 'Pretendard', sans-serif;
+    }
+    .page-toggle-btn:hover { background: #E6E8EA; }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+      background: var(--dark); color: #fff;
+      padding: 10px 20px; border-radius: 20px;
+      font-size: 13px; font-weight: 500;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 999;
+    }
+    #toast.show { opacity: 1; }
+
+    @media (max-width: 768px) {
+      header, main { padding-left: 20px; padding-right: 20px; }
+      nav { padding: 0 20px; }
+      .system-grid { grid-template-columns: 1fr; }
+      .color-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Figma +reference → Style Guide</div>
+  <h1>스마트홈스토어 Style Reference</h1>
+  <p>Figma "+reference" 페이지 기준 전체 컬러 시스템 · 스마트홈스토어 전페이지(89p) 분석 통합</p>
+  <div class="header-meta">
+    <span>기준일: 2026-02-26</span>
+    <span>Figma: gLHd8xNMO4Qof0Tt7oyf8T · 페이지: +reference (3174:3932)</span>
+    <span>색상 그룹: 7개 · 총 컬러 스텝: 80+</span>
+    <span>폰트: Pretendard</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#gray" class="active">그레이</a>
+  <a href="#primary-blue">Primary Blue</a>
+  <a href="#secondary-blue">Secondary Blue</a>
+  <a href="#secondary-teal">Secondary Teal</a>
+  <a href="#accent">강조(Accent)</a>
+  <a href="#graphic">그래픽</a>
+  <a href="#system">시스템</a>
+  <a href="#comparison">토큰 대조표</a>
+</nav>
+
+<main>
+
+  <!-- ── GRAY ── -->
+  <section id="gray">
+    <div class="section-header">
+      <h2><span class="icon">◑</span> 그레이 색상 (Gray color)</h2>
+      <p>Figma 전체 36개 페이지 Border 컬러 실사용 기준 · 22개 → <strong>12개</strong>로 Style Reference 그레이 스케일에 통합. 각 카드에 순위·사용 횟수·병합 출처 표시.</p>
+    </div>
+    <div class="scale-group">
+      <div class="scale-row" id="grayScale"></div>
+    </div>
+    <div class="color-grid" id="grayGrid"></div>
+  </section>
+
+  <!-- ── PRIMARY BLUE ── -->
+  <section id="primary-blue">
+    <div class="section-header">
+      <h2><span class="icon" style="background:#256EF4">B</span> Primary Blue (프라이머리 색상)</h2>
+      <p>레퍼런스 기준 Primary 컬러 · 메인 CTA·링크·포커스에 사용. Step 50 (#256EF4) 기준색.</p>
+    </div>
+    <div class="scale-group">
+      <div class="scale-row" id="primaryBlueScale"></div>
+    </div>
+    <div class="color-grid" id="primaryBlueGrid"></div>
+  </section>
+
+  <!-- ── SECONDARY BLUE ── -->
+  <section id="secondary-blue">
+    <div class="section-header">
+      <h2><span class="icon" style="background:#346FB2">S</span> Secondary Blue (세컨더리 블루)</h2>
+      <p>레퍼런스 기준 Secondary 컬러 A · Navy-Blue 계열. Step 50 (#346FB2) 기준색.</p>
+    </div>
+    <div class="scale-group">
+      <div class="scale-row" id="secBlueScale"></div>
+    </div>
+    <div class="color-grid" id="secBlueGrid"></div>
+  </section>
+
+  <!-- ── SECONDARY TEAL ── -->
+  <section id="secondary-teal">
+    <div class="section-header">
+      <h2><span class="icon" style="background:#31ADB8">T</span> Secondary Teal (세컨더리 틸)</h2>
+      <p>레퍼런스 기준 Secondary 컬러 B · <strong>스마트홈스토어 실제 Primary (#31ADB8)</strong>가 이 계열에 속함. Step 40 (#3D9FB8) 근접값.</p>
+    </div>
+    <div class="scale-group">
+      <div class="scale-row" id="secTealScale"></div>
+    </div>
+    <div class="color-grid" id="secTealGrid"></div>
+  </section>
+
+  <!-- ── ACCENT ── -->
+  <section id="accent">
+    <div class="section-header">
+      <h2><span class="icon" style="background:#D63D4A">!</span> 강조 색상 (Accent color)</h2>
+      <p>전체 UI의 5% 이하 비율로만 사용 · 에러·경고·알림 등 주의 유도 목적. Step 50 (#D63D4A) 기준색.</p>
+    </div>
+    <div class="scale-group">
+      <div class="scale-row" id="accentScale"></div>
+    </div>
+    <div class="color-grid" id="accentGrid"></div>
+  </section>
+
+  <!-- ── GRAPHIC ── -->
+  <section id="graphic">
+    <div class="section-header">
+      <h2><span class="icon" style="background:#39506C">G</span> 그래픽 색상 (Graphic color)</h2>
+      <p>차트·그래프·인포그래픽·배너·일러스트 전용 · 데이터 시각화 정보 전달용.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--sub);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">Blue Series</p>
+        <div class="scale-row" id="graphicBlueScale"></div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--sub);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">Red Series</p>
+        <div class="scale-row" id="graphicRedScale"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SYSTEM ── -->
+  <section id="system">
+    <div class="section-header">
+      <h2><span class="icon">⚡</span> 시스템 색상 (System color)</h2>
+      <p>상태 피드백 전용 컬러 · 위험(Danger) · 주의(Warning) · 성공(Success) · 안내(Information)</p>
+    </div>
+    <div class="system-grid" id="systemGrid"></div>
+  </section>
+
+  <!-- ── COMPARISON ── -->
+  <section id="comparison">
+    <div class="section-header">
+      <h2><span class="icon">=</span> 토큰 대조표</h2>
+      <p>design-tokens.html 토큰 × +reference 컬러 시스템 매핑. Border 컬러 22개 → 12개 표준화 반영 (2026-02-26).</p>
+    </div>
+    <div class="cmp-table">
+      <table>
+        <thead>
+          <tr>
+            <th>HEX</th>
+            <th>컬러 팔레트 토큰</th>
+            <th>Border 컬러 (순위)</th>
+            <th>스트로크 토큰</th>
+            <th>+reference 계열</th>
+          </tr>
+        </thead>
+        <tbody id="cmpBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<div id="toast"></div>
+
+<script>
+// ── 색상 데이터
+const GRAY = [
+  { step:'0',  hex:'#F4F5F6', rank:7,  count:151,  widths:'2px×149',                       merged:'#FAFAFA · #EFEFEF' },
+  { step:'5',  hex:'#E6E8EA', rank:2,  count:1001, widths:'1px×993 · 2px×8',               merged:'#E9E6E6 · #ECECF1' },
+  { step:'10', hex:'#CDD1D5', rank:1,  count:1454, widths:'1px×1445 · 1.6px×5 · 1.4px×4', merged:'#CCCCCC · #D9D9D9' },
+  { step:'20', hex:'#B1B8BE', rank:8,  count:81,   widths:'1px×68 · 2px×13',               merged:'#A6A6A6' },
+  { step:'30', hex:'#8A949E', rank:10, count:18,   widths:'1px×14 · 2px×1',                merged:'#999999' },
+  { step:'40', hex:'#6D7882', rank:11, count:6,    widths:'1px×2 · 1.6px×2 · 1.4px×2' },
+  { step:'50', hex:'#58616A', rank:4,  count:272,  widths:'1px×225 · 2px×47',              merged:'#666666' },
+  { step:'60', hex:'#464C53', rank:12, count:3,    widths:'1.6px×3' },
+  { step:'70', hex:'#33363D', rank:3,  count:387,  widths:'1px×95 · 2px×292',              merged:'#383838 · #404040' },
+  { step:'80', hex:'#1E2124', rank:9,  count:27,   widths:'1px×12 · 2px×15',               merged:'#191919 · #09090B' },
+];
+
+const PRIMARY_BLUE = [
+  { step:'5',  hex:'#ECF2FE' },
+  { step:'10', hex:'#D8E5FD' },
+  { step:'20', hex:'#B1CEFB' },
+  { step:'30', hex:'#86AFF9' },
+  { step:'40', hex:'#4C87F6' },
+  { step:'50', hex:'#256EF4', main:true },
+  { step:'60', hex:'#0B50D0' },
+  { step:'70', hex:'#083891' },
+  { step:'80', hex:'#052561' },
+  { step:'90', hex:'#03163A' },
+  { step:'95', hex:'#020F27' },
+];
+
+const SEC_BLUE = [
+  { step:'5',  hex:'#EEF2F7' },
+  { step:'10', hex:'#D6E0EB' },
+  { step:'20', hex:'#BACBDE' },
+  { step:'30', hex:'#90B0D5' },
+  { step:'40', hex:'#6B96C7' },
+  { step:'50', hex:'#346FB2', main:true },
+  { step:'60', hex:'#1C589C' },
+  { step:'70', hex:'#063A74' },
+  { step:'80', hex:'#052B57' },
+  { step:'90', hex:'#031F3F' },
+  { step:'95', hex:'#02162C' },
+];
+
+const SEC_TEAL = [
+  { step:'5',  hex:'#EDF6F8' },
+  { step:'10', hex:'#D5EBF1' },
+  { step:'20', hex:'#ABD8E3' },
+  { step:'30', hex:'#75C0D1' },
+  { step:'40', hex:'#3D9FB8', note:'★ 스토어 Primary 근접' },
+  { step:'50', hex:'#268097', main:true },
+  { step:'60', hex:'#1F687A' },
+  { step:'70', hex:'#17505E' },
+  { step:'80', hex:'#113B45' },
+  { step:'90', hex:'#0E3139' },
+  { step:'95', hex:'#091F25' },
+];
+
+const ACCENT = [
+  { step:'5',  hex:'#FBEFF0' },
+  { step:'10', hex:'#F5D6D9' },
+  { step:'20', hex:'#EBADB2' },
+  { step:'30', hex:'#E0858C' },
+  { step:'40', hex:'#D65C66' },
+  { step:'50', hex:'#D63D4A', main:true },
+  { step:'60', hex:'#AB2B36' },
+  { step:'70', hex:'#7A1F26' },
+  { step:'80', hex:'#521419' },
+  { step:'90', hex:'#310C0F' },
+  { step:'95', hex:'#21080A' },
+];
+
+const GRAPHIC_BLUE = [
+  { step:'0',  hex:'#E5ECF9' },
+  { step:'5',  hex:'#98ACC5' },
+  { step:'10', hex:'#61758F' },
+  { step:'20', hex:'#39506C' },
+];
+
+const GRAPHIC_RED = [
+  { step:'5',  hex:'#FBEFF0' },
+  { step:'10', hex:'#F5D6D9' },
+  { step:'20', hex:'#EBADB2' },
+  { step:'40', hex:'#D65C66' },
+  { step:'70', hex:'#7A1F26' },
+];
+
+const SYSTEM = [
+  {
+    id: 'danger', label: '위험 (Danger)', dot: '#D63D4A',
+    colors: [
+      { step:'5',  hex:'#FBEFF0' }, { step:'10', hex:'#F5D6D9' },
+      { step:'20', hex:'#EBADB2' }, { step:'30', hex:'#E0858C' },
+      { step:'40', hex:'#D65C66' }, { step:'50', hex:'#D63D4A', main:true },
+      { step:'60', hex:'#AB2B36' }, { step:'70', hex:'#7A1F26' },
+      { step:'80', hex:'#521419' }, { step:'90', hex:'#310C0F' },
+      { step:'95', hex:'#21080A' },
+    ]
+  },
+  {
+    id: 'warning', label: '주의 (Warning)', dot: '#FFB114',
+    colors: [
+      { step:'5',  hex:'#FFF3DB' }, { step:'10', hex:'#FFE0A3' },
+      { step:'20', hex:'#FFC95C' }, { step:'30', hex:'#FFB114', main:true },
+      { step:'40', hex:'#C78500' }, { step:'50', hex:'#9E6A00' },
+      { step:'60', hex:'#8A5C00' }, { step:'70', hex:'#614100' },
+      { step:'80', hex:'#422C00' }, { step:'90', hex:'#2E1F00' },
+      { step:'95', hex:'#241800' },
+    ]
+  },
+  {
+    id: 'success', label: '성공 (Success)', dot: '#228738',
+    colors: [
+      { step:'5',  hex:'#EAF6EC' }, { step:'10', hex:'#D8EEDD' },
+      { step:'20', hex:'#A9DAB4' }, { step:'30', hex:'#7EC88E' },
+      { step:'40', hex:'#3FA654' }, { step:'50', hex:'#228738', main:true },
+      { step:'60', hex:'#267337' }, { step:'70', hex:'#285D33' },
+      { step:'80', hex:'#1F4727' }, { step:'90', hex:'#122B18' },
+      { step:'95', hex:'#0E2012' },
+    ]
+  },
+  {
+    id: 'info', label: '안내 (Information)', dot: '#2098F3',
+    colors: [
+      { step:'5',  hex:'#E7F4FE' }, { step:'10', hex:'#D3EBFD' },
+      { step:'20', hex:'#9ED2FA' }, { step:'30', hex:'#5FB5F7' },
+      { step:'40', hex:'#2098F3', main:true }, { step:'50', hex:'#0B78CB' },
+      { step:'60', hex:'#096AB3' }, { step:'70', hex:'#085691' },
+      { step:'80', hex:'#053961' }, { step:'90', hex:'#03253F' },
+      { step:'95', hex:'#021A2C' },
+    ]
+  },
+];
+
+// ── 대조 데이터 (Border 컬러 표준화 2026-02-26 기준)
+const COMPARISON = [
+  // ── 컬러 팔레트 토큰
+  { hex:'#31ADB8', palette:'primary · secondary-fill', border:'—',             stroke:'stroke-primary · stroke-primary-thick', ref:'Secondary Teal 근접 (step40: #3D9FB8)' },
+  { hex:'#256EF4', palette:'—',                        border:'—',             stroke:'stroke-blue',                           ref:'Primary Blue step 50 ★' },
+  { hex:'#25828A', palette:'primary-dark',             border:'—',             stroke:'—',                                     ref:'Secondary Teal step 60 근접 (#1F687A)' },
+  { hex:'#D12A38', palette:'danger',                   border:'—',             stroke:'stroke-danger',                         ref:'Accent/Danger step 50 근접 (#D63D4A)' },
+  { hex:'#185DE8', palette:'—',                        border:'—',             stroke:'stroke-blue',                           ref:'Primary Blue step 50 근접 (#256EF4)' },
+  // ── Border 컬러 (Step 기준 정렬, 22개 → 12개 표준화)
+  { hex:'#CDD1D5', palette:'border-default',           border:'1위 · 1,454회', stroke:'stroke-default',                       ref:'Gray step 10 ★  병합: #CCCCCC · #D9D9D9' },
+  { hex:'#E6E8EA', palette:'—',                        border:'2위 · 1,001회', stroke:'stroke-light',                         ref:'Gray step 5  병합: #E9E6E6 · #ECECF1' },
+  { hex:'#33363D', palette:'text-primary 근접',        border:'3위 · 387회',   stroke:'—',                                    ref:'Gray step 70  병합: #383838 · #404040' },
+  { hex:'#58616A', palette:'—',                        border:'4위 · 272회',   stroke:'—',                                    ref:'Gray step 50  병합: #666666' },
+  { hex:'#000000', palette:'—',                        border:'5위 · 220회',   stroke:'stroke-dark',                          ref:'Black (특수값)' },
+  { hex:'#FFFFFF', palette:'bg-primary',               border:'6위 · 198회',   stroke:'stroke-white',                         ref:'White (특수값)' },
+  { hex:'#F4F5F6', palette:'surface-section 근접',    border:'7위 · 151회',   stroke:'—',                                    ref:'Gray step 0  병합: #FAFAFA · #EFEFEF' },
+  { hex:'#B1B8BE', palette:'—',                        border:'8위 · 81회',    stroke:'—',                                    ref:'Gray step 20  병합: #A6A6A6' },
+  { hex:'#1E2124', palette:'—',                        border:'9위 · 27회',    stroke:'—',                                    ref:'Gray step 80  병합: #191919 · #09090B' },
+  { hex:'#8A949E', palette:'—',                        border:'10위 · 18회',   stroke:'—',                                    ref:'Gray step 30  병합: #999999' },
+  { hex:'#6D7882', palette:'—',                        border:'11위 · 6회',    stroke:'—',                                    ref:'Gray step 40' },
+  { hex:'#464C53', palette:'—',                        border:'12위 · 3회',    stroke:'—',                                    ref:'Gray step 60' },
+  // ── 기타
+  { hex:'#052B57', palette:'—',                        border:'—',             stroke:'—',                                    ref:'Secondary Blue step 80 (#052B57) ✓' },
+];
+
+// ── 유틸
+function luma(hex) {
+  const h = hex.replace('#','');
+  const r = parseInt(h.slice(0,2),16)/255;
+  const g = parseInt(h.slice(2,4),16)/255;
+  const b = parseInt(h.slice(4,6),16)/255;
+  return 0.299*r + 0.587*g + 0.114*b;
+}
+function textColor(hex) { return luma(hex) > 0.45 ? '#1E2124' : '#FFFFFF'; }
+function copy(hex) {
+  navigator.clipboard.writeText(hex).then(() => {
+    const t = document.getElementById('toast');
+    t.textContent = '"' + hex + '" 복사됨';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1800);
+  });
+}
+
+// ── Scale Row 렌더
+function renderScale(data, containerId) {
+  const row = document.getElementById(containerId);
+  if (!row) return;
+  data.forEach(c => {
+    const chip = document.createElement('div');
+    chip.className = 'scale-chip';
+    chip.style.background = c.hex;
+    const tc = textColor(c.hex);
+    chip.onclick = () => copy(c.hex);
+    chip.innerHTML =
+      (c.main ? '<span class="chip-star">★ Main</span>' : '') +
+      (c.note ? '<span class="chip-star" style="font-size:7px">' + c.note + '</span>' : '') +
+      '<span class="chip-step" style="color:' + tc + '">' + c.step + '</span>' +
+      '<span class="chip-hex" style="color:' + tc + '">' + c.hex + '</span>';
+    row.appendChild(chip);
+  });
+}
+
+// ── Color Grid 렌더
+function renderGrid(data, containerId) {
+  const grid = document.getElementById(containerId);
+  if (!grid) return;
+  data.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'color-card';
+    card.onclick = () => copy(c.hex);
+    card.innerHTML =
+      '<div class="color-swatch" style="background:' + c.hex + ';' +
+        (luma(c.hex) > 0.9 ? 'border-bottom:1px solid #E6E8EA;' : '') + '"></div>' +
+      '<div class="color-info">' +
+        '<div class="color-hex">' + c.hex + '</div>' +
+        '<div class="color-name">Step ' + c.step + (c.main ? ' ★' : '') + (c.note ? ' · ' + c.note : '') + '</div>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+
+// ── Border 페이지 사용 데이터
+const borderPageUsage = {
+  '#CDD1D5': ['Header','Pagination','Structured list','button','history','Footer','Tab','Accordion','toggle','🏠 Foundations_main','🏠 Foundations_my apt','🏠 Foundations_product','🏠 Foundations_purchase','🏠 Foundations_shopping basket','👤 Foundations_User','🛍️ Foundations_mypage','🛍️ Foundations_order','🧩 Components'],
+  '#E6E8EA': ['Structured list','Table','history','input','popup','🏠 Foundations_main','🏠 Foundations_my apt','🏠 Foundations_product','🏠 Foundations_shopping basket','👤 Foundations_User','🛍️ Foundations_mypage','🛍️ Foundations_order','🧩 Components'],
+  '#33363D': ['Header','Pagination','Structured list','Tab bars','history','🎨 Design style','🏠 Foundations_main','🏠 Foundations_my apt','🏠 Foundations_product','🏠 Foundations_shopping basket','👤 Foundations_User','🛍️ Foundations_mypage','🛍️ Foundations_order','🧩 Components'],
+  '#58616A': ['Calendar','Header','Structured list','Table','button','history','🎨 Design style','🏠 Foundations_main','🏠 Foundations_my apt','🏠 Foundations_product','🏠 Foundations_purchase','🏠 Foundations_shopping basket','👤 Foundations_User','🛍️ Foundations_mypage','🛍️ Foundations_order','🧩 Components'],
+  '#000000': ['Header','Tab','Tab bars','history','🎨 Design style','🏠 Foundations_main','🏠 Foundations_my apt','🏠 Foundations_purchase','🏠 Foundations_shopping basket','👤 Foundations_User','🛍️ Foundations_mypage','🛍️ Foundations_order'],
+  '#FFFFFF': ['Header','history','product','🏠 Foundations_main','🏠 Foundations_product','🏠 Foundations_purchase','👤 Foundations_User','🛍️ Foundations_mypage','🛍️ Foundations_order','🧩 Components'],
+  '#F4F5F6': ['history','product','🏠 Foundations_main','🏠 Foundations_product','🏠 Foundations_purchase','🛍️ Foundations_mypage','🛍️ Foundations_order','🧩 Components'],
+  '#B1B8BE': ['Accordion','toggle','button','history','🎨 Design style','🏠 Foundations_main','🏠 Foundations_product','🏠 Foundations_purchase','👤 Foundations_User','🛍️ Foundations_mypage','🛍️ Foundations_order','🧩 Components'],
+  '#1E2124': ['Structured list','🏠 Foundations_main','🏠 Foundations_my apt','🛍️ Foundations_order','🧩 Components'],
+  '#8A949E': ['button','🏠 Foundations_purchase','🛍️ Foundations_order','🧩 Components'],
+  '#6D7882': ['Accordion','toggle'],
+  '#464C53': ['toggle','🛍️ Foundations_mypage'],
+};
+
+const LIGHT_BORDER = new Set(['#FFFFFF','#F4F5F6','#E6E8EA','#CDD1D5']);
+
+// ── Border 실사용 데이터 Grid 렌더 (그레이 섹션 전용, design-tokens 동일 포맷)
+function renderBorderGrid(data, containerId) {
+  const grid = document.getElementById(containerId);
+  if (!grid) return;
+  data.forEach(c => {
+    const isLight  = LIGHT_BORDER.has(c.hex);
+    const widthStr = c.widths;
+    const pages    = borderPageUsage[c.hex] || [];
+    const stepBadge = c.step && c.step !== '-'
+      ? '<span class="spec-chip" style="font-size:10px;margin-left:4px;">Step ' + c.step + '</span>'
+      : '';
+    const mergedLine = c.merged
+      ? '<div style="font-size:10px;color:#B1B8BE;margin-top:4px;">병합: ' + c.merged + '</div>'
+      : '';
+
+    const card = document.createElement('div');
+    card.className = 'color-card';
+    card.innerHTML =
+      '<div class="color-swatch ' + (isLight ? 'checkered' : '') + '" style="height:100px;">' +
+        '<div class="color-swatch-inner" style="background:' + c.hex + '"></div>' +
+        '<span class="rank-badge">' + c.rank + '위</span>' +
+      '</div>' +
+      '<div class="color-info">' +
+        '<div class="color-hex" onclick="copy(\'' + c.hex + '\')">' +
+          c.hex + stepBadge +
+          '<span style="font-size:10px;color:#B1B8BE;border:1px solid #E6E8EA;border-radius:4px;padding:1px 5px;background:#F4F5F6;cursor:pointer;">복사</span>' +
+        '</div>' +
+        '<div class="color-name" style="font-family:monospace;">' + c.count.toLocaleString() + '회 · ' + widthStr + '</div>' +
+        mergedLine +
+        '<div style="margin-top:6px;">' +
+          '<button class="page-toggle-btn" onclick="togglePages(this)">페이지 보기 (' + pages.length + ')</button>' +
+        '</div>' +
+        '<div class="border-pages" style="display:none;margin-top:8px;">' +
+          pages.map(function(p) { return '<span class="border-page-chip">' + p + '</span>'; }).join('') +
+        '</div>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+
+function togglePages(btn) {
+  const pagesDiv = btn.closest('.color-info').querySelector('.border-pages');
+  const isOpen = pagesDiv.style.display !== 'none';
+  pagesDiv.style.display = isOpen ? 'none' : 'flex';
+  btn.textContent = isOpen ? '페이지 보기 (' + pagesDiv.children.length + ')' : '페이지 숨기기';
+}
+
+// ── System 렌더
+function renderSystem() {
+  const grid = document.getElementById('systemGrid');
+  SYSTEM.forEach(sys => {
+    const card = document.createElement('div');
+    card.className = 'system-card';
+    const mainColor = sys.colors.find(c => c.main) || sys.colors[Math.floor(sys.colors.length/2)];
+    card.innerHTML =
+      '<div class="system-card-header">' +
+        '<div class="system-card-dot" style="background:' + sys.dot + '"></div>' +
+        '<span class="system-card-title">' + sys.label + '</span>' +
+        '<span class="system-card-sub">' + mainColor.hex + '</span>' +
+      '</div>' +
+      '<div class="system-scale-row" id="sys-' + sys.id + '"></div>';
+    grid.appendChild(card);
+
+    const row = card.querySelector('#sys-' + sys.id);
+    sys.colors.forEach(c => {
+      const chip = document.createElement('div');
+      chip.className = 'system-chip';
+      chip.style.background = c.hex;
+      const tc = textColor(c.hex);
+      chip.onclick = () => copy(c.hex);
+      chip.innerHTML =
+        (c.main ? '<span style="font-size:8px;color:' + tc + ';font-weight:700;margin-bottom:1px;">★</span>' : '') +
+        '<span class="sys-step" style="color:' + tc + '">' + c.step + '</span>' +
+        '<span class="sys-hex" style="color:' + tc + '">' + c.hex + '</span>';
+      row.appendChild(chip);
+    });
+  });
+}
+
+// ── Comparison Table 렌더
+function renderComparison() {
+  const tbody = document.getElementById('cmpBody');
+  COMPARISON.forEach(r => {
+    const tr = document.createElement('tr');
+    const hasPalette = r.palette !== '—';
+    const hasBorder  = r.border  !== '—';
+    const hasStroke  = r.stroke  !== '—';
+    tr.innerHTML =
+      '<td onclick="copy(\'' + r.hex + '\')" style="cursor:pointer">' +
+        '<span class="dot" style="background:' + r.hex + ';' + (luma(r.hex) > 0.9 ? 'border:1px solid #CDD1D5;' : '') + '"></span>' +
+        '<span class="mono">' + r.hex + '</span>' +
+      '</td>' +
+      '<td>' + (hasPalette ? '<span class="tag tag-palette">' + r.palette + '</span>' : '<span style="color:#CDD1D5">—</span>') + '</td>' +
+      '<td>' + (hasBorder  ? '<span class="tag tag-border">'  + r.border  + '</span>' : '<span style="color:#CDD1D5">—</span>') + '</td>' +
+      '<td>' + (hasStroke  ? '<span class="tag tag-stroke">'  + r.stroke  + '</span>' : '<span style="color:#CDD1D5">—</span>') + '</td>' +
+      '<td style="font-size:12px;color:var(--sub)">' + r.ref + '</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+// ── 실행
+renderScale     (GRAY, 'grayScale');
+renderBorderGrid(GRAY, 'grayGrid');
+renderScale(PRIMARY_BLUE, 'primaryBlueScale');
+renderGrid (PRIMARY_BLUE, 'primaryBlueGrid');
+renderScale(SEC_BLUE,     'secBlueScale');
+renderGrid (SEC_BLUE,     'secBlueGrid');
+renderScale(SEC_TEAL,     'secTealScale');
+renderGrid (SEC_TEAL,     'secTealGrid');
+renderScale(ACCENT,       'accentScale');
+renderGrid (ACCENT,       'accentGrid');
+renderScale(GRAPHIC_BLUE, 'graphicBlueScale');
+renderScale(GRAPHIC_RED,  'graphicRedScale');
+renderSystem();
+renderComparison();
+
+// ── Nav active
+const navLinks = document.querySelectorAll('nav a');
+const sections = document.querySelectorAll('section');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 90) current = s.id; });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+});
+</script>
+</body>
+</html>
