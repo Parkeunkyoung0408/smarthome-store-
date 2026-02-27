@@ -110,3 +110,45 @@ const tokens = {
     "--px-4":"16px", "--py-2":"8px",
   },
 };
+
+// ── CSS 변수 주입 (tokens-data.js → :root)
+// tokens 데이터가 단일 소스가 되어 HTML의 CSS 변수를 동적으로 설정
+(function applyTokensToCSS() {
+  const root = document.documentElement;
+
+  // 토큰명 → CSS 변수명 매핑
+  const colorMap = {
+    'primary':            '--primary',
+    'primary-dark':       '--primary-dark',
+    'text-primary':       '--text-primary',
+    'text-secondary':     '--text-secondary',
+    'border-default':     '--border',
+    'surface-input':      '--surface-input',
+    'surface-section':    '--surface-section',
+    'text-placeholder':   '--placeholder',
+    'text-select':        '--text-select',
+    'danger':             '--danger',
+    'background-primary': '--card',
+  };
+
+  // 색상 토큰 주입
+  tokens.colors.forEach(c => {
+    const cssVar = colorMap[c.token];
+    if (cssVar) root.style.setProperty(cssVar, c.hex);
+  });
+
+  // 보더 라디우스 토큰 주입
+  tokens.radius.forEach(r => {
+    root.style.setProperty('--' + r.token, r.value);
+  });
+
+  // 스페이싱 토큰 주입
+  tokens.spacing.forEach(s => {
+    root.style.setProperty('--' + s.token, s.value + 'px');
+  });
+
+  // Primary 스케일 주입
+  tokens.primaryScale.forEach(p => {
+    root.style.setProperty('--' + p.token, p.hex);
+  });
+})();
