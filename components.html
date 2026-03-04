@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>컴포넌트 뷰어</title>
+  <link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css" rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --primary: #31ADB8;
+      --primary-hover: #2C9CA6;
+      --primary-active: #278A93;
+      --text: #383838;
+      --sub: #666;
+      --muted: #A6A6A6;
+      --border: #E5E7EB;
+      --bg: #F0F2F5;
+      --card: #fff;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text)
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #31ADB8, #0D78C9);
+      color: #fff;
+      padding: 32px 48px
+    }
+
+    header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px
+    }
+
+    header p {
+      font-size: 13px;
+      opacity: .8
+    }
+
+    .stats {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap
+    }
+
+    .stats span {
+      font-size: 12px;
+      background: rgba(255, 255, 255, .15);
+      border: 1px solid rgba(255, 255, 255, .25);
+      padding: 4px 14px;
+      border-radius: 20px
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex;
+      position: sticky;
+      top: 0;
+      z-index: 100
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 15px 18px 13px;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: .15s
+    }
+
+    nav a:hover {
+      color: var(--primary)
+    }
+
+    nav a.on {
+      color: var(--primary);
+      border-bottom-color: var(--primary)
+    }
+
+    /* ── LAYOUT ── */
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 48px 80px
+    }
+
+    section {
+      margin-bottom: 60px;
+      scroll-margin-top: 54px
+    }
+
+    .sec-head {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .sec-head h2 {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px
+    }
+
+    .sec-icon {
+      width: 26px;
+      height: 26px;
+      background: var(--primary);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0
+    }
+
+    .sec-desc {
+      font-size: 13px;
+      color: var(--sub);
+      margin-left: 34px
+    }
+
+    /* ── GROUP ── */
+    .group {
+      margin-bottom: 40px
+    }
+
+    .group-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .group-label::before {
+      content: '';
+      width: 3px;
+      height: 13px;
+      background: var(--primary);
+      border-radius: 2px;
+      display: block
+    }
+
+    .group-label.secondary::before {
+      background: #0D78C9
+    }
+
+    .group-label.secondary {
+      color: #0D78C9
+    }
+
+    .group-label.territory::before {
+      background: #4B5563
+    }
+
+    .group-label.territory {
+      color: #4B5563
+    }
+
+    /* ── SPEC TABLE ── */
+    .spec-table {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px
+    }
+
+    .spec-table table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px
+    }
+
+    .spec-table th {
+      background: #F9FAFB;
+      padding: 10px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--sub);
+      border-bottom: 1px solid var(--border)
+    }
+
+    .spec-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid #F3F4F6;
+      vertical-align: middle
+    }
+
+    .spec-table tr:last-child td {
+      border-bottom: none
+    }
+
+    .chip {
+      display: inline-block;
+      background: #F3F4F6;
+      border-radius: 5px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--text)
+    }
+
+    .dot-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: monospace;
+      font-size: 11px
+    }
+
+    .color-dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 3px;
+      border: 1px solid rgba(0, 0, 0, .1);
+      flex-shrink: 0
+    }
+
+    /* ── STATE BADGE ── */
+    .state-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    .state-default {
+      background: #EAF7F8;
+      color: #1D868F
+    }
+
+    .state-hover {
+      background: #FEF3C7;
+      color: #B45309
+    }
+
+    .state-pressed {
+      background: #FEE2E2;
+      color: #B91C1C
+    }
+
+    .state-focused {
+      background: #DBEAFE;
+      color: #1D4ED8
+    }
+
+    .state-disabled {
+      background: #F3F4F6;
+      color: #6B7280
+    }
+
+    .state-completed {
+      background: #D1FAE5;
+      color: #065F46
+    }
+
+    .state-error {
+      background: #FEE2E2;
+      color: #B91C1C
+    }
+
+    .state-view {
+      background: #EDE9FE;
+      color: #5B21B6
+    }
+
+    /* ══════════════ BUTTON ══════════════ */
+    .btn-preview-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 8px
+    }
+
+    /* header row */
+    .btn-grid-head {
+      display: grid;
+      grid-template-columns: 80px repeat(4, 1fr);
+      background: #F9FAFB;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .btn-grid-head span {
+      padding: 9px 16px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: var(--sub);
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .btn-grid-head span:first-child {
+      justify-content: flex-start;
+      border-right: 1px solid var(--border)
+    }
+
+    /* size rows */
+    .btn-grid-row {
+      display: grid;
+      grid-template-columns: 80px repeat(4, 1fr);
+      border-bottom: 1px solid #F3F4F6;
+      align-items: center
+    }
+
+    .btn-grid-row:last-child {
+      border-bottom: none
+    }
+
+    .btn-grid-row:hover {
+      background: #FAFAFA
+    }
+
+    .btn-size-label {
+      padding: 12px 16px;
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--sub);
+      font-weight: 600;
+      border-right: 1px solid var(--border);
+      height: 100%;
+      display: flex;
+      align-items: center
+    }
+
+    .btn-cell {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    /* button base */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Pretendard', sans-serif;
+      white-space: nowrap;
+      transition: background .15s, filter .1s
+    }
+
+    /* primary */
+    .btn-p-default {
+      background: #31ADB8;
+      color: #fff
+    }
+
+    .btn-p-hover {
+      background: #2C9CA6;
+      color: #fff
+    }
+
+    .btn-p-pressed {
+      background: #278A93;
+      color: #fff
+    }
+
+    .btn-p-disabled {
+      background: #D1D5DB;
+      color: #9CA3AF;
+      cursor: not-allowed
+    }
+
+    /* secondary */
+    .btn-s-default {
+      background: #EAF7F8;
+      color: #31ADB8;
+      border: 1px solid #BFE6E9
+    }
+
+    .btn-s-hover {
+      background: #D4EFF1;
+      color: #31ADB8;
+      border: 1px solid #BFE6E9
+    }
+
+    .btn-s-pressed {
+      background: #BFE6E9;
+      color: #278A93;
+      border: 1px solid #BFE6E9
+    }
+
+    .btn-s-disabled {
+      background: #F3F4F6;
+      color: #9CA3AF;
+      border: 1px solid #E5E7EB;
+      cursor: not-allowed
+    }
+
+    /* territory */
+    .btn-t-default {
+      background: #fff;
+      color: #4B5563;
+      border: 1px solid #D1D5DB
+    }
+
+    .btn-t-hover {
+      background: #F9FAFB;
+      color: #374151;
+      border: 1px solid #D1D5DB
+    }
+
+    .btn-t-pressed {
+      background: #F3F4F6;
+      color: #374151;
+      border: 1px solid #D1D5DB
+    }
+
+    .btn-t-disabled {
+      background: #F9FAFB;
+      color: #9CA3AF;
+      border: 1px solid #E5E7EB;
+      cursor: not-allowed
+    }
+
+    /* sizes */
+    .sz-xl {
+      height: 64px;
+      padding: 0 20px;
+      font-size: 17px;
+      font-weight: 700
+    }
+
+    .sz-lg {
+      height: 56px;
+      padding: 0 20px;
+      font-size: 17px;
+      font-weight: 700
+    }
+
+    .sz-md {
+      height: 48px;
+      padding: 0 16px;
+      font-size: 17px;
+      font-weight: 400
+    }
+
+    .sz-sm {
+      height: 40px;
+      padding: 0 16px;
+      font-size: 15px;
+      font-weight: 400
+    }
+
+    .sz-xs {
+      height: 32px;
+      padding: 0 12px;
+      font-size: 15px;
+      font-weight: 400
+    }
+
+    /* ══════════════ INPUT ══════════════ */
+    /* Color Guide tokens:
+       neutral-30 (border): #D1D5DB  |  text-placeholder: #A5A5A5
+       primary  (focused):  #31ADB8  |  success:          #0FB36F
+       danger   (error):    #D12A38  */
+
+    .input-states-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px
+    }
+
+    .input-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px
+    }
+
+    .input-card-head {
+      margin-bottom: 14px
+    }
+
+    .input-label {
+      font-size: 15px;
+      color: #464C53;
+      margin-bottom: 4px;
+      display: block
+    }
+
+    .input-hint {
+      font-size: 13px;
+      color: #464C53;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 8px
+    }
+
+    .input-hint svg {
+      flex-shrink: 0
+    }
+
+    /* base — neutral-30(#D1D5DB) border, background-primary(#FFFFFF) */
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      border-radius: 8px;
+      border: 1.5px solid #D1D5DB;
+      padding: 0 16px;
+      width: 100%;
+      transition: border-color .15s
+    }
+
+    .input-wrap input {
+      flex: 1;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 17px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #1E2124;
+      min-width: 0
+    }
+
+    .input-wrap input::placeholder {
+      color: #A5A5A5
+    }
+
+    /* text-placeholder */
+    /* focused — primary(#31ADB8) via JS class */
+    .input-wrap.is-focused {
+      border-color: #31ADB8
+    }
+
+    .input-card.is-focused .input-label {
+      color: #31ADB8;
+      transition: color .15s
+    }
+
+    .input-card.is-focused .input-hint {
+      color: #31ADB8
+    }
+
+    .input-card.is-focused .input-hint svg circle,
+    .input-card.is-focused .input-hint svg path {
+      stroke: #31ADB8
+    }
+
+    .input-card.is-focused .input-msg {
+      color: #31ADB8
+    }
+
+    .input-card.is-focused .input-msg svg circle,
+    .input-card.is-focused .input-msg svg path {
+      stroke: #31ADB8
+    }
+
+    .input-wrap.is-focused input {
+      color: #31ADB8
+    }
+
+    .input-wrap.sz-lg {
+      height: 56px
+    }
+
+    .input-wrap.sz-lg input {
+      font-size: 19px
+    }
+
+    .input-wrap.sz-md {
+      height: 48px
+    }
+
+    .input-wrap.sz-md input {
+      font-size: 17px
+    }
+
+    .input-wrap.sz-sm {
+      height: 40px
+    }
+
+    .input-wrap.sz-sm input {
+      font-size: 15px
+    }
+
+    /* static states */
+    .input-wrap.s-completed {
+      border-color: #D1D5DB
+    }
+
+    /* neutral-30 */
+    .input-wrap.s-completed input {
+      color: #1E2124
+    }
+
+    .input-wrap.s-error {
+      border-color: #D12A38
+    }
+
+    /* danger */
+    .input-wrap.s-error input {
+      color: #1E2124
+    }
+
+    .input-wrap.s-disabled {
+      background: #CDD1D5;
+      border-color: #B1B8BE;
+      cursor: not-allowed
+    }
+
+    .input-wrap.s-disabled input {
+      color: #6D7882;
+      cursor: not-allowed
+    }
+
+    .input-wrap.s-view {
+      background: #FFFFFF;
+      border-color: #B1B8BE
+    }
+
+    .input-wrap.s-view input {
+      color: #464C53;
+      background: #FFFFFF
+    }
+
+    .input-msg {
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 6px
+    }
+
+    .msg-info {
+      color: #464C53
+    }
+
+    .msg-focused {
+      color: #31ADB8
+    }
+
+    /* primary */
+    .msg-success {
+      color: #0FB36F
+    }
+
+    /* success */
+    .msg-error {
+      color: #D12A38
+    }
+
+    /* danger */
+
+    /* Size tabs for input */
+    .size-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      width: fit-content
+    }
+
+    .size-tab {
+      padding: 7px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: #F9FAFB;
+      color: var(--sub);
+      transition: .12s
+    }
+
+    .size-tab.on {
+      background: var(--primary);
+      color: #fff
+    }
+
+    /* Search Input — primary(#31ADB8) border */
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1.5px solid #31ADB8;
+      border-radius: 8px;
+      overflow: hidden;
+      padding: 6px
+    }
+
+    .search-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-right: 6px
+    }
+
+    .search-field {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: 'Pretendard', sans-serif;
+      font-weight: 700;
+      color: #A5A5A5;
+      background: transparent;
+      min-width: 0
+    }
+
+    .search-field::placeholder {
+      color: #A5A5A5
+    }
+
+    /* text-placeholder */
+    .search-field:focus {
+      color: #1E2124
+    }
+
+    .search-wrap.sz-lg .search-field {
+      font-size: 17px;
+      height: 44px
+    }
+
+    .search-wrap.sz-md .search-field {
+      font-size: 17px;
+      height: 36px
+    }
+
+    .search-wrap.sz-sm .search-field {
+      font-size: 15px;
+      height: 28px
+    }
+
+    /* ── Color Annotation ── */
+    .color-anno {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed #E5E7EB;
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .ca-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px
+    }
+
+    .ca-swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      border: 1px solid rgba(0, 0, 0, .08)
+    }
+
+    .ca-role {
+      color: #A6A6A6;
+      width: 68px;
+      flex-shrink: 0;
+      font-weight: 600
+    }
+
+    .ca-hex {
+      color: #383838;
+      font-family: monospace;
+      font-weight: 700;
+      width: 64px;
+      flex-shrink: 0
+    }
+
+    .ca-token {
+      color: #31ADB8;
+      font-family: monospace;
+      font-size: 10px;
+      background: #EAF7F8;
+      padding: 1px 6px;
+      border-radius: 4px
+    }
+
+    /* ══════════════ CHECKBOX ══════════════ */
+    /* ── Checkbox ── */
+    .cb-row {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none
+    }
+
+    .cb-row.disabled {
+      cursor: not-allowed
+    }
+
+    /* Box */
+    .cb-box {
+      flex-shrink: 0;
+      border-radius: 4px;
+      border: 1.5px solid #D1D5DB;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .12s, border-color .12s;
+      box-sizing: border-box;
+    }
+
+    .cb-box.is-on {
+      background: #31ADB8;
+      border-color: #31ADB8
+    }
+
+    .cb-box.is-indet {
+      background: #31ADB8;
+      border-color: #31ADB8
+    }
+
+    /* Disabled overrides */
+    .cb-row.disabled .cb-box {
+      background: #CDD1D5;
+      border-color: #B1B8BE
+    }
+
+    /* SVG icon visibility — default hidden, show by state */
+    .cb-box svg {
+      display: none;
+      overflow: visible
+    }
+
+    .cb-box.is-on svg.ico-check {
+      display: block
+    }
+
+    .cb-box.is-indet svg.ico-dash {
+      display: block
+    }
+
+    /* Icon stroke color: white for default, #8A949E for disabled */
+    .cb-box svg path {
+      stroke: #FFFFFF
+    }
+
+    .cb-row.disabled .cb-box svg path {
+      stroke: #8A949E
+    }
+
+    /* Sizes */
+    .cb-box.sz-lg {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      min-height: 24px;
+      max-width: 24px;
+      max-height: 24px;
+      aspect-ratio: 1
+    }
+
+    .cb-box.sz-md {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      min-height: 20px;
+      max-width: 20px;
+      max-height: 20px;
+      aspect-ratio: 1
+    }
+
+    .cb-box.sz-sm {
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      min-height: 16px;
+      max-width: 16px;
+      max-height: 16px;
+      aspect-ratio: 1
+    }
+
+    /* SVG fits inside box at ~58% */
+    .cb-box.sz-lg svg {
+      width: 14px;
+      height: 14px
+    }
+
+    .cb-box.sz-md svg {
+      width: 12px;
+      height: 12px
+    }
+
+    .cb-box.sz-sm svg {
+      width: 10px;
+      height: 10px
+    }
+
+    /* Label */
+    .cb-label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px
+    }
+
+    .cb-title {
+      color: #131416;
+      font-weight: 400;
+      line-height: 1.45
+    }
+
+    .cb-desc {
+      color: #464C53;
+      font-weight: 400;
+      line-height: 1.45
+    }
+
+    .cb-row.disabled .cb-title,
+    .cb-row.disabled .cb-desc {
+      color: #8A949E
+    }
+
+    .cb-row.sz-lg .cb-title {
+      font-size: 19px
+    }
+
+    .cb-row.sz-lg .cb-desc {
+      font-size: 17px
+    }
+
+    .cb-row.sz-md .cb-title {
+      font-size: 17px
+    }
+
+    .cb-row.sz-md .cb-desc {
+      font-size: 15px
+    }
+
+    .cb-row.sz-sm .cb-title {
+      font-size: 16px
+    }
+
+    .cb-row.sz-sm .cb-desc {
+      font-size: 14px
+    }
+
+    /* Preview grid */
+    .cb-preview-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden
+    }
+
+    .cb-grid-head {
+      display: grid;
+      grid-template-columns: 100px repeat(6, 1fr);
+      background: #F9FAFB;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .cb-grid-head span {
+      padding: 10px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      color: var(--sub);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 4px;
+      line-height: 1.3
+    }
+
+    .cb-grid-head span:first-child {
+      align-items: flex-start;
+      border-right: 1px solid var(--border);
+      padding-left: 14px
+    }
+
+    .cb-grid-row {
+      display: grid;
+      grid-template-columns: 100px repeat(6, 1fr);
+      border-bottom: 1px solid #F3F4F6
+    }
+
+    .cb-grid-row:last-child {
+      border-bottom: none
+    }
+
+    .cb-grid-row:hover {
+      background: #FAFAFA
+    }
+
+    .cb-size-label {
+      padding: 20px 14px;
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--sub);
+      font-weight: 600;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      line-height: 1.5
+    }
+
+    .cb-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 0
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 28px 0
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>컴포넌트 뷰어</h1>
+    <p>Figma 디자인시스템 &mdash; Button / Input 컴포넌트 스펙</p>
+    <div class="stats">
+      <span>🔘 <strong>Button</strong> &mdash; Primary / Secondary / Territory × 5 Size × 4 State</span>
+      <span>📝 <strong>Input</strong> &mdash; Text Input / Search Input</span>
+    </div>
+  </header>
+
+  <nav>
+    <a class="on" onclick="goto('btn-sec')">🔘 Button</a>
+    <a onclick="goto('input-sec')">📝 Input</a>
+    <a onclick="goto('cb-sec')">☑️ Checkbox</a>
+  </nav>
+
+  <main>
+
+    <!-- ══════════════════════════════ BUTTON ══ -->
+    <section id="btn-sec">
+      <div class="sec-head">
+        <h2><span class="sec-icon">🔘</span> Button</h2>
+        <p class="sec-desc">사이즈별로 Default · Hover · Pressed · Disabled 상태를 한눈에 비교</p>
+      </div>
+
+      <!-- Size Spec -->
+      <div class="group">
+        <div class="group-label">Size Spec</div>
+        <div class="spec-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Size</th>
+                <th>Height</th>
+                <th>Font Size</th>
+                <th>Weight</th>
+                <th>Padding</th>
+                <th>Radius</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="chip">xlarge</span></td>
+                <td>64px</td>
+                <td>17px</td>
+                <td>700</td>
+                <td>0 20px</td>
+                <td>6px</td>
+              </tr>
+              <tr>
+                <td><span class="chip">large</span></td>
+                <td>56px</td>
+                <td>17px</td>
+                <td>700</td>
+                <td>0 20px</td>
+                <td>6px</td>
+              </tr>
+              <tr>
+                <td><span class="chip">medium</span></td>
+                <td>48px</td>
+                <td>17px</td>
+                <td>400</td>
+                <td>0 16px</td>
+                <td>6px</td>
+              </tr>
+              <tr>
+                <td><span class="chip">small</span></td>
+                <td>40px</td>
+                <td>15px</td>
+                <td>400</td>
+                <td>0 16px</td>
+                <td>6px</td>
+              </tr>
+              <tr>
+                <td><span class="chip">xsmall</span></td>
+                <td>32px</td>
+                <td>15px</td>
+                <td>400</td>
+                <td>0 12px</td>
+                <td>6px</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PRIMARY -->
+      <div class="group">
+        <div class="group-label">Primary</div>
+        <div class="btn-preview-card">
+          <div class="btn-grid-head">
+            <span>Size</span>
+            <span><span class="state-badge state-default">Default</span></span>
+            <span><span class="state-badge state-hover">Hover</span></span>
+            <span><span class="state-badge state-pressed">Pressed</span></span>
+            <span><span class="state-badge state-disabled">Disabled</span></span>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">xlarge</span>
+            <div class="btn-cell"><button class="btn btn-p-default sz-xl">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-hover sz-xl">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-pressed sz-xl">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-disabled sz-xl" disabled>버튼 텍스트</button></div>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">large</span>
+            <div class="btn-cell"><button class="btn btn-p-default sz-lg">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-hover sz-lg">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-pressed sz-lg">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-disabled sz-lg" disabled>버튼 텍스트</button></div>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">medium</span>
+            <div class="btn-cell"><button class="btn btn-p-default sz-md">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-hover sz-md">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-pressed sz-md">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-disabled sz-md" disabled>버튼 텍스트</button></div>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">small</span>
+            <div class="btn-cell"><button class="btn btn-p-default sz-sm">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-hover sz-sm">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-pressed sz-sm">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-disabled sz-sm" disabled>버튼 텍스트</button></div>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">xsmall</span>
+            <div class="btn-cell"><button class="btn btn-p-default sz-xs">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-hover sz-xs">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-pressed sz-xs">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-p-disabled sz-xs" disabled>버튼 텍스트</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECONDARY -->
+      <div class="group">
+        <div class="group-label secondary">Secondary</div>
+        <div class="btn-preview-card">
+          <div class="btn-grid-head">
+            <span>Size</span>
+            <span><span class="state-badge state-default">Default</span></span>
+            <span><span class="state-badge state-hover">Hover</span></span>
+            <span><span class="state-badge state-pressed">Pressed</span></span>
+            <span><span class="state-badge state-disabled">Disabled</span></span>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">xlarge</span>
+            <div class="btn-cell"><button class="btn btn-s-default sz-xl">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-hover sz-xl">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-pressed sz-xl">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-disabled sz-xl" disabled>버튼 텍스트</button></div>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">large</span>
+            <div class="btn-cell"><button class="btn btn-s-default sz-lg">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-hover sz-lg">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-pressed sz-lg">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-disabled sz-lg" disabled>버튼 텍스트</button></div>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">medium</span>
+            <div class="btn-cell"><button class="btn btn-s-default sz-md">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-hover sz-md">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-pressed sz-md">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-disabled sz-md" disabled>버튼 텍스트</button></div>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">small</span>
+            <div class="btn-cell"><button class="btn btn-s-default sz-sm">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-hover sz-sm">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-pressed sz-sm">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-disabled sz-sm" disabled>버튼 텍스트</button></div>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">xsmall</span>
+            <div class="btn-cell"><button class="btn btn-s-default sz-xs">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-hover sz-xs">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-pressed sz-xs">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-s-disabled sz-xs" disabled>버튼 텍스트</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TERRITORY -->
+      <div class="group">
+        <div class="group-label territory">Territory (Ghost)</div>
+        <div class="btn-preview-card">
+          <div class="btn-grid-head">
+            <span>Size</span>
+            <span><span class="state-badge state-default">Default</span></span>
+            <span><span class="state-badge state-hover">Hover</span></span>
+            <span><span class="state-badge state-pressed">Pressed</span></span>
+            <span><span class="state-badge state-disabled">Disabled</span></span>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">xlarge</span>
+            <div class="btn-cell"><button class="btn btn-t-default sz-xl">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-hover sz-xl">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-pressed sz-xl">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-disabled sz-xl" disabled>버튼 텍스트</button></div>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">large</span>
+            <div class="btn-cell"><button class="btn btn-t-default sz-lg">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-hover sz-lg">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-pressed sz-lg">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-disabled sz-lg" disabled>버튼 텍스트</button></div>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">medium</span>
+            <div class="btn-cell"><button class="btn btn-t-default sz-md">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-hover sz-md">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-pressed sz-md">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-disabled sz-md" disabled>버튼 텍스트</button></div>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">small</span>
+            <div class="btn-cell"><button class="btn btn-t-default sz-sm">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-hover sz-sm">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-pressed sz-sm">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-disabled sz-sm" disabled>버튼 텍스트</button></div>
+          </div>
+          <div class="btn-grid-row">
+            <span class="btn-size-label">xsmall</span>
+            <div class="btn-cell"><button class="btn btn-t-default sz-xs">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-hover sz-xs">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-pressed sz-xs">버튼 텍스트</button></div>
+            <div class="btn-cell"><button class="btn btn-t-disabled sz-xs" disabled>버튼 텍스트</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ INPUT ══ -->
+    <section id="input-sec">
+      <div class="sec-head">
+        <h2><span class="sec-icon">📝</span> Input</h2>
+        <p class="sec-desc">Text Input (6 state) · Search Input (3 size) — 직접 타이핑 가능</p>
+      </div>
+
+      <!-- Input Size Spec -->
+      <div class="group">
+        <div class="group-label">Size Spec — Text Input</div>
+        <div class="spec-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Size</th>
+                <th>Height</th>
+                <th>Font Size</th>
+                <th>Padding</th>
+                <th>Radius</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="chip">large</span></td>
+                <td>56px</td>
+                <td>19px / 400</td>
+                <td>0 16px</td>
+                <td>8px</td>
+              </tr>
+              <tr>
+                <td><span class="chip">medium</span></td>
+                <td>48px</td>
+                <td>17px / 400</td>
+                <td>0 16px</td>
+                <td>8px</td>
+              </tr>
+              <tr>
+                <td><span class="chip">small</span></td>
+                <td>40px</td>
+                <td>15px / 400</td>
+                <td>0 16px</td>
+                <td>8px</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- State Spec -->
+      <div class="group">
+        <div class="group-label">State Color Spec</div>
+        <div class="spec-table">
+          <table>
+            <thead>
+              <tr>
+                <th>State</th>
+                <th>Border</th>
+                <th>Background</th>
+                <th>Text</th>
+                <th>Message</th>
+                <th>Token</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="state-badge state-default">Default</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#D1D5DB"></span>#D1D5DB</span></td>
+                <td><span class="dot-chip"><span class="color-dot"
+                      style="background:#FFFFFF;border-color:#ddd"></span>#FFFFFF</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#1E2124"></span>#1E2124</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#464C53"></span>#464C53</span></td>
+                <td><span class="chip">neutral-30</span></td>
+              </tr>
+              <tr>
+                <td><span class="state-badge state-focused">Focused</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#31ADB8"></span>#31ADB8</span></td>
+                <td><span class="dot-chip"><span class="color-dot"
+                      style="background:#FFFFFF;border-color:#ddd"></span>#FFFFFF</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#1E2124"></span>#1E2124</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#31ADB8"></span>#31ADB8</span></td>
+                <td><span class="chip">primary</span></td>
+              </tr>
+              <tr>
+                <td><span class="state-badge state-completed">Completed</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#D1D5DB"></span>#D1D5DB</span></td>
+                <td><span class="dot-chip"><span class="color-dot"
+                      style="background:#FFFFFF;border-color:#ddd"></span>#FFFFFF</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#1E2124"></span>#1E2124</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#0FB36F"></span>#0FB36F</span></td>
+                <td><span class="chip">success</span></td>
+              </tr>
+              <tr>
+                <td><span class="state-badge state-error">Error</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#D12A38"></span>#D12A38</span></td>
+                <td><span class="dot-chip"><span class="color-dot"
+                      style="background:#FFFFFF;border-color:#ddd"></span>#FFFFFF</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#1E2124"></span>#1E2124</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#D12A38"></span>#D12A38</span></td>
+                <td><span class="chip">danger</span></td>
+              </tr>
+              <tr>
+                <td><span class="state-badge state-disabled">Disabled</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#B1B8BE"></span>#B1B8BE</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#CDD1D5"></span>#CDD1D5</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#6D7882"></span>#6D7882</span></td>
+                <td>—</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><span class="state-badge state-view">View</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#B1B8BE"></span>#B1B8BE</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#CDD1D5"></span>#CDD1D5</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#464C53"></span>#464C53</span></td>
+                <td>—</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Text Input Previews -->
+      <div class="group">
+        <div class="group-label">Preview — Text Input</div>
+        <!-- Size selector -->
+        <div class="size-tabs" id="inputSizeTabs">
+          <button class="size-tab on" data-sz="sz-lg" onclick="switchSize(this)">Large 56px</button>
+          <button class="size-tab" data-sz="sz-md" onclick="switchSize(this)">Medium 48px</button>
+          <button class="size-tab" data-sz="sz-sm" onclick="switchSize(this)">Small 40px</button>
+        </div>
+
+        <div class="input-states-grid">
+
+          <!-- Default -->
+          <div class="input-card">
+            <div class="input-card-head">
+              <span class="state-badge state-default" style="margin-bottom:10px;display:inline-block">Default</span>
+              <label class="input-label">레이블</label>
+              <div class="input-hint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="#464C53" stroke-width="2" />
+                  <path d="M12 8v4m0 4h.01" stroke="#464C53" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                입력시 필요한 정보를 입력해 주세요
+              </div>
+            </div>
+            <div class="input-wrap sz-lg" id="defaultWrap">
+              <input type="text" placeholder="내용을 입력하세요" />
+            </div>
+            <div class="input-msg msg-info" style="margin-top:6px">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#464C53" stroke-width="2" />
+                <path d="M12 8v4m0 4h.01" stroke="#464C53" stroke-width="2" stroke-linecap="round" />
+              </svg>
+              클릭하면 Focused 상태로 전환됩니다
+            </div>
+            <div class="color-anno">
+              <div class="ca-item"><span class="ca-swatch" style="background:#D1D5DB"></span><span
+                  class="ca-role">Border</span><span class="ca-hex">#D1D5DB</span><span
+                  class="ca-token">neutral-30</span></div>
+              <div class="ca-item"><span class="ca-swatch"
+                  style="background:#FFFFFF;border:1px solid #E0E0E0"></span><span
+                  class="ca-role">Background</span><span class="ca-hex">#FFFFFF</span><span
+                  class="ca-token">background-primary</span></div>
+              <div class="ca-item"><span class="ca-swatch" style="background:#A5A5A5"></span><span
+                  class="ca-role">Placeholder</span><span class="ca-hex">#A5A5A5</span><span
+                  class="ca-token">text-placeholder</span></div>
+              <div class="ca-item"><span class="ca-swatch" style="background:#464C53"></span><span class="ca-role">Label
+                  / Hint</span><span class="ca-hex">#464C53</span><span class="ca-token">text-select</span></div>
+            </div>
+          </div>
+
+          <!-- Focused -->
+          <div class="input-card">
+            <div class="input-card-head">
+              <span class="state-badge state-focused" style="margin-bottom:10px;display:inline-block">Focused</span>
+              <label class="input-label">레이블</label>
+              <div class="input-hint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="#464C53" stroke-width="2" />
+                  <path d="M12 8v4m0 4h.01" stroke="#464C53" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                입력시 필요한 정보를 입력해 주세요
+              </div>
+            </div>
+            <div class="input-wrap sz-lg" id="focusedWrap">
+              <input type="text" placeholder="내용을 입력하세요" id="focusedInput" />
+            </div>
+            <div class="input-msg msg-focused">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#31ADB8" stroke-width="2" />
+                <path d="M12 8v4m0 4h.01" stroke="#31ADB8" stroke-width="2" stroke-linecap="round" />
+              </svg>
+              메시지를 입력해 주세요
+            </div>
+            <div class="color-anno">
+              <div class="ca-item"><span class="ca-swatch" style="background:#31ADB8"></span><span
+                  class="ca-role">Border</span><span class="ca-hex">#31ADB8</span><span class="ca-token">primary</span>
+              </div>
+              <div class="ca-item"><span class="ca-swatch"
+                  style="background:#FFFFFF;border:1px solid #E0E0E0"></span><span
+                  class="ca-role">Background</span><span class="ca-hex">#FFFFFF</span><span
+                  class="ca-token">background-primary</span></div>
+              <div class="ca-item"><span class="ca-swatch" style="background:#1E2124"></span><span
+                  class="ca-role">Text</span><span class="ca-hex">#1E2124</span><span
+                  class="ca-token">text-primary</span></div>
+              <div class="ca-item"><span class="ca-swatch" style="background:#31ADB8"></span><span
+                  class="ca-role">Message</span><span class="ca-hex">#31ADB8</span><span class="ca-token">primary</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Completed -->
+          <div class="input-card">
+            <div class="input-card-head">
+              <span class="state-badge state-completed" style="margin-bottom:10px;display:inline-block">Completed</span>
+              <label class="input-label">레이블</label>
+              <div class="input-hint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="#464C53" stroke-width="2" />
+                  <path d="M12 8v4m0 4h.01" stroke="#464C53" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                입력시 필요한 정보를 입력해 주세요
+              </div>
+            </div>
+            <div class="input-wrap sz-lg s-completed">
+              <input type="text" placeholder="내용을 입력하세요" value="입력된 내용입니다" />
+            </div>
+            <div class="input-msg msg-success">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#0FB36F" stroke-width="2" />
+                <path d="M9 12l2 2 4-4" stroke="#0FB36F" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              입력이 완료되었습니다
+            </div>
+            <div class="color-anno">
+              <div class="ca-item"><span class="ca-swatch" style="background:#D1D5DB"></span><span
+                  class="ca-role">Border</span><span class="ca-hex">#D1D5DB</span><span
+                  class="ca-token">neutral-30</span></div>
+              <div class="ca-item"><span class="ca-swatch"
+                  style="background:#FFFFFF;border:1px solid #E0E0E0"></span><span
+                  class="ca-role">Background</span><span class="ca-hex">#FFFFFF</span><span
+                  class="ca-token">background-primary</span></div>
+              <div class="ca-item"><span class="ca-swatch" style="background:#1E2124"></span><span
+                  class="ca-role">Text</span><span class="ca-hex">#1E2124</span><span
+                  class="ca-token">text-primary</span></div>
+              <div class="ca-item"><span class="ca-swatch" style="background:#0FB36F"></span><span
+                  class="ca-role">Message</span><span class="ca-hex">#0FB36F</span><span class="ca-token">success</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error -->
+          <div class="input-card">
+            <div class="input-card-head">
+              <span class="state-badge state-error" style="margin-bottom:10px;display:inline-block">Error</span>
+              <label class="input-label">레이블</label>
+              <div class="input-hint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="#464C53" stroke-width="2" />
+                  <path d="M12 8v4m0 4h.01" stroke="#464C53" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                입력시 필요한 정보를 입력해 주세요
+              </div>
+            </div>
+            <div class="input-wrap sz-lg s-error">
+              <input type="text" placeholder="내용을 입력하세요" value="잘못된 입력값" />
+            </div>
+            <div class="input-msg msg-error">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#D12A38" stroke-width="2" />
+                <path d="M12 8v4m0 4h.01" stroke="#D12A38" stroke-width="2" stroke-linecap="round" />
+              </svg>
+              입력 형식이 올바르지 않습니다
+            </div>
+            <div class="color-anno">
+              <div class="ca-item"><span class="ca-swatch" style="background:#D12A38"></span><span
+                  class="ca-role">Border</span><span class="ca-hex">#D12A38</span><span class="ca-token">danger</span>
+              </div>
+              <div class="ca-item"><span class="ca-swatch"
+                  style="background:#FFFFFF;border:1px solid #E0E0E0"></span><span
+                  class="ca-role">Background</span><span class="ca-hex">#FFFFFF</span><span
+                  class="ca-token">background-primary</span></div>
+              <div class="ca-item"><span class="ca-swatch" style="background:#1E2124"></span><span
+                  class="ca-role">Text</span><span class="ca-hex">#1E2124</span><span
+                  class="ca-token">text-primary</span></div>
+              <div class="ca-item"><span class="ca-swatch" style="background:#D12A38"></span><span
+                  class="ca-role">Message</span><span class="ca-hex">#D12A38</span><span class="ca-token">danger</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Disabled -->
+          <div class="input-card">
+            <div class="input-card-head">
+              <span class="state-badge state-disabled" style="margin-bottom:10px;display:inline-block">Disabled</span>
+              <label class="input-label">레이블</label>
+              <div class="input-hint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="#464C53" stroke-width="2" />
+                  <path d="M12 8v4m0 4h.01" stroke="#464C53" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                입력시 필요한 정보를 입력해 주세요
+              </div>
+            </div>
+            <div class="input-wrap sz-lg s-disabled">
+              <input type="text" placeholder="내용을 입력하세요" disabled />
+            </div>
+            <div class="color-anno">
+              <div class="ca-item"><span class="ca-swatch" style="background:#B1B8BE"></span><span
+                  class="ca-role">Border</span><span class="ca-hex">#B1B8BE</span><span class="ca-token">neutral</span>
+              </div>
+              <div class="ca-item"><span class="ca-swatch" style="background:#CDD1D5"></span><span
+                  class="ca-role">Background</span><span class="ca-hex">#CDD1D5</span><span
+                  class="ca-token">neutral</span></div>
+              <div class="ca-item"><span class="ca-swatch" style="background:#6D7882"></span><span
+                  class="ca-role">Placeholder</span><span class="ca-hex">#6D7882</span><span
+                  class="ca-token">neutral</span></div>
+            </div>
+          </div>
+
+          <!-- View -->
+          <div class="input-card">
+            <div class="input-card-head">
+              <span class="state-badge state-view" style="margin-bottom:10px;display:inline-block">View</span>
+              <label class="input-label">비밀번호</label>
+              <div class="input-hint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="#464C53" stroke-width="2" />
+                  <path d="M12 8v4m0 4h.01" stroke="#464C53" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                8자 이상 입력해 주세요
+              </div>
+            </div>
+            <div class="input-wrap sz-lg s-view">
+              <input type="password" placeholder="비밀번호를 입력하세요" value="mysecret123" id="pwInput" />
+              <button onclick="togglePw()"
+                style="background:none;border:none;cursor:pointer;padding:0;display:flex;flex-shrink:0" title="비밀번호 표시">
+                <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="#33363D" stroke-width="2" />
+                  <circle cx="12" cy="12" r="3" stroke="#33363D" stroke-width="2" />
+                </svg>
+              </button>
+            </div>
+            <div class="color-anno">
+              <div class="ca-item"><span class="ca-swatch" style="background:#B1B8BE"></span><span
+                  class="ca-role">Border</span><span class="ca-hex">#B1B8BE</span><span class="ca-token">neutral</span>
+              </div>
+              <div class="ca-item"><span class="ca-swatch"
+                  style="background:#FFFFFF;border:1px solid #E0E0E0"></span><span
+                  class="ca-role">Background</span><span class="ca-hex">#FFFFFF</span><span
+                  class="ca-token">background-primary</span></div>
+              <div class="ca-item"><span class="ca-swatch" style="background:#464C53"></span><span
+                  class="ca-role">Text</span><span class="ca-hex">#464C53</span><span
+                  class="ca-token">text-select</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Search Input -->
+      <div class="group">
+        <div class="group-label">Search Input</div>
+        <div class="spec-table" style="margin-bottom:16px">
+          <table>
+            <thead>
+              <tr>
+                <th>Size</th>
+                <th>Height</th>
+                <th>Font Size</th>
+                <th>Border</th>
+                <th>Radius</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="chip">large</span></td>
+                <td>56px</td>
+                <td>17px / 700</td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#31ADB8"></span>#31ADB8</span></td>
+                <td>8px</td>
+              </tr>
+              <tr>
+                <td><span class="chip">medium</span></td>
+                <td>48px</td>
+                <td>17px / 700</td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#31ADB8"></span>#31ADB8</span></td>
+                <td>8px</td>
+              </tr>
+              <tr>
+                <td><span class="chip">small</span></td>
+                <td>40px</td>
+                <td>15px / 700</td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#31ADB8"></span>#31ADB8</span></td>
+                <td>8px</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;max-width:400px">
+          <div>
+            <div
+              style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
+              Large (56px)</div>
+            <div class="search-wrap sz-lg">
+              <div class="search-icon" style="width:44px;height:44px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="7" stroke="#31ADB8" stroke-width="2" />
+                  <path d="M20 20l-3.5-3.5" stroke="#31ADB8" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </div>
+              <input class="search-field" type="text" placeholder="아파트를 검색해 보세요" />
+            </div>
+          </div>
+          <div>
+            <div
+              style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
+              Medium (48px)</div>
+            <div class="search-wrap sz-md">
+              <div class="search-icon" style="width:36px;height:36px">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="7" stroke="#31ADB8" stroke-width="2" />
+                  <path d="M20 20l-3.5-3.5" stroke="#31ADB8" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </div>
+              <input class="search-field" type="text" placeholder="아파트를 검색해 보세요" />
+            </div>
+          </div>
+          <div>
+            <div
+              style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
+              Small (40px)</div>
+            <div class="search-wrap sz-sm">
+              <div class="search-icon" style="width:28px;height:28px">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="7" stroke="#31ADB8" stroke-width="2" />
+                  <path d="M20 20l-3.5-3.5" stroke="#31ADB8" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </div>
+              <input class="search-field" type="text" placeholder="아파트를 검색해 보세요" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════ CHECKBOX ══ -->
+    <section id="cb-sec">
+      <div class="sec-head">
+        <h2><span class="sec-icon">☑️</span> Checkbox</h2>
+        <p class="sec-desc">3가지 사이즈 (Large 24 / Medium 20 / Small 16) · 3가지 체크 상태 · Default / Disabled</p>
+      </div>
+
+      <!-- Spec -->
+      <div class="group">
+        <div class="group-label">Size & Color Spec</div>
+        <div class="spec-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Size</th>
+                <th>Box</th>
+                <th>Font (title / desc)</th>
+                <th>Radius</th>
+                <th>Checked Fill</th>
+                <th>Border (off)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="chip">large</span></td>
+                <td>24 × 24</td>
+                <td>19px / 17px</td>
+                <td>4px</td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#31ADB8"></span>#31ADB8
+                    (primary)</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#D1D5DB"></span>#D1D5DB
+                    (neutral-30)</span></td>
+              </tr>
+              <tr>
+                <td><span class="chip">medium</span></td>
+                <td>20 × 20</td>
+                <td>17px / 15px</td>
+                <td>4px</td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#31ADB8"></span>#31ADB8
+                    (primary)</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#D1D5DB"></span>#D1D5DB
+                    (neutral-30)</span></td>
+              </tr>
+              <tr>
+                <td><span class="chip">small</span></td>
+                <td>16 × 16</td>
+                <td>16px / 14px</td>
+                <td>4px</td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#31ADB8"></span>#31ADB8
+                    (primary)</span></td>
+                <td><span class="dot-chip"><span class="color-dot" style="background:#D1D5DB"></span>#D1D5DB
+                    (neutral-30)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="group">
+        <div class="group-label">Preview — 클릭하면 상태가 변경됩니다</div>
+        <div class="cb-preview-card">
+          <div class="cb-grid-head">
+            <span>Size</span>
+            <span><span class="state-badge state-default">Default</span><br />Off</span>
+            <span><span class="state-badge state-default">Default</span><br />On</span>
+            <span><span class="state-badge state-default">Default</span><br />Indeterminate</span>
+            <span><span class="state-badge state-disabled">Disabled</span><br />Off</span>
+            <span><span class="state-badge state-disabled">Disabled</span><br />On</span>
+            <span><span class="state-badge state-disabled">Disabled</span><br />Indeterminate</span>
+          </div>
+
+          <!-- Large -->
+          <div class="cb-grid-row">
+            <span class="cb-size-label">large<br />24px</span>
+            <div class="cb-cell">
+              <label class="cb-row sz-lg" onclick="toggleCb(this)">
+                <div class="cb-box sz-lg is-off">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-lg" onclick="toggleCb(this)">
+                <div class="cb-box sz-lg is-on">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-lg" onclick="toggleCb(this)">
+                <div class="cb-box sz-lg is-indet">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-lg disabled">
+                <div class="cb-box sz-lg is-off">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-lg disabled">
+                <div class="cb-box sz-lg is-on">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-lg disabled">
+                <div class="cb-box sz-lg is-indet">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Medium -->
+          <div class="cb-grid-row">
+            <span class="cb-size-label">medium<br />20px</span>
+            <div class="cb-cell">
+              <label class="cb-row sz-md" onclick="toggleCb(this)">
+                <div class="cb-box sz-md is-off">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-md" onclick="toggleCb(this)">
+                <div class="cb-box sz-md is-on">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-md" onclick="toggleCb(this)">
+                <div class="cb-box sz-md is-indet">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-md disabled">
+                <div class="cb-box sz-md is-off">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-md disabled">
+                <div class="cb-box sz-md is-on">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-md disabled">
+                <div class="cb-box sz-md is-indet">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Small -->
+          <div class="cb-grid-row">
+            <span class="cb-size-label">small<br />16px</span>
+            <div class="cb-cell">
+              <label class="cb-row sz-sm" onclick="toggleCb(this)">
+                <div class="cb-box sz-sm is-off">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-sm" onclick="toggleCb(this)">
+                <div class="cb-box sz-sm is-on">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-sm" onclick="toggleCb(this)">
+                <div class="cb-box sz-sm is-indet">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-sm disabled">
+                <div class="cb-box sz-sm is-off">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-sm disabled">
+                <div class="cb-box sz-sm is-on">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <div class="cb-cell">
+              <label class="cb-row sz-sm disabled">
+                <div class="cb-box sz-sm is-indet">
+                  <svg class="ico-check" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <svg class="ico-dash" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 7H11" stroke-width="2.2" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /* NAV scroll highlight */
+    function goto(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }) }
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY + 80;
+      var inTop = document.getElementById('input-sec').offsetTop;
+      var cbTop = document.getElementById('cb-sec').offsetTop;
+      document.querySelectorAll('nav a')[0].classList.toggle('on', y < inTop);
+      document.querySelectorAll('nav a')[1].classList.toggle('on', y >= inTop && y < cbTop);
+      document.querySelectorAll('nav a')[2].classList.toggle('on', y >= cbTop);
+    }, { passive: true });
+
+    /* Checkbox toggle: off → on → indet → off */
+    function toggleCb(label) {
+      var box = label.querySelector('.cb-box');
+      if (!box || label.classList.contains('disabled')) return;
+      var states = ['is-off', 'is-on', 'is-indet'];
+      var cur = states.find(function (s) { return box.classList.contains(s) }) || 'is-off';
+      var next = states[(states.indexOf(cur) + 1) % 3];
+      box.classList.remove('is-off', 'is-on', 'is-indet');
+      box.classList.add(next);
+    }
+
+    /* Input size switcher */
+    var currentSz = 'sz-lg';
+    function switchSize(btn) {
+      document.querySelectorAll('.size-tab').forEach(function (t) { t.classList.remove('on') });
+      btn.classList.add('on');
+      var sz = btn.dataset.sz;
+      currentSz = sz;
+      document.querySelectorAll('.input-wrap').forEach(function (w) {
+        w.classList.remove('sz-lg', 'sz-md', 'sz-sm');
+        w.classList.add(sz);
+        var inp = w.querySelector('input');
+        if (inp) {
+          inp.style.fontSize = sz === 'sz-lg' ? '19px' : sz === 'sz-md' ? '17px' : '15px';
+        }
+      });
+    }
+
+    /* Focus/blur → is-focused on .input-wrap + .input-card (except static states) */
+    document.querySelectorAll('.input-wrap input').forEach(function (inp) {
+      var wrap = inp.closest('.input-wrap');
+      var card = inp.closest('.input-card');
+      if (!wrap) return;
+      var isStatic = wrap.classList.contains('s-completed') ||
+        wrap.classList.contains('s-error') ||
+        wrap.classList.contains('s-disabled') ||
+        wrap.classList.contains('s-view');
+      inp.addEventListener('focus', function () {
+        if (!isStatic) {
+          wrap.classList.add('is-focused');
+          if (card) card.classList.add('is-focused');
+        }
+      });
+      inp.addEventListener('blur', function () {
+        wrap.classList.remove('is-focused');
+        if (card) card.classList.remove('is-focused');
+      });
+    });
+
+    /* Focused demo card — always keep focused style */
+    var focusedWrap = document.getElementById('focusedWrap');
+    if (focusedWrap) {
+      var focusedCard = focusedWrap.closest('.input-card');
+      focusedWrap.classList.add('is-focused');
+      if (focusedCard) focusedCard.classList.add('is-focused');
+      var fi = document.getElementById('focusedInput');
+      if (fi) {
+        fi.addEventListener('blur', function () {
+          focusedWrap.classList.add('is-focused');
+          if (focusedCard) focusedCard.classList.add('is-focused');
+        });
+      }
+    }
+
+    /* Password toggle */
+    function togglePw() {
+      var inp = document.getElementById('pwInput');
+      var icon = document.getElementById('eyeIcon');
+      var isHidden = inp.type === 'password';
+      inp.type = isHidden ? 'text' : 'password';
+      icon.innerHTML = isHidden
+        ? '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19M1 1l22 22" stroke="#31ADB8" stroke-width="2" stroke-linecap="round"/>'
+        : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="#33363D" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="#33363D" stroke-width="2"/>';
+    }
+  </script>
+</body>
+
+</html>

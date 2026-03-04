@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>디자인시스템 토큰 뷰어</title>
+  <link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #31ADB8;
+      --secondary: #0D78C9;
+      --text-primary: #383838;
+      --text-secondary: #666666;
+      --text-placeholder: #A6A6A6;
+      --border: #CCCCCC;
+      --surface-input: #F4F4F5;
+      --surface-section: #F7F7FA;
+      --bg: #F0F2F5;
+      --card: #FFFFFF;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #31ADB8 0%, #0D78C9 100%);
+      color: #fff;
+      padding: 40px 48px 36px;
+    }
+    header .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+    header .badge::before {
+      content: "";
+      width: 7px; height: 7px;
+      background: #7FFFB0;
+      border-radius: 50%;
+      display: block;
+    }
+    header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+    header p  { margin-top: 8px; font-size: 13px; opacity: 0.8; line-height: 1.6; }
+    .header-stats {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .header-stats span {
+      font-size: 12px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 5px 14px;
+      border-radius: 20px;
+    }
+    .header-stats strong { font-weight: 700; }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex;
+      gap: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      overflow-x: auto;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--text-placeholder);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 16px 18px 14px;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    nav a:hover { color: var(--primary); }
+    nav a.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    /* ── MAIN ── */
+    main { max-width: 1280px; margin: 0 auto; padding: 40px 48px 80px; }
+
+    section { margin-bottom: 64px; scroll-margin-top: 56px; }
+    .section-header { margin-bottom: 24px; }
+    .section-header h2 {
+      font-size: 20px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-icon {
+      width: 30px; height: 30px;
+      background: var(--primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+    .section-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      margin-left: 40px;
+      line-height: 1.6;
+    }
+
+    /* ── GROUP LABEL ── */
+    .group-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary);
+      margin: 28px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px solid #E5F7F9;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .group-label::before {
+      content: '';
+      display: block;
+      width: 4px; height: 14px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+    .group-label.secondary::before { background: var(--secondary); }
+    .group-label.secondary { color: var(--secondary); border-color: #E3F0FB; }
+    .group-label.success::before { background: #0FB36F; }
+    .group-label.success { color: #0FB36F; border-color: #E0F9EE; }
+    .group-label.warning::before { background: #EB9834; }
+    .group-label.warning { color: #EB9834; border-color: #FEF4E8; }
+    .group-label.danger::before { background: #D12A38; }
+    .group-label.danger { color: #D12A38; border-color: #FDEEF0; }
+    .group-label.neutral::before { background: #6B7280; }
+    .group-label.neutral { color: #6B7280; border-color: #E5E7EB; }
+
+    /* ── COLOR SCALE ROW ── */
+    .color-scale {
+      display: flex;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .color-scale-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: flex 0.2s;
+      min-width: 0;
+    }
+    .color-scale-item:hover { flex: 1.5; }
+    .color-scale-swatch {
+      height: 72px;
+      position: relative;
+    }
+    .color-scale-swatch.checkered {
+      background-image:
+        linear-gradient(45deg, #ccc 25%, transparent 25%),
+        linear-gradient(-45deg, #ccc 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ccc 75%),
+        linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 10px 10px;
+      background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+    }
+    .color-scale-fill { position: absolute; inset: 0; }
+    .color-scale-info {
+      padding: 8px;
+      background: #fff;
+      border-top: 1px solid var(--border);
+    }
+    .color-scale-name {
+      font-size: 9px;
+      font-weight: 700;
+      font-family: monospace;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .color-scale-hex {
+      font-size: 10px;
+      font-family: monospace;
+      color: var(--text-placeholder);
+    }
+
+    /* ── COLOR GRID (semantic) ── */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 12px;
+    }
+    .color-card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .color-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .color-swatch {
+      height: 90px;
+      position: relative;
+    }
+    .color-swatch.checkered {
+      background-image:
+        linear-gradient(45deg, #ddd 25%, transparent 25%),
+        linear-gradient(-45deg, #ddd 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ddd 75%),
+        linear-gradient(-45deg, transparent 75%, #ddd 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+    }
+    .color-swatch-fill { position: absolute; inset: 0; }
+    .color-info { padding: 12px 14px; }
+    .color-token {
+      font-size: 11px;
+      font-weight: 700;
+      font-family: monospace;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+    .color-hex {
+      font-size: 13px;
+      font-weight: 600;
+      font-family: monospace;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .copy-btn {
+      font-size: 9px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 5px;
+      background: var(--surface-section);
+      color: var(--text-placeholder);
+      cursor: pointer;
+      font-family: monospace;
+      transition: background 0.1s;
+    }
+    .copy-btn:hover { background: var(--surface-input); }
+    .color-usage {
+      font-size: 10px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* ── TYPOGRAPHY ── */
+    .typo-section { display: flex; flex-direction: column; gap: 10px; }
+    .typo-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 200px 1fr 300px;
+      gap: 20px;
+      align-items: center;
+      transition: box-shadow 0.15s;
+    }
+    .typo-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .typo-token-name {
+      font-size: 12px;
+      font-weight: 700;
+      font-family: monospace;
+      color: var(--text-primary);
+    }
+    .typo-category {
+      font-size: 10px;
+      color: var(--text-placeholder);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .typo-preview {
+      padding: 10px 14px;
+      background: var(--surface-section);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: var(--text-primary);
+    }
+    .typo-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .spec-chip {
+      background: var(--surface-input);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-family: monospace;
+      white-space: nowrap;
+    }
+    .spec-chip strong { color: var(--text-primary); font-weight: 700; }
+
+    /* ── SPACING ── */
+    .spacing-list { display: flex; flex-direction: column; gap: 8px; }
+    .spacing-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      display: grid;
+      grid-template-columns: 160px 1fr 80px;
+      gap: 16px;
+      align-items: center;
+    }
+    .spacing-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .spacing-token {
+      font-size: 12px;
+      font-weight: 700;
+      font-family: monospace;
+      color: var(--text-primary);
+    }
+    .spacing-bar-wrap { display: flex; align-items: center; gap: 10px; }
+    .spacing-bar {
+      height: 20px;
+      background: var(--primary);
+      opacity: 0.6;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .spacing-val {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      font-family: monospace;
+      text-align: right;
+    }
+
+    /* ── SIZE/RADIUS ── */
+    .size-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+    }
+    .size-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 16px;
+      text-align: center;
+      transition: box-shadow 0.15s;
+    }
+    .size-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .size-demo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 70px;
+      margin-bottom: 12px;
+    }
+    .size-demo {
+      background: rgba(49, 173, 184, 0.12);
+      border: 2px solid var(--primary);
+    }
+    .size-token {
+      font-size: 11px;
+      font-weight: 700;
+      font-family: monospace;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .size-dims {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .size-radius {
+      font-size: 10px;
+      color: var(--text-placeholder);
+      margin-top: 2px;
+    }
+
+    /* ── CSS EXPORT ── */
+    .export-box {
+      background: #1E2030;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .export-toolbar {
+      background: #2A2D3E;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .export-toolbar span { font-size: 12px; color: #8B92A5; font-family: monospace; }
+    .copy-all-btn {
+      font-size: 11px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 5px 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .copy-all-btn:hover { opacity: 0.9; }
+    .export-code {
+      padding: 20px 24px;
+      font-family: 'Menlo', 'Consolas', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      color: #ABB2BF;
+      overflow-x: auto;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre;
+    }
+    .css-comment { color: #5C6370; }
+    .css-prop { color: #E06C75; }
+    .css-val { color: #98C379; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1E2030;
+      color: #fff;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 999;
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Figma 디자인시스템정리 · 추출됨</div>
+  <h1>디자인 토큰 뷰어</h1>
+  <p>Figma 파일에서 추출한 전체 디자인 토큰 · 컬러 / 타이포그래피 / 스페이싱 / 사이즈</p>
+  <div class="header-stats">
+    <span>🎨 <strong>Color</strong> — 68개</span>
+    <span>✏️ <strong>Typography</strong> — 13종</span>
+    <span>📐 <strong>Gap</strong> — 12개</span>
+    <span>📐 <strong>Padding</strong> — 10개</span>
+    <span>📦 <strong>Size/Radius</strong> — 14개</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#color" class="active">🎨 Color</a>
+  <a href="#typography">✏️ Typography</a>
+  <a href="#spacing">📐 Spacing</a>
+  <a href="#size">📦 Size & Radius</a>
+  <a href="#export">⬇ CSS Export</a>
+</nav>
+
+<main>
+
+  <!-- ════════════════════════════════════ COLOR ══ -->
+  <section id="color">
+    <div class="section-header">
+      <h2><span class="section-icon">🎨</span> Color Tokens</h2>
+      <p class="section-desc">Gray 스케일 · 시맨틱 · Primary · Secondary · Success · Warning · Danger</p>
+    </div>
+
+    <!-- Neutral Scale -->
+    <div class="group-label neutral">Neutral — Gray Scale</div>
+    <div class="color-scale" id="neutral-scale"></div>
+
+    <!-- Semantic -->
+    <div class="group-label neutral">Semantic Tokens</div>
+    <div class="color-grid" id="semantic-grid"></div>
+
+    <!-- Primary -->
+    <div class="group-label">Primary (Teal)</div>
+    <div class="color-scale" id="primary-scale"></div>
+
+    <!-- Secondary -->
+    <div class="group-label secondary">Secondary (Blue)</div>
+    <div class="color-scale" id="secondary-scale"></div>
+
+    <!-- Success -->
+    <div class="group-label success">Success (Green)</div>
+    <div class="color-scale" id="success-scale"></div>
+
+    <!-- Warning -->
+    <div class="group-label warning">Warning (Orange)</div>
+    <div class="color-scale" id="warning-scale"></div>
+
+    <!-- Danger -->
+    <div class="group-label danger">Danger (Red)</div>
+    <div class="color-scale" id="danger-scale"></div>
+  </section>
+
+  <!-- ════════════════════════════════ TYPOGRAPHY ══ -->
+  <section id="typography">
+    <div class="section-header">
+      <h2><span class="section-icon">✏️</span> Typography</h2>
+      <p class="section-desc">폰트: Pretendard · 줄간격: 150% 고정 · Display / Heading / Body</p>
+    </div>
+
+    <div class="group-label">Display</div>
+    <div class="typo-section" id="display-typo"></div>
+
+    <div class="group-label">Heading</div>
+    <div class="typo-section" id="heading-typo"></div>
+
+    <div class="group-label">Body — Regular (400)</div>
+    <div class="typo-section" id="body-regular-typo"></div>
+
+    <div class="group-label">Body — Bold (700)</div>
+    <div class="typo-section" id="body-bold-typo"></div>
+  </section>
+
+  <!-- ════════════════════════════════════ SPACING ══ -->
+  <section id="spacing">
+    <div class="section-header">
+      <h2><span class="section-icon">📐</span> Spacing</h2>
+      <p class="section-desc">Gap (요소 간격) · Padding (내부 여백)</p>
+    </div>
+
+    <div class="group-label">Gap — 요소 간 간격</div>
+    <div class="spacing-list" id="gap-list"></div>
+
+    <div class="group-label">Padding — 내부 여백</div>
+    <div class="spacing-list" id="padding-list"></div>
+  </section>
+
+  <!-- ════════════════════════════════════ SIZE ══ -->
+  <section id="size">
+    <div class="section-header">
+      <h2><span class="section-icon">📦</span> Size & Radius</h2>
+      <p class="section-desc">컴포넌트 크기 토큰 · 각 크기에 대응하는 Border Radius 포함</p>
+    </div>
+    <div class="size-grid" id="size-grid"></div>
+  </section>
+
+  <!-- ════════════════════════════════════ EXPORT ══ -->
+  <section id="export">
+    <div class="section-header">
+      <h2><span class="section-icon">⬇</span> CSS Variables Export</h2>
+      <p class="section-desc">프로젝트에 바로 붙여넣어 사용할 수 있는 CSS :root 변수</p>
+    </div>
+    <div class="export-box">
+      <div class="export-toolbar">
+        <span>tokens.css</span>
+        <button class="copy-all-btn" onclick="copyCSS()">전체 복사</button>
+      </div>
+      <div class="export-code" id="css-output"></div>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ──────────────────────── DATA ──────────────────────── */
+const TOKENS = {
+  neutral: [
+    { name: 'neutral-0',   hex: '#FFFFFF' },
+    { name: 'neutral-5',   hex: '#F9FAFB' },
+    { name: 'neutral-10',  hex: '#F3F4F6' },
+    { name: 'neutral-20',  hex: '#E5E7EB' },
+    { name: 'neutral-30',  hex: '#D1D5DB' },
+    { name: 'neutral-40',  hex: '#9CA3AF' },
+    { name: 'neutral-50',  hex: '#6B7280' },
+    { name: 'neutral-60',  hex: '#4B5563' },
+    { name: 'neutral-70',  hex: '#374151' },
+    { name: 'neutral-80',  hex: '#1F2937' },
+    { name: 'neutral-90',  hex: '#111827' },
+    { name: 'neutral-95',  hex: '#030712' },
+    { name: 'neutral-100', hex: '#000000' },
+  ],
+  semantic: [
+    { name: 'text-primary',      hex: '#383838', usage: '주요 텍스트' },
+    { name: 'text-secondary',    hex: '#666666', usage: '보조 텍스트' },
+    { name: 'text-placeholder',  hex: '#A6A6A6', usage: '플레이스홀더' },
+    { name: 'text-select',       hex: '#424A4A', usage: '선택된 텍스트' },
+    { name: 'border-default',    hex: '#CCCCCC', usage: '기본 테두리' },
+    { name: 'surface-input',     hex: '#F4F4F5', usage: '입력 필드 배경' },
+    { name: 'surface-section',   hex: '#F7F7FA', usage: '섹션 배경' },
+    { name: 'background-primary',hex: '#FFFFFF', usage: '페이지 배경' },
+    { name: 'overlay',           hex: '#000000', usage: '모달 오버레이' },
+  ],
+  primary: [
+    { name: 'primary-light',        hex: '#EAF7F8' },
+    { name: 'primary-light-hover',  hex: '#E0F3F4' },
+    { name: 'primary-light-active', hex: '#BFE6E9' },
+    { name: 'primary',              hex: '#31ADB8', main: true },
+    { name: 'primary-hover',        hex: '#2C9CA6' },
+    { name: 'primary-active',       hex: '#278A93' },
+    { name: 'primary-dark',         hex: '#25828A' },
+    { name: 'primary-dark-hover',   hex: '#1D686E' },
+    { name: 'primary-dark-active',  hex: '#164E53' },
+    { name: 'primary-darker',       hex: '#113D40' },
+  ],
+  secondary: [
+    { name: 'secondary-light',        hex: '#D3EAFC' },
+    { name: 'secondary-light-hover',  hex: '#C6E4FB' },
+    { name: 'secondary-light-active', hex: '#9CD1F9' },
+    { name: 'secondary',              hex: '#0D78C9', main: true },
+    { name: 'secondary-hover',        hex: '#0B6BB4' },
+    { name: 'secondary-active',       hex: '#0A5E9D' },
+    { name: 'secondary-dark',         hex: '#095793' },
+    { name: 'secondary-dark-hover',   hex: '#074371' },
+    { name: 'secondary-dark-active',  hex: '#053051' },
+    { name: 'secondary-darker',       hex: '#04233A' },
+  ],
+  success: [
+    { name: 'success-light',        hex: '#C1FAE2' },
+    { name: 'success-light-hover',  hex: '#B4F9DC' },
+    { name: 'success-light-active', hex: '#8BF6C9' },
+    { name: 'success',              hex: '#0FB36F', main: true },
+    { name: 'success-hover',        hex: '#0D9E62' },
+    { name: 'success-active',       hex: '#0B8854' },
+    { name: 'success-dark',         hex: '#0A7D4D' },
+    { name: 'success-dark-hover',   hex: '#075C39' },
+    { name: 'success-dark-active',  hex: '#053D26' },
+    { name: 'success-darker',       hex: '#032718' },
+  ],
+  warning: [
+    { name: 'warning-light',        hex: '#FEF8F1' },
+    { name: 'warning-light-hover',  hex: '#FDEEE0' },
+    { name: 'warning-light-active', hex: '#FCE4CB' },
+    { name: 'warning',              hex: '#EB9834', main: true },
+    { name: 'warning-hover',        hex: '#E98D1F' },
+    { name: 'warning-active',       hex: '#DB8116' },
+    { name: 'warning-dark',         hex: '#D07B15' },
+    { name: 'warning-dark-hover',   hex: '#B06811' },
+    { name: 'warning-dark-active',  hex: '#91560E' },
+    { name: 'warning-darker',       hex: '#7B490C' },
+  ],
+  danger: [
+    { name: 'danger-light',        hex: '#FCF2F3' },
+    { name: 'danger-light-hover',  hex: '#FBEBEC' },
+    { name: 'danger-light-active', hex: '#F4C6CA' },
+    { name: 'danger',              hex: '#D12A38', main: true },
+    { name: 'danger-hover',        hex: '#BE2633' },
+    { name: 'danger-active',       hex: '#AA222E' },
+    { name: 'danger-dark',         hex: '#A1202B' },
+    { name: 'danger-dark-hover',   hex: '#831A23' },
+    { name: 'danger-dark-active',  hex: '#66151B' },
+    { name: 'danger-darker',       hex: '#521116' },
+  ],
+};
+
+const TYPOGRAPHY = {
+  display: [
+    { name: 'Display-large',  size: 44, weight: 700, lh: 150, ls: 1 },
+    { name: 'Display-medium', size: 32, weight: 700, lh: 150, ls: 1 },
+    { name: 'Display-small',  size: 28, weight: 700, lh: 150, ls: 1 },
+  ],
+  heading: [
+    { name: 'heading-xlarge',  size: 28, weight: 700, lh: 150, ls: 1 },
+    { name: 'heading-large',   size: 24, weight: 700, lh: 150, ls: 1 },
+    { name: 'heading-medium',  size: 22, weight: 700, lh: 150, ls: 1 },
+    { name: 'heading-small',   size: 19, weight: 700, lh: 150, ls: 1 },
+    { name: 'heading-xsmall',  size: 17, weight: 700, lh: 150, ls: 1 },
+    { name: 'heading-xxsmall', size: 15, weight: 700, lh: 150, ls: 1 },
+  ],
+  bodyRegular: [
+    { name: 'body-large',  size: 19, weight: 400, lh: 150, ls: 0 },
+    { name: 'body-medium', size: 17, weight: 400, lh: 150, ls: 0 },
+    { name: 'body-small',  size: 15, weight: 400, lh: 150, ls: 0 },
+    { name: 'body-xsmall', size: 13, weight: 400, lh: 150, ls: 0 },
+  ],
+  bodyBold: [
+    { name: 'body-large',  size: 19, weight: 700, lh: 150, ls: 0 },
+    { name: 'body-medium', size: 17, weight: 700, lh: 150, ls: 0 },
+    { name: 'body-small',  size: 15, weight: 700, lh: 150, ls: 0 },
+    { name: 'body-xsmall', size: 13, weight: 700, lh: 150, ls: 0 },
+  ],
+};
+
+const GAP = [
+  { name: 'gap-1',  value: 2  },
+  { name: 'gap-2',  value: 4  },
+  { name: 'gap-3',  value: 8  },
+  { name: 'gap-4',  value: 12 },
+  { name: 'gap-5',  value: 16 },
+  { name: 'gap-6',  value: 20 },
+  { name: 'gap-7',  value: 24 },
+  { name: 'gap-8',  value: 32 },
+  { name: 'gap-9',  value: 40 },
+  { name: 'gap-10', value: 48 },
+  { name: 'gap-11', value: 64 },
+  { name: 'gap-12', value: 80 },
+];
+
+const PADDING = [
+  { name: 'padding-1',  value: 2  },
+  { name: 'padding-2',  value: 4  },
+  { name: 'padding-3',  value: 8  },
+  { name: 'padding-4',  value: 10 },
+  { name: 'padding-5',  value: 12 },
+  { name: 'padding-6',  value: 16 },
+  { name: 'padding-7',  value: 20 },
+  { name: 'padding-8',  value: 24 },
+  { name: 'padding-9',  value: 32 },
+  { name: 'padding-10', value: 40 },
+];
+
+const SIZES = [
+  { name: 'xsmall-1', w: 8,   h: 8,   radius: 2  },
+  { name: 'xsmall-2', w: 12,  h: 12,  radius: 2  },
+  { name: 'xsmall-3', w: 16,  h: 16,  radius: 2  },
+  { name: 'small-1',  w: 20,  h: 20,  radius: 4  },
+  { name: 'small-2',  w: 24,  h: 24,  radius: 4  },
+  { name: 'small-3',  w: 32,  h: 32,  radius: 4  },
+  { name: 'medium-1', w: 40,  h: 40,  radius: 6  },
+  { name: 'medium-2', w: 48,  h: 48,  radius: 6  },
+  { name: 'medium-3', w: 56,  h: 56,  radius: 8  },
+  { name: 'medium-4', w: 64,  h: 64,  radius: 8  },
+  { name: 'large-1',  w: 72,  h: 72,  radius: 10 },
+  { name: 'large-2',  w: 80,  h: 80,  radius: 10 },
+  { name: 'xlarge-1', w: 96,  h: 96,  radius: 12 },
+  { name: 'xlarge-2', w: 120, h: 120, radius: 12 },
+];
+
+/* ──────────────────────── UTILS ──────────────────────── */
+function isLight(hex) {
+  const r = parseInt(hex.slice(1,3), 16);
+  const g = parseInt(hex.slice(3,5), 16);
+  const b = parseInt(hex.slice(5,7), 16);
+  return (r * 299 + g * 587 + b * 114) / 1000 > 160;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => showToast('복사됨: ' + text));
+}
+
+/* ──────────────────────── RENDER: COLOR SCALE ──────────────────────── */
+function renderScale(containerId, items) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map(item => {
+    const light = isLight(item.hex);
+    const mainBorder = item.main ? `outline: 3px solid #000; outline-offset: -3px;` : '';
+    const labelColor = light ? '#374151' : '#fff';
+    const shortName = item.name.replace(/^(primary|secondary|success|warning|danger)-?/, '') || 'base';
+    const isWhite = item.hex === '#FFFFFF';
+    return `
+      <div class="color-scale-item" onclick="copyText('${item.hex}')" title="${item.name}: ${item.hex}">
+        <div class="color-scale-swatch${isWhite ? ' checkered' : ''}">
+          <div class="color-scale-fill" style="background:${item.hex};${mainBorder}"></div>
+          ${item.main ? `<div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;white-space:nowrap;">BASE</div>` : ''}
+        </div>
+        <div class="color-scale-info">
+          <div class="color-scale-name">${shortName || item.name}</div>
+          <div class="color-scale-hex">${item.hex}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ──────────────────────── RENDER: COLOR CARD ──────────────────────── */
+function renderSemanticGrid(containerId, items) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map(item => {
+    const isWhite = item.hex === '#FFFFFF';
+    const isBlack = item.hex === '#000000';
+    return `
+      <div class="color-card" onclick="copyText('${item.hex}')">
+        <div class="color-swatch${isWhite || isBlack ? ' checkered' : ''}">
+          <div class="color-swatch-fill" style="background:${item.hex}"></div>
+        </div>
+        <div class="color-info">
+          <div class="color-token">${item.name}</div>
+          <div class="color-hex">
+            ${item.hex}
+            <span class="copy-btn">copy</span>
+          </div>
+          ${item.usage ? `<div class="color-usage">${item.usage}</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ──────────────────────── RENDER: TYPOGRAPHY ──────────────────────── */
+function renderTypo(containerId, items, category) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map(item => {
+    const lhPx = Math.round(item.size * item.lh / 100);
+    const suffix = item.weight === 700 ? '-bold' : '-regular';
+    const tokenFull = `${item.name}${suffix}`;
+    return `
+      <div class="typo-card">
+        <div>
+          <div class="typo-category">${category}</div>
+          <div class="typo-token-name">${tokenFull}</div>
+        </div>
+        <div class="typo-preview" style="font-size:${Math.min(item.size, 32)}px;font-weight:${item.weight};line-height:${item.lh/100};">
+          가나다라마바사 Aa Bb 123
+        </div>
+        <div class="typo-specs">
+          <span class="spec-chip">size <strong>${item.size}px</strong></span>
+          <span class="spec-chip">weight <strong>${item.weight}</strong></span>
+          <span class="spec-chip">lh <strong>${item.lh}%</strong> (${lhPx}px)</span>
+          ${item.ls ? `<span class="spec-chip">ls <strong>${item.ls}px</strong></span>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ──────────────────────── RENDER: SPACING ──────────────────────── */
+function renderSpacing(containerId, items) {
+  const el = document.getElementById(containerId);
+  const maxVal = Math.max(...items.map(i => i.value));
+  el.innerHTML = items.map(item => {
+    const barWidth = Math.max(4, (item.value / maxVal) * 400);
+    return `
+      <div class="spacing-card">
+        <div class="spacing-token">${item.name}</div>
+        <div class="spacing-bar-wrap">
+          <div class="spacing-bar" style="width:${barWidth}px;"></div>
+        </div>
+        <div class="spacing-val">${item.value}px</div>
+      </div>`;
+  }).join('');
+}
+
+/* ──────────────────────── RENDER: SIZE ──────────────────────── */
+function renderSizes(containerId, items) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map(item => {
+    const scale = Math.min(1, 56 / Math.max(item.w, item.h));
+    const dw = Math.round(item.w * scale);
+    const dh = Math.round(item.h * scale);
+    const dr = Math.round(item.radius * scale);
+    return `
+      <div class="size-card">
+        <div class="size-demo-wrap">
+          <div class="size-demo" style="width:${dw}px;height:${dh}px;border-radius:${dr}px;"></div>
+        </div>
+        <div class="size-token">${item.name}</div>
+        <div class="size-dims">${item.w}×${item.h}px</div>
+        <div class="size-radius">radius: ${item.radius}px</div>
+      </div>`;
+  }).join('');
+}
+
+/* ──────────────────────── CSS EXPORT ──────────────────────── */
+function generateCSS() {
+  const lines = [];
+  lines.push(':root {');
+  lines.push('  /* ── Neutral ── */');
+  TOKENS.neutral.forEach(t => lines.push(`  --${t.name}: ${t.hex};`));
+  lines.push('');
+  lines.push('  /* ── Semantic ── */');
+  TOKENS.semantic.forEach(t => lines.push(`  --${t.name}: ${t.hex};`));
+  lines.push('');
+  ['primary','secondary','success','warning','danger'].forEach(group => {
+    lines.push(`  /* ── ${group.charAt(0).toUpperCase()+group.slice(1)} ── */`);
+    TOKENS[group].forEach(t => lines.push(`  --${t.name}: ${t.hex};`));
+    lines.push('');
+  });
+  lines.push('  /* ── Gap ── */');
+  GAP.forEach(t => lines.push(`  --${t.name}: ${t.value}px;`));
+  lines.push('');
+  lines.push('  /* ── Padding ── */');
+  PADDING.forEach(t => lines.push(`  --${t.name}: ${t.value}px;`));
+  lines.push('');
+  lines.push('  /* ── Border Radius ── */');
+  SIZES.forEach(t => lines.push(`  --radius-${t.name}: ${t.radius}px;`));
+  lines.push('}');
+  return lines.join('\n');
+}
+
+function renderCSSExport() {
+  const code = generateCSS();
+  const el = document.getElementById('css-output');
+  el.textContent = code;
+}
+
+function copyCSS() {
+  navigator.clipboard.writeText(generateCSS()).then(() => showToast('CSS 변수 전체 복사됨'));
+}
+
+/* ──────────────────────── NAV SCROLL SPY ──────────────────────── */
+function initScrollSpy() {
+  const links = document.querySelectorAll('nav a');
+  const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => {
+      if (s && window.scrollY >= s.offsetTop - 80) cur = '#' + s.id;
+    });
+    links.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === cur);
+    });
+  }, { passive: true });
+
+  links.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+}
+
+/* ──────────────────────── INIT ──────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  renderScale('neutral-scale', TOKENS.neutral);
+  renderSemanticGrid('semantic-grid', TOKENS.semantic);
+  renderScale('primary-scale', TOKENS.primary);
+  renderScale('secondary-scale', TOKENS.secondary);
+  renderScale('success-scale', TOKENS.success);
+  renderScale('warning-scale', TOKENS.warning);
+  renderScale('danger-scale', TOKENS.danger);
+
+  renderTypo('display-typo', TYPOGRAPHY.display, 'Display');
+  renderTypo('heading-typo', TYPOGRAPHY.heading, 'Heading');
+  renderTypo('body-regular-typo', TYPOGRAPHY.bodyRegular, 'Body');
+  renderTypo('body-bold-typo', TYPOGRAPHY.bodyBold, 'Body');
+
+  renderSpacing('gap-list', GAP);
+  renderSpacing('padding-list', PADDING);
+
+  renderSizes('size-grid', SIZES);
+  renderCSSExport();
+  initScrollSpy();
+});
+</script>
+</body>
+</html>

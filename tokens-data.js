@@ -33,16 +33,32 @@ const tokens = {
     { rank:12, token:"danger",             hex:"#D12A38", rgba:"rgba(209, 42, 56, 1)",     usage:"에러 메시지, 경고 텍스트",                                             figmaVar:"--colors/danger/red-700",              isChar:false },
     { rank:13, token:"overlay",            hex:"#000000", rgba:"rgba(0, 0, 0, 0.3)",       usage:"모달/팝업 배경 딤처리",                                               figmaVar:"(unnamed)",                            isChar:false, checkered:true },
   ],
+  // ── 타이포그래피 업데이트: 2026-03-03 ──────────────────────────────────────────────
+  // Figma 파일 분석 기반 재정의 (기존 9종 → 17종)
+  // 폰트: Pretendard 단일 패밀리 / 비표준 폰트(Inter, Plus Jakarta Sans, Geist, Pretendard GOV) 제거 권장
+  // 비표준 weight(w300, w800) → w400, w700 으로 통일 권장
   typography: [
-    { rank:1, token:"body-bold",       figma:"Global Tokens/body/body_1_bold",    family:"Pretendard", style:"Bold",    size:16, weight:700, lh:24,    ls:0.5,  usage:"강조 본문, 카드 제목, 모달 헤더" },
-    { rank:2, token:"subtitle-button", figma:"Global Tokens/body/subtitle_button",family:"Pretendard", style:"Bold",    size:14, weight:700, lh:"100%",ls:1.25, usage:"버튼 텍스트, CTA 레이블" },
-    { rank:3, token:"subtitle-bold",   figma:"Global Tokens/body/subtitle_bold",  family:"Pretendard", style:"Medium",  size:14, weight:500, lh:24,    ls:0,    usage:"강조 서브텍스트, 탭 레이블" },
-    { rank:4, token:"body2",           figma:"Global Tokens/body/body2",          family:"Pretendard", style:"Regular", size:14, weight:400, lh:25,    ls:2,    usage:"일반 본문, 설명 텍스트" },
-    { rank:5, token:"subtitle-0",      figma:"Global Tokens/body/subtitle_0",     family:"Pretendard", style:"Bold",    size:18, weight:700, lh:28,    ls:0,    usage:"페이지 타이틀, 모달 주요 헤딩" },
-    { rank:6, token:"subtitle-1",      figma:"Global Tokens/body/subtitle 1",     family:"Pretendard", style:"Regular", size:16, weight:400, lh:28,    ls:-2,   usage:"일반 서브타이틀, 입력 필드 텍스트" },
-    { rank:7, token:"caption-bold",    figma:"Global Tokens/body/caption_1",      family:"Pretendard", style:"Bold",    size:12, weight:700, lh:24,    ls:0.4,  usage:"강조 캡션, 레이블 태그" },
-    { rank:8, token:"caption",         figma:"Global Tokens/body/caption",        family:"Pretendard", style:"Regular", size:12, weight:400, lh:24,    ls:0.4,  usage:"일반 캡션, 날짜, 보조 정보" },
-    { rank:9, token:"caption-2",       figma:"Global Tokens/body/caption_2",      family:"Pretendard", style:"Medium",  size:10, weight:500, lh:10,    ls:0,    usage:"탭 레이블, 최소 텍스트" },
+    // ── Heading ──────────────────────────────────────────────────────────────────
+    { rank:1,  token:"heading-xl",    family:"Pretendard", style:"Bold",     size:24, weight:700, lh:"125%", lhPx:30,   ls:0,     usage:"페이지 대제목" },
+    { rank:2,  token:"heading-lg",    family:"Pretendard", style:"Bold",     size:20, weight:700, lh:"110%", lhPx:22,   ls:0,     usage:"섹션 제목" },
+    { rank:3,  token:"heading-md",    family:"Pretendard", style:"Bold",     size:18, weight:700, lh:"150%", lhPx:27,   ls:0,     usage:"카드 헤딩, 모달 제목" },
+    { rank:4,  token:"heading-sm",    family:"Pretendard", style:"Bold",     size:17, weight:700, lh:"150%", lhPx:25.5, ls:0,     usage:"소제목" },
+    // ── Body ─────────────────────────────────────────────────────────────────────
+    { rank:5,  token:"body-bold",     family:"Pretendard", style:"Bold",     size:16, weight:700, lh:"150%", lhPx:24,   ls:0.08,  usage:"강조 본문, 버튼" },
+    { rank:6,  token:"body-semi",     family:"Pretendard", style:"SemiBold", size:16, weight:600, lh:"137%", lhPx:21.9, ls:0,     usage:"준강조 본문" },
+    { rank:7,  token:"body-regular",  family:"Pretendard", style:"Regular",  size:16, weight:400, lh:"162%", lhPx:25.9, ls:-0.32, usage:"일반 본문" },
+    { rank:8,  token:"body-sm-bold",  family:"Pretendard", style:"Bold",     size:15, weight:700, lh:"150%", lhPx:22.5, ls:0,     usage:"소형 강조 본문" },
+    { rank:9,  token:"body-sm",       family:"Pretendard", style:"Regular",  size:15, weight:400, lh:"150%", lhPx:22.5, ls:0,     usage:"소형 본문" },
+    // ── Label ────────────────────────────────────────────────────────────────────
+    { rank:10, token:"label-bold",    family:"Pretendard", style:"Bold",     size:14, weight:700, lh:"150%", lhPx:21,   ls:0,     usage:"버튼 레이블, CTA" },
+    { rank:11, token:"label-medium",  family:"Pretendard", style:"Medium",   size:14, weight:500, lh:"150%", lhPx:21,   ls:0,     usage:"탭, 서브 레이블" },
+    { rank:12, token:"label-regular", family:"Pretendard", style:"Regular",  size:14, weight:400, lh:"150%", lhPx:21,   ls:0,     usage:"일반 레이블" },
+    // ── Caption ──────────────────────────────────────────────────────────────────
+    { rank:13, token:"caption-sm",    family:"Pretendard", style:"Bold",     size:13, weight:700, lh:"150%", lhPx:19.5, ls:0,     usage:"강조 캡션" },
+    { rank:14, token:"caption-bold",  family:"Pretendard", style:"Bold",     size:12, weight:700, lh:"167%", lhPx:20,   ls:0.05,  usage:"태그, 배지" },
+    { rank:15, token:"caption",       family:"Pretendard", style:"Regular",  size:12, weight:400, lh:"167%", lhPx:20,   ls:0.05,  usage:"날짜, 보조 정보" },
+    { rank:16, token:"caption-xs",    family:"Pretendard", style:"Medium",   size:11, weight:500, lh:"163%", lhPx:17.9, ls:0,     usage:"탭 최소 레이블" },
+    { rank:17, token:"caption-xxs",   family:"Pretendard", style:"Regular",  size:10, weight:400, lh:"100%", lhPx:10,   ls:0,     usage:"최소 텍스트" },
   ],
   radius: [
     { token:"radius-sm", figma:"--rounded-md", value:"6px",  usage:"기본 버튼, 소형 카드" },

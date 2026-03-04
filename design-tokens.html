@@ -558,6 +558,81 @@
     .neutral-figma { font-size: 10px; color: var(--placeholder); }
     .figma-chip    { display: inline-block; background: var(--surface-input); border-radius: 4px; padding: 1px 6px; font-family: monospace; margin: 2px 2px 0 0; font-size: 10px; }
 
+    /* ── BLUE ANALYSIS ── */
+    .blue-strip {
+      display: flex; border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--border); margin-bottom: 28px; height: 64px;
+    }
+    .blue-strip-chip {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 3px;
+      cursor: pointer; transition: flex 0.2s;
+      border-right: 1px solid rgba(255,255,255,0.15);
+      position: relative;
+    }
+    .blue-strip-chip:last-child { border-right: none; }
+    .blue-strip-chip:hover { flex: 2.5; }
+    .blue-strip-count {
+      font-size: 9px; font-weight: 700; opacity: 0.9;
+      background: rgba(0,0,0,0.28); padding: 1px 5px;
+      border-radius: 6px; font-family: monospace;
+    }
+    .blue-strip-hex { font-size: 8px; font-family: monospace; opacity: 0; transition: opacity 0.15s; }
+    .blue-strip-chip:hover .blue-strip-hex { opacity: 1; }
+
+    .blue-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); overflow: hidden;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .blue-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .blue-swatch { height: 96px; position: relative; }
+    .blue-swatch-inner { position: absolute; inset: 0; }
+    .blue-count-badge {
+      position: absolute; top: 8px; left: 8px;
+      background: rgba(0,0,0,0.35); color: #fff;
+      font-size: 10px; font-weight: 700; padding: 2px 8px;
+      border-radius: 10px; backdrop-filter: blur(4px);
+    }
+    .blue-status-badge {
+      position: absolute; top: 8px; right: 8px;
+      font-size: 9px; font-weight: 700; padding: 3px 8px;
+      border-radius: 10px; backdrop-filter: blur(4px);
+    }
+    .status-ok     { background: rgba(34,135,56,0.85);  color: #fff; }
+    .status-warn   { background: rgba(255,180,0,0.9);   color: #5a3a00; }
+    .status-missing{ background: rgba(209,42,56,0.85);  color: #fff; }
+    .status-oneoff { background: rgba(100,100,100,0.7); color: #fff; }
+
+    .blue-info { padding: 14px 16px; }
+    .blue-token { font-size: 12px; font-weight: 700; color: var(--text-primary); font-family: monospace; margin-bottom: 4px; }
+    .blue-hex   { font-size: 13px; font-weight: 600; color: var(--primary); font-family: monospace; display: flex; align-items: center; gap: 6px; cursor: pointer; margin-bottom: 4px; }
+    .blue-meta  { font-size: 10px; color: var(--placeholder); font-family: monospace; margin-bottom: 6px; }
+    .blue-usage { font-size: 11px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 6px; }
+    .blue-suggest {
+      font-size: 10px; font-family: monospace;
+      background: rgba(49,173,184,0.1); color: var(--primary);
+      border: 1px solid rgba(49,173,184,0.25);
+      border-radius: 4px; padding: 3px 8px; display: inline-block;
+    }
+    .blue-issue-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); overflow: hidden; margin-top: 32px;
+    }
+    .blue-issue-header {
+      background: var(--surface-section); padding: 12px 20px;
+      font-size: 12px; font-weight: 700; color: var(--text-secondary);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border);
+    }
+    .blue-issue-row {
+      display: grid; grid-template-columns: 40px 120px 1fr 1fr;
+      gap: 12px; padding: 12px 20px; align-items: center;
+      border-bottom: 1px solid var(--surface-input); font-size: 12px;
+    }
+    .blue-issue-row:last-child { border-bottom: none; }
+    .blue-issue-row:hover { background: var(--surface-section); }
+
     /* ── TOAST ── */
     #toast {
       position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
@@ -607,6 +682,7 @@
     <a href="#neutral-scale">뉴트럴 스케일</a>
     <a href="#primary-scale">Primary 스케일</a>
     <a href="#red-scale">레드 스케일</a>
+    <a href="#blue-analysis">파란색 분석</a>
   </div>
   <a href="#typography">타이포그래피</a>
   <a href="#stroke">스트로크</a>
@@ -649,6 +725,20 @@
     <h2><span class="icon">🎨</span> Primary 컬러 스케일</h2>
     <p class="desc">Figma Colors 페이지(2927:18645) 기준 — Blue/Normal (#31ADB8) 중심의 10단계 상태 스케일.</p>
     <div class="color-grid" id="primaryScaleGrid"></div>
+  </section>
+
+  <!-- ── BLUE ANALYSIS ── -->
+  <section id="blue-analysis">
+    <h2><span class="icon">🔵</span> 파란색 계열 분석</h2>
+    <p class="desc">
+      Foundations_User 페이지(node: 191-15896) Figma API 전수 분석 결과 · 채도 50% 이상 파란색 계열만 추출 (H 180–265°)
+    </p>
+    <div class="blue-strip" id="blueStrip"></div>
+    <div class="color-grid" id="blueGrid"></div>
+    <div class="blue-issue-box">
+      <div class="blue-issue-header">⚠️ 이슈 목록 — 토큰 정비 필요 항목</div>
+      <div id="blueIssueList"></div>
+    </div>
   </section>
 
   <!-- ── TYPOGRAPHY ── -->
@@ -1026,6 +1116,138 @@ RED_USED.forEach(b => {
       <div class="color-usage">${b.usage}</div>
     </div>`;
   redUsedGrid.appendChild(card);
+});
+
+// ── BLUE ANALYSIS
+const BLUE_COLORS = [
+  {
+    hex: '#0B78CB', total: 73, fill: 73, stroke: 0, text: 0,
+    hsl: 'H206 S95% V80%',
+    status: 'missing',    // ❌ 토큰 없음
+    token: '(unnamed)',
+    suggest: 'blue-info',
+    usage: '정보성 배경·버튼 요소 (Rectangle fill)',
+    context: ['Rectangle 414'],
+    issue: '73회 사용되지만 토큰 미등록 → blue-info 추가 권장',
+  },
+  {
+    hex: '#31ACB8', total: 48, fill: 31, stroke: 0, text: 17,
+    hsl: 'H185 S73% V72%',
+    status: 'warn',       // ⚠️ 오타 (primary와 1비트 차이)
+    token: 'primary (오차)',
+    suggest: '#31ADB8 으로 통일',
+    usage: 'Primary와 동일 목적 · fill + 텍스트 · 버튼/링크',
+    context: ['Button/Primary/large', 'Sign Up Link', '010****1574'],
+    issue: 'G값 172 vs 173 · #31ADB8과 1비트 오차 → 파일 내 교체 필요',
+  },
+  {
+    hex: '#31ADB8', total: 6, fill: 5, stroke: 1, text: 0,
+    hsl: 'H185 S73% V72%',
+    status: 'ok',         // ✅ 토큰 있음
+    token: 'primary',
+    suggest: null,
+    usage: 'Primary fill + 선택 상태 stroke',
+    context: ['checkbox__item', 'Frame 3'],
+    issue: null,
+  },
+  {
+    hex: '#256EF4', total: 4, fill: 2, stroke: 2, text: 0,
+    hsl: 'H219 S85% V96%',
+    status: 'missing',    // ❌ 토큰 없음
+    token: '(unnamed)',
+    suggest: 'blue-active',
+    usage: '라디오버튼·체크박스 선택 상태',
+    context: ['radio_button__item', 'Rectangle 88'],
+    issue: '인터랙션 선택 색상 미등록 → blue-active 추가 권장',
+  },
+  {
+    hex: '#3376FD', total: 2, fill: 2, stroke: 0, text: 0,
+    hsl: 'H220 S80% V99%',
+    status: 'oneoff',     // 일회성
+    token: '(unnamed)',
+    suggest: '토큰화 제외',
+    usage: '이미지 추가 프레임 배경 (일회성)',
+    context: ['이미지 추가 프레임'],
+    issue: '2회만 사용 · 일회성으로 판단 · 토큰화 불필요',
+  },
+  {
+    hex: '#185DE8', total: 1, fill: 0, stroke: 1, text: 0,
+    hsl: 'H220 S90% V91%',
+    status: 'ok',         // ✅ 토큰 있음
+    token: 'stroke-blue',
+    suggest: null,
+    usage: '블루 액센트 stroke',
+    context: ['Frame 2'],
+    issue: null,
+  },
+];
+
+const BLUE_STATUS_CONFIG = {
+  ok:      { cls: 'status-ok',      label: '✅ 토큰 있음' },
+  warn:    { cls: 'status-warn',    label: '⚠️ 오타 수정' },
+  missing: { cls: 'status-missing', label: '❌ 토큰 없음' },
+  oneoff:  { cls: 'status-oneoff',  label: '— 일회성' },
+};
+
+// 스트립
+const blueStrip = document.getElementById('blueStrip');
+BLUE_COLORS.forEach(c => {
+  const chip = document.createElement('div');
+  chip.className = 'blue-strip-chip';
+  chip.style.background = c.hex;
+  chip.style.flexGrow = Math.max(1, Math.round(c.total / 10));
+  chip.innerHTML = `
+    <span class="blue-strip-count" style="color:#fff;">${c.total}회</span>
+    <span class="blue-strip-hex" style="color:#fff;">${c.hex}</span>`;
+  chip.title = `${c.hex} · ${c.total}회`;
+  chip.onclick = () => copyText(c.hex);
+  blueStrip.appendChild(chip);
+});
+
+// 카드
+const blueGrid = document.getElementById('blueGrid');
+BLUE_COLORS.forEach(c => {
+  const st = BLUE_STATUS_CONFIG[c.status];
+  const metaParts = [];
+  if (c.fill)   metaParts.push(`fill ${c.fill}회`);
+  if (c.stroke) metaParts.push(`stroke ${c.stroke}회`);
+  if (c.text)   metaParts.push(`text ${c.text}회`);
+  const contextHtml = c.context.map(x => `<span class="border-page-chip">${x}</span>`).join('');
+  const suggestHtml = c.suggest
+    ? `<div style="margin-top:8px;"><span class="blue-suggest">${c.suggest}</span></div>`
+    : '';
+  const card = document.createElement('div');
+  card.className = 'blue-card';
+  card.innerHTML = `
+    <div class="blue-swatch">
+      <div class="blue-swatch-inner" style="background:${c.hex}"></div>
+      <span class="blue-count-badge">${c.total}회</span>
+      <span class="blue-status-badge ${st.cls}">${st.label}</span>
+    </div>
+    <div class="blue-info">
+      <div class="blue-hex" onclick="copyText('${c.hex}')">${c.hex} <span class="copy-btn">복사</span></div>
+      <div class="blue-meta">${c.hsl} · ${metaParts.join(' · ')}</div>
+      <div class="blue-token">${c.token}</div>
+      <div class="blue-usage">${c.usage}</div>
+      <div class="border-pages" style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">${contextHtml}</div>
+      ${suggestHtml}
+    </div>`;
+  blueGrid.appendChild(card);
+});
+
+// 이슈 목록
+const blueIssueList = document.getElementById('blueIssueList');
+const issues = BLUE_COLORS.filter(c => c.issue);
+issues.forEach((c, i) => {
+  const st = BLUE_STATUS_CONFIG[c.status];
+  const row = document.createElement('div');
+  row.className = 'blue-issue-row';
+  row.innerHTML = `
+    <div><span style="display:inline-block;width:28px;height:28px;background:${c.hex};border-radius:6px;border:1px solid rgba(0,0,0,0.08);"></span></div>
+    <div style="font-family:monospace;font-weight:700;font-size:12px;cursor:pointer;" onclick="copyText('${c.hex}')">${c.hex}</div>
+    <div><span class="blue-status-badge ${st.cls}" style="position:static;">${st.label}</span>&nbsp;&nbsp;<span style="color:var(--text-secondary);">${c.issue}</span></div>
+    <div>${c.suggest ? `<span class="blue-suggest">${c.suggest}</span>` : '—'}</div>`;
+  blueIssueList.appendChild(row);
 });
 
 // ── NEUTRAL SCALE
