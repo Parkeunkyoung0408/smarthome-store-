@@ -199,6 +199,35 @@
     #tokens-nav a:hover { color: var(--primary); }
     #tokens-nav a.active { color: var(--primary); border-bottom-color: var(--primary); }
 
+    /* ====== LOGO PANEL CSS ====== */
+    #panel-logo main { max-width: 960px; margin: 0 auto; padding: 40px 48px 80px; }
+    #panel-logo .logo-section-title { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    #panel-logo .logo-section-icon { width: 30px; height: 30px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    #panel-logo .logo-section-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.6; }
+    #panel-logo .logo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    #panel-logo .logo-preview-card { border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+    #panel-logo .logo-preview-stage { height: 120px; display: flex; align-items: center; justify-content: center; }
+    #panel-logo .logo-preview-stage img { max-width: 70%; max-height: 60px; object-fit: contain; }
+    #panel-logo .logo-preview-label { padding: 12px 16px; background: #fff; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-secondary); font-weight: 600; }
+    #panel-logo .bg-white { background: #ffffff; }
+    #panel-logo .bg-gray { background: #F0F2F5; }
+    #panel-logo .bg-dark { background: #1F2937; }
+    #panel-logo .bg-primary { background: var(--primary); }
+    #panel-logo .logo-preview-stage.bg-dark .logo-preview-label,
+    #panel-logo .logo-preview-stage.bg-primary .logo-preview-label { display: none; }
+    #panel-logo .logo-dl-section { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 28px 32px; }
+    #panel-logo .logo-dl-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    #panel-logo .logo-dl-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.5; }
+    #panel-logo .logo-dl-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    #panel-logo .logo-dl-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; cursor: pointer; border: none; transition: opacity 0.15s; }
+    #panel-logo .logo-dl-btn:hover { opacity: 0.85; }
+    #panel-logo .logo-dl-btn-png { background: var(--primary); color: #fff; }
+    #panel-logo .logo-dl-btn-svg { background: #1F2937; color: #fff; }
+    #panel-logo .logo-spec-table { width: 100%; border-collapse: collapse; margin-top: 28px; }
+    #panel-logo .logo-spec-table th { text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); padding: 8px 12px; border-bottom: 2px solid var(--border); }
+    #panel-logo .logo-spec-table td { font-size: 13px; color: var(--text-primary); padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    #panel-logo .logo-spec-table tr:last-child td { border-bottom: none; }
+    #panel-logo .logo-spec-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; font-family: monospace; background: var(--surface-input); color: var(--text-primary); }
 
     /* ====== COMPONENTS CSS ====== */
 
@@ -1357,6 +1386,7 @@
   <button class="tab-btn" data-tab="tokens" onclick="switchTab('tokens')">🎨 토큰 뷰어;</button>
   <button class="tab-btn" data-tab="components" onclick="switchTab('components')">🧩 컴포넌트 뷰어;</button>
   <button class="tab-btn" data-tab="icons" onclick="switchTab('icons')">🔣 아이콘 뷰어;</button>
+  <button class="tab-btn" data-tab="logo" onclick="switchTab('logo')">🏷️ 로고</button>
 </div>
 
 <!-- ====== PANEL: TOKENS ====== -->
@@ -2685,6 +2715,96 @@
 </main>
 
 <div class="toast" id="icons-toast"></div>
+</div>
+
+<!-- ====== PANEL: LOGO ====== -->
+<div id="panel-logo" class="tab-panel">
+<main>
+  <div class="logo-section-title">
+    <span class="logo-section-icon">🏷️</span>
+    로고 에셋
+  </div>
+  <p class="logo-section-desc">스마트홈스토어 공식 로고입니다. 아래 미리보기 및 다운로드 버튼을 통해 에셋을 사용하세요.</p>
+
+  <!-- 배경별 미리보기 -->
+  <div class="logo-grid">
+    <div class="logo-preview-card">
+      <div class="logo-preview-stage bg-white">
+        <img src="logo.png" alt="스마트홈스토어 로고 — 흰 배경" />
+      </div>
+      <div class="logo-preview-label">🤍 White Background</div>
+    </div>
+    <div class="logo-preview-card">
+      <div class="logo-preview-stage bg-gray">
+        <img src="logo.png" alt="스마트홈스토어 로고 — 회색 배경" />
+      </div>
+      <div class="logo-preview-label">🩶 Gray Background (#F0F2F5)</div>
+    </div>
+    <div class="logo-preview-card">
+      <div class="logo-preview-stage bg-dark" style="height:120px;display:flex;align-items:center;justify-content:center;">
+        <img src="logo.png" alt="스마트홈스토어 로고 — 다크 배경" style="filter:invert(1) brightness(2);" />
+      </div>
+      <div class="logo-preview-label" style="background:#1F2937;color:#9CA3AF;border-top-color:#374151;">🖤 Dark Background (#1F2937)</div>
+    </div>
+    <div class="logo-preview-card">
+      <div class="logo-preview-stage bg-primary" style="height:120px;display:flex;align-items:center;justify-content:center;">
+        <img src="logo.png" alt="스마트홈스토어 로고 — 프라이머리 배경" style="filter:brightness(0) invert(1);" />
+      </div>
+      <div class="logo-preview-label" style="background:#31ADB8;color:#fff;border-top-color:rgba(255,255,255,0.25);">🩵 Primary Background (#31ADB8)</div>
+    </div>
+  </div>
+
+  <!-- 다운로드 -->
+  <div class="logo-dl-section">
+    <div class="logo-dl-title">다운로드</div>
+    <div class="logo-dl-desc">
+      로고 원본 파일을 다운로드하세요. 배경색에 따라 적절한 버전을 사용해주세요.
+    </div>
+    <div class="logo-dl-row">
+      <a class="logo-dl-btn logo-dl-btn-png"
+         href="data:image/png;base64,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"
+         download="smarthomestore-logo.png">
+        ⬇ PNG 다운로드
+      </a>
+    </div>
+
+    <!-- 스펙 테이블 -->
+    <table class="logo-spec-table">
+      <thead>
+        <tr>
+          <th>속성</th>
+          <th>값</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>파일명</td>
+          <td><span class="logo-spec-badge">smarthomestore-logo.png</span></td>
+        </tr>
+        <tr>
+          <td>크기 (원본)</td>
+          <td><span class="logo-spec-badge">181 × 25 px</span></td>
+        </tr>
+        <tr>
+          <td>포맷</td>
+          <td><span class="logo-spec-badge">PNG (투명 배경)</span></td>
+        </tr>
+        <tr>
+          <td>권장 사용 배경</td>
+          <td>흰 배경, 회색 배경 (#F0F2F5)</td>
+        </tr>
+        <tr>
+          <td>다크/Primary 배경 사용 시</td>
+          <td>CSS <span class="logo-spec-badge">filter: brightness(0) invert(1)</span> 적용</td>
+        </tr>
+        <tr>
+          <td>최소 표시 너비</td>
+          <td><span class="logo-spec-badge">100 px</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
 </div>
 
 <script>
