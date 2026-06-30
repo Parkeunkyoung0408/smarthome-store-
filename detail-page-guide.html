@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>상품 상세페이지 통합 표준 가이드</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: #F5F5F5;
+      color: #1A1A1A;
+      padding: 56px 24px 80px;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; gap: 60px; }
+
+    /* ── Header ── */
+    .pg-header { padding-bottom: 28px; border-bottom: 4px solid #60B404; display: flex; flex-direction: column; gap: 8px; }
+    .pg-header h1 { font-size: 26px; font-weight: 800; }
+    .pg-header .sub { font-size: 15px; color: #666; line-height: 1.6; }
+    .pg-header .url { display: inline-block; margin-top: 6px; background: #28292D; color: #60B404; font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 4px; }
+
+    /* ── Chapter heading ── */
+    .ch { display: flex; align-items: center; gap: 12px; }
+    .ch-num { background: #60B404; color: #fff; font-size: 13px; font-weight: 800; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ch h2 { font-size: 20px; font-weight: 800; }
+
+    /* ── Card ── */
+    .card { background: #fff; border-radius: 12px; border: 1px solid #E4E4E4; overflow: hidden; }
+    .card-head { padding: 14px 22px; background: #FAFAFA; border-bottom: 1px solid #E4E4E4; font-size: 14px; font-weight: 700; color: #383838; }
+    .card-body { padding: 22px; }
+
+    /* ── Table ── */
+    .tbl { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .tbl th { background: #F5F5F5; border: 1px solid #E4E4E4; padding: 10px 14px; text-align: left; font-weight: 700; color: #555; }
+    .tbl td { border: 1px solid #E4E4E4; padding: 10px 14px; line-height: 1.65; vertical-align: top; }
+    .tbl tr:nth-child(even) td { background: #FAFAFA; }
+
+    /* ── Section list with thumbnails ── */
+    .sec-list { display: flex; flex-direction: column; gap: 10px; }
+    .sec-item {
+      display: flex; align-items: stretch;
+      border-radius: 10px; overflow: hidden;
+      border: 1px solid #E4E4E4;
+    }
+    .sec-num {
+      width: 40px; flex-shrink: 0;
+      background: #28292D; color: #60B404;
+      font-size: 13px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sec-thumb {
+      width: 160px; flex-shrink: 0;
+      overflow: hidden;
+      border-right: 1px solid #E4E4E4;
+    }
+    .sec-info { flex: 1; padding: 14px 18px; display: flex; flex-direction: column; gap: 5px; }
+    .sec-name { font-size: 15px; font-weight: 700; }
+    .sec-desc { font-size: 13px; color: #666; line-height: 1.65; }
+
+    /* ── Thumbnail styles (mini mockups) ── */
+    .th { width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* SEC 1 hero */
+    .th-hero { background: #D8DBD9; align-items: center; justify-content: space-between; padding: 10px 8px; }
+    .th-hero-top { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .th-hero-mid { flex: 1; }
+    .th-hero-bot { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+
+    /* SEC 2 products */
+    .th-products { background: #fff; padding: 8px; gap: 5px; display: flex; flex-direction: column; }
+    .th-products-header { height: 16px; background: #F0F0F0; border-radius: 2px; }
+    .th-products-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; flex: 1; }
+    .th-card { background: #F4F4F4; border-radius: 3px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 4px; }
+    .th-card-img { width: 22px; height: 22px; background: #D8D8D8; border-radius: 2px; }
+    .th-card-txt { width: 80%; height: 4px; background: #E0E0E0; border-radius: 2px; }
+    .th-card-txt.sm { width: 60%; height: 3px; background: #EBEBEB; }
+
+    /* SEC 3 benefit */
+    .th-benefit { background: #fff; padding: 8px; gap: 5px; display: flex; flex-direction: column; }
+    .th-benefit-item { position: relative; }
+    .th-benefit-badge { width: 16px; height: 16px; background: #60B404; border-radius: 50%; position: absolute; top: 0; left: 2px; z-index: 1; }
+    .th-benefit-img { background: #E8EAE8; height: 28px; border-radius: 2px; margin-top: 8px; }
+    .th-benefit-body { background: #F4F4F4; height: 18px; border-radius: 0 0 2px 2px; padding: 4px 6px; display: flex; flex-direction: column; gap: 2px; }
+    .th-benefit-line { background: #D8D8D8; height: 3px; border-radius: 1px; }
+    .th-benefit-line.w70 { width: 70%; }
+    .th-benefit-line.w50 { width: 50%; }
+
+    /* SEC 4 usage */
+    .th-usage { background: #28292D; padding: 8px; gap: 5px; display: flex; flex-direction: column; }
+    .th-usage-header { display: flex; flex-direction: column; gap: 2px; align-items: center; }
+    .th-usage-line { height: 4px; border-radius: 2px; background: #60B404; }
+    .th-usage-line.title { background: #fff; opacity: 0.7; }
+    .th-usage-img { background: #3A3C40; height: 28px; border-radius: 2px; }
+    .th-usage-steps { display: flex; flex-direction: column; gap: 4px; }
+    .th-step { display: flex; align-items: center; gap: 3px; }
+    .th-step-num { width: 14px; height: 4px; background: #EB9834; border-radius: 1px; flex-shrink: 0; }
+    .th-step-txt { flex: 1; height: 4px; background: rgba(255,255,255,0.19); border-radius: 1px; }
+
+    /* SEC 5 detail */
+    .th-detail { background: #fff; padding: 8px; gap: 5px; display: flex; flex-direction: column; }
+    .th-diagram { background: #F4F4F4; height: 42px; border-radius: 3px; position: relative; display: flex; align-items: center; justify-content: center; }
+    .th-diagram-img { width: 28px; height: 30px; background: #D8D8D8; border-radius: 2px; }
+    .th-diagram-line { position: absolute; width: 1px; height: 10px; background: #EB9834; border: none; }
+    .th-spec-rows { display: flex; flex-direction: column; gap: 2px; }
+    .th-spec-row { display: flex; gap: 2px; height: 5px; }
+    .th-spec-lbl { width: 30%; background: #F0F0F0; border-radius: 1px; }
+    .th-spec-val { flex: 1; background: #E8E8E8; border-radius: 1px; }
+
+    /* SEC 6 pre-install */
+    .th-preinstall { background: #fff; padding: 8px; gap: 5px; display: flex; flex-direction: column; }
+    .th-logo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+    .th-logo-cell { background: #F5F5F5; border: 1px solid #E8E8E8; height: 12px; border-radius: 1px; }
+    .th-switch-img { background: #EAEAEA; height: 24px; border-radius: 2px; margin-top: 2px; }
+
+    /* SEC 7 notice */
+    .th-notice { background: #28292D; padding: 8px; gap: 6px; display: flex; flex-direction: column; }
+    .th-notice-card { background: #484A4E; border-radius: 3px; padding: 5px 6px; display: flex; flex-direction: column; gap: 3px; }
+    .th-notice-line { height: 3px; background: rgba(255,255,255,0.145); border-radius: 1px; }
+    .th-notice-line.w80 { width: 80%; }
+    .th-notice-line.w60 { width: 60%; }
+
+    /* SEC 8 faq */
+    .th-faq { background: #28292D; padding: 8px; gap: 4px; display: flex; flex-direction: column; }
+    .th-faq-item { display: flex; flex-direction: column; gap: 1px; }
+    .th-faq-q { background: #3F4145; border-radius: 2px 2px 0 0; height: 8px; padding: 0 4px; display: flex; align-items: center; }
+    .th-faq-q-line { height: 3px; width: 70%; background: rgba(255,255,255,0.314); border-radius: 1px; }
+    .th-faq-a { background: #484A4E; border-radius: 0 0 2px 2px; height: 14px; padding: 3px 4px; display: flex; flex-direction: column; gap: 2px; }
+    .th-faq-a-line { height: 2px; background: rgba(255,255,255,0.145); border-radius: 1px; }
+    .th-faq-a-line.w60 { width: 60%; }
+
+    /* SEC 9 shipping */
+    .th-ship { background: #28292D; padding: 8px; }
+    .th-ship-card { background: #484A4E; border-radius: 3px; padding: 6px; display: flex; flex-direction: column; gap: 5px; height: 100%; }
+    .th-ship-sub { height: 4px; width: 40%; background: #60B404; border-radius: 1px; }
+    .th-ship-lines { display: flex; flex-direction: column; gap: 2px; }
+    .th-ship-line { height: 2px; background: rgba(255,255,255,0.145); border-radius: 1px; }
+    .th-ship-line.w70 { width: 70%; }
+    .th-ship-line.w50 { width: 50%; }
+
+    /* ── Font hierarchy ── */
+    .typo-list { display: flex; flex-direction: column; }
+    .typo-row {
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px 0; border-bottom: 1px solid #F0F0F0;
+    }
+    .typo-row:last-child { border-bottom: none; }
+    .typo-rank-wrap { width: 32px; flex-shrink: 0; display: flex; justify-content: center; }
+    .typo-rank-dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #F0F0F0; color: #888;
+      font-size: 11px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .typo-rank-dot.accent { background: #60B404; color: #fff; }
+    .typo-sample { flex: 1; overflow: hidden; min-width: 0; }
+    .typo-desc { width: 230px; flex-shrink: 0; display: flex; flex-direction: column; gap: 3px; }
+    .typo-desc .name { font-size: 13px; font-weight: 700; color: #383838; }
+    .typo-desc .where { font-size: 12px; color: #60B404; font-weight: 600; }
+    .typo-desc .note { font-size: 12px; color: #999; }
+    .typo-desc .size { font-size: 13px; font-weight: 800; color: #fff; background: #28292D; border-radius: 4px; padding: 2px 8px; letter-spacing: 0.03em; display: inline-block; }
+
+    /* ── Hero guide ── */
+    .hero-mock { background: #D8DBD9; border-radius: 10px; overflow: hidden; border: 2px solid #C4C7C5; }
+    .hero-mock-bar { background: rgba(0,0,0,0.3); color: #fff; font-size: 12px; font-weight: 700; padding: 7px 14px; letter-spacing: 0.03em; }
+    .hero-zone { padding: 22px 32px; display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; }
+    .hero-zone.top { border-bottom: 2px dashed rgba(96,180,4,0.35); }
+    .hero-zone-badge { position: absolute; top: 8px; right: 12px; background: #60B404; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+    .hero-gap { background: repeating-linear-gradient(-45deg,rgba(235,152,52,.1) 0,rgba(235,152,52,.1) 5px,transparent 5px,transparent 10px); border-top: 2px dashed rgba(235,152,52,0.45); border-bottom: 2px dashed rgba(235,152,52,0.45); padding: 20px; text-align: center; font-size: 12px; font-weight: 700; color: #A05A00; }
+    .hero-pad { background: repeating-linear-gradient(45deg,rgba(96,180,4,.07) 0,rgba(96,180,4,.07) 5px,transparent 5px,transparent 10px); padding: 13px; text-align: center; font-size: 12px; font-weight: 700; color: #3A7A00; }
+    .hero-pad.top { border-bottom: 1.5px dashed #60B404; }
+    .hero-pad.bot { border-top: 1.5px dashed #60B404; }
+    .tag-pill { display: inline-block; background: #60B404; color: #fff; font-size: 13px; font-weight: 700; padding: 5px 14px; border-radius: 20px; margin: 2px; }
+
+    /* ── Image need card ── */
+    .img-need { display: flex; align-items: flex-start; gap: 16px; background: #F9F9F9; border: 1.5px solid #E4E4E4; border-left: 4px solid #60B404; border-radius: 8px; padding: 16px 20px; }
+    .img-need-icon { font-size: 32px; flex-shrink: 0; margin-top: 2px; }
+    .img-need-info { display: flex; flex-direction: column; gap: 5px; }
+    .img-need-info .title { font-size: 15px; font-weight: 700; }
+    .img-need-info .desc { font-size: 13px; color: #555; line-height: 1.7; }
+
+    /* ── Callout ── */
+    .callout-green { background: #EEF7E6; border: 1px solid #B8DFA0; border-radius: 8px; padding: 14px 18px; font-size: 14px; color: #2A5A00; line-height: 1.7; }
+    .callout-yellow { background: #FFFBE6; border: 1px solid #F0D060; border-radius: 8px; padding: 14px 18px; font-size: 14px; color: #6B5B00; line-height: 1.7; }
+  </style>
+</head>
+<body>
+<style>
+  .xpg-switch{position:static;display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border-bottom:1px solid #E5E7EB;padding:9px 24px;margin:-56px -24px 32px;font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif}
+  .xpg-switch .xpg-brand{font-size:12px;font-weight:700;color:#1E2124;letter-spacing:-.2px;white-space:nowrap}
+  .xpg-switch .xpg-links{display:flex;gap:2px;flex-wrap:wrap}
+  .xpg-switch a{font-size:12.5px;color:#6B7280;text-decoration:none;padding:5px 10px;border-radius:6px;font-weight:500;white-space:nowrap;border-bottom:none}
+  .xpg-switch a:hover{color:#31ADB8;background:#EFFAFB}
+  .xpg-switch a.active{color:#fff;background:#31ADB8}
+</style>
+<nav class="xpg-switch" aria-label="가이드 페이지 이동">
+  <span class="xpg-brand">스마트홈스토어 가이드</span>
+  <span class="xpg-links">
+    <a href="design-system.html">디자인 시스템</a>
+    <a href="components.html">컴포넌트</a>
+    <a href="design-tokens.html">토큰</a>
+    <a href="figma-tokens.html">Figma 토큰</a>
+    <a href="icons.html">아이콘</a>
+    <a href="style-reference.html">스타일</a>
+    <a href="product-image-guide.html">대표이미지</a>
+    <a href="detail-page-guide.html" class="active">상세페이지</a>
+  </span>
+</nav>
+<div class="wrap">
+
+  <!-- ════════════ HEADER ════════════ -->
+  <div class="pg-header">
+    <h1>상품 상세페이지 통합 표준 가이드 (Standard Detail Page Guide)</h1>
+    <p class="sub">상세페이지에 들어가는 이미지와 텍스트를 어떻게 준비해야 하는지 안내합니다.<br>개발 용어 없이 누구나 쉽게 읽을 수 있도록 작성되었습니다.</p>
+    <a class="url" href="https://smarthome-store.vercel.app/detail-page-preview.html" target="_blank" rel="noopener noreferrer">미리보기 → https://smarthome-store.vercel.app/detail-page-preview.html</a>
+  </div>
+
+
+  <!-- ════════════ 01 · 전체 크기 ════════════ -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+    <div class="ch"><div class="ch-num">1</div><h2>전체 페이지 크기와 섹션 구성</h2></div>
+
+    <div class="card">
+      <div class="card-head">페이지 기본 크기</div>
+      <div class="card-body">
+        <table class="tbl">
+          <tr><th>항목</th><th>내용</th></tr>
+          <tr><td><strong>페이지 가로 폭</strong></td><td>860px 고정. 화면 가운데 정렬됩니다.</td></tr>
+          <tr><td><strong>세로 높이</strong></td><td>각 섹션의 내용에 따라 자동으로 늘어납니다.</td></tr>
+          <tr><td><strong>섹션 위아래 여백</strong></td><td>각 섹션 간 간격은 <strong>최소 80px</strong>, 이미지와 텍스트 간 간격은 <strong>20px</strong>을 기본으로 유지합니다.</td></tr>
+          <tr><td><strong>사용 글꼴</strong></td><td>Pretendard (한글 최적화 폰트)</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ════════════ 02 · 폰트 위계 ════════════ -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+    <div class="ch"><div class="ch-num">2</div><h2>텍스트 크기 위계</h2></div>
+
+    <div class="callout-yellow">
+      페이지에 사용된 텍스트는 크기와 굵기에 따라 역할이 구분됩니다. 가장 큰 텍스트부터 순서대로 정리했습니다. 이미지를 제작하거나 텍스트를 수정할 때 참고해 주세요.
+    </div>
+
+    <div class="card">
+      <div class="card-head">텍스트 크기 순서 (큰 것 → 작은 것)</div>
+      <div class="card-body" style="padding:8px 22px;">
+        <div class="typo-list">
+
+          <div class="typo-row">
+            <div class="typo-rank-wrap"><div class="typo-rank-dot accent">1</div></div>
+            <div class="typo-sample">
+              <div style="font-size:96px;font-weight:800;color:#383838;letter-spacing:-0.02em;line-height:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">대기전력 차단 스위치</div>
+            </div>
+            <div class="typo-desc">
+              <span class="size">96px · Bold 800</span>
+              <span class="name">제품 대표 이름</span>
+              <span class="where">히어로 섹션 메인 제목</span>
+              <span class="note">가장 크고 굵은 텍스트</span>
+              <span class="note" style="color:#D04000;font-weight:700;">✏️ 모바일 화면 1줄 최적화를 위해 최대 15자 이내 작성</span>
+            </div>
+          </div>
+
+          <div class="typo-row">
+            <div class="typo-rank-wrap"><div class="typo-rank-dot accent">2</div></div>
+            <div class="typo-sample">
+              <div style="font-size:64px;font-weight:800;color:#383838;letter-spacing:-0.02em;line-height:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">전등 회로수 별 제품군</div>
+            </div>
+            <div class="typo-desc">
+              <span class="size">64px · Bold 800</span>
+              <span class="name">섹션 대제목</span>
+              <span class="where">각 섹션의 주요 제목</span>
+              <span class="note">두 번째로 큰 텍스트</span>
+            </div>
+          </div>
+
+          <div class="typo-row">
+            <div class="typo-rank-wrap"><div class="typo-rank-dot accent">3</div></div>
+            <div class="typo-sample">
+              <div style="font-size:40px;font-weight:700;color:#383838;letter-spacing:-0.02em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">만든 사람이 가장 잘 압니다</div>
+            </div>
+            <div class="typo-desc">
+              <span class="size">40px · Bold 700</span>
+              <span class="name">사용법 단계 제목</span>
+              <span class="where">사용 단계 제목 (step title)</span>
+              <span class="note">굵고 명확한 중간 제목</span>
+              <span class="note" style="color:#D04000;font-weight:700;">✏️ 최대 2줄 (30자 내외) 작성</span>
+            </div>
+          </div>
+
+          <div class="typo-row">
+            <div class="typo-rank-wrap"><div class="typo-rank-dot accent">4</div></div>
+            <div class="typo-sample">
+              <div style="font-size:32px;font-weight:800;color:#60B404;letter-spacing:-0.02em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">다산지앤지 · PRODUCT VARIATION</div>
+            </div>
+            <div class="typo-desc">
+              <span class="size">32px · Bold 800</span>
+              <span class="name">브랜드명 / 섹션 영문 소제목 / 포인트 제목</span>
+              <span class="where">히어로 브랜드명, 각 섹션 위 eyebrow, 베네핏 제목</span>
+              <span class="note">초록색으로 강조</span>
+            </div>
+          </div>
+
+          <div class="typo-row">
+            <div class="typo-rank-wrap"><div class="typo-rank-dot">5</div></div>
+            <div class="typo-sample">
+              <div style="font-size:32px;font-weight:700;color:#EB9834;letter-spacing:-0.02em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">step 1 · step 2 · step 3</div>
+            </div>
+            <div class="typo-desc">
+              <span class="size">32px · Bold 700</span>
+              <span class="name">사용법 단계 번호 / 포인트 제목</span>
+              <span class="where">사용법 step 번호, 베네핏 포인트 제목</span>
+              <span class="note">주황색(#EB9834) 또는 다크(#383838)</span>
+            </div>
+          </div>
+
+          <div class="typo-row">
+            <div class="typo-rank-wrap"><div class="typo-rank-dot">6</div></div>
+            <div class="typo-sample">
+              <div style="font-size:32px;font-weight:500;color:#383838;letter-spacing:-0.02em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">매번 플러그 뽑는 번거로움 없이</div>
+            </div>
+            <div class="typo-desc">
+              <span class="size">32px · Regular 500</span>
+              <span class="name">히어로 설명 문구</span>
+              <span class="where">히어로 하단 설명, 섹션 보조 안내</span>
+              <span class="note">일반 굵기, 읽기 편한 크기</span>
+              <span class="note" style="color:#D04000;font-weight:700;">✏️ 고객 가독성을 위해 한 문단 당 최대 3~4줄 이내로 작성 필수</span>
+            </div>
+          </div>
+
+          <div class="typo-row">
+            <div class="typo-rank-wrap"><div class="typo-rank-dot">7</div></div>
+            <div class="typo-sample">
+              <div style="font-size:30px;font-weight:400;color:#383838;letter-spacing:-0.02em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">콘센트 버튼이 커져 있는 상태에서 가전 제품 사용시</div>
+            </div>
+            <div class="typo-desc">
+              <span class="size">30px · Regular 400</span>
+              <span class="name">본문 설명</span>
+              <span class="where">포인트 설명, 사용법 단계 설명, 라이트 컨트롤 안내</span>
+              <span class="note">일반 굵기, 본문 텍스트</span>
+              <span class="note" style="color:#D04000;font-weight:700;">✏️ 고객 가독성을 위해 한 문단 당 최대 3~4줄 이내로 작성 필수</span>
+            </div>
+          </div>
+
+          <div class="typo-row">
+            <div class="typo-rank-wrap"><div class="typo-rank-dot">8</div></div>
+            <div class="typo-sample">
+              <div style="font-size:24px;font-weight:700;color:#EB9900;letter-spacing:-0.02em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">HBSP-242 · 대기전력 표시창</div>
+            </div>
+            <div class="typo-desc">
+              <span class="size">24px · Bold 700</span>
+              <span class="name">제품 모델명 / 다이어그램 레이블</span>
+              <span class="where">제품 카드 모델명, 상세 다이어그램 부품 명칭</span>
+              <span class="note">주황·골드 계열 색상(#EB9900, #EB9834)</span>
+            </div>
+          </div>
+
+          <div class="typo-row">
+            <div class="typo-rank-wrap"><div class="typo-rank-dot">9</div></div>
+            <div class="typo-sample">
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <span style="background:#60B404;color:#fff;font-size:24px;font-weight:500;padding:4px 12px;border-radius:20px;">#대기전력자동차단</span>
+                <span style="background:#60B404;color:#fff;font-size:24px;font-weight:500;padding:4px 12px;border-radius:20px;">#에너지세이빙</span>
+              </div>
+            </div>
+            <div class="typo-desc">
+              <span class="size">24px · Medium 500</span>
+              <span class="name">해시태그 뱃지</span>
+              <span class="where">히어로 하단 초록 태그</span>
+              <span class="note">흰 글씨, 초록 배경 캡슐 형태</span>
+            </div>
+          </div>
+
+          <div class="typo-row">
+            <div class="typo-rank-wrap"><div class="typo-rank-dot">10</div></div>
+            <div class="typo-sample">
+              <div style="font-size:24px;font-weight:400;color:#666;letter-spacing:-0.02em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">제품 수령 후 오배송·파손·초기 불량 여부를 반드시 확인해 주세요</div>
+            </div>
+            <div class="typo-desc">
+              <span class="size">24px · Regular 400</span>
+              <span class="name">안내 항목 / FAQ 답변 / 일반 본문</span>
+              <span class="where">교환·환불, 설치 안내, FAQ 답변, 확인사항</span>
+              <span class="note">가장 작고 가는 본문 텍스트</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:20px;">
+
+    <div class="card">
+      <div class="card-head">섹션별 정보 구조 및 시각 테마 (Visual Theme)</div>
+      <div class="card-body">
+        <div class="callout-green" style="margin-bottom:16px;">
+          💡 <strong>[디자인 유연성 안내]</strong> 아래 명시된 배경 톤은 정보 구분을 위한 권장 리듬입니다. 실제 디자인 작업 시, 제품 특성과 텍스트 분량에 따라 디자이너의 판단하에 배경 톤과 레이아웃이 유동적으로 변경될 수 있습니다.
+        </div>
+        <div class="sec-list">
+
+          <!-- SEC 1 -->
+          <div class="sec-item">
+            <div class="sec-num">1</div>
+            <div class="sec-thumb">
+              <div class="th th-hero" style="height:130px;">
+                <div class="th-hero-top">
+                  <div style="width:40px;height:4px;background:rgba(0,0,0,0.2);border-radius:2px;"></div>
+                  <div style="width:60px;height:8px;background:rgba(0,0,0,0.25);border-radius:2px;margin-top:3px;"></div>
+                  <div style="width:54px;height:8px;background:rgba(0,0,0,0.25);border-radius:2px;"></div>
+                </div>
+                <div class="th-hero-mid"></div>
+                <div class="th-hero-bot">
+                  <div style="width:70px;height:4px;background:rgba(0,0,0,0.18);border-radius:2px;"></div>
+                  <div style="width:55px;height:4px;background:rgba(0,0,0,0.14);border-radius:2px;"></div>
+                  <div style="display:flex;gap:3px;margin-top:2px;">
+                    <div style="width:28px;height:8px;background:#60B404;border-radius:4px;"></div>
+                    <div style="width:22px;height:8px;background:#60B404;border-radius:4px;"></div>
+                    <div style="width:26px;height:8px;background:#60B404;border-radius:4px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sec-info">
+              <div class="sec-name">상단 비주얼 (히어로)</div>
+              <div class="sec-desc">제품 분위기 사진이 배경 전체를 채웁니다. 그 위에 제품명, 설명, 초록색 해시태그가 올라갑니다. 텍스트가 잘 보이도록 배경 사진은 너무 복잡하지 않은 것이 좋습니다.</div>
+            </div>
+          </div>
+
+          <!-- SEC 2 -->
+          <div class="sec-item">
+            <div class="sec-num">2</div>
+            <div class="sec-thumb">
+              <div class="th th-products" style="height:130px;background:#fff;padding:10px;display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+                  <div style="width:50px;height:4px;background:#60B404;border-radius:2px;opacity:0.7;"></div>
+                  <div style="width:70px;height:6px;background:#383838;border-radius:2px;opacity:0.25;"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;flex:1;">
+                  <div style="background:#F4F4F4;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px;">
+                    <div style="width:20px;height:24px;background:#C8C8C8;border-radius:2px;"></div>
+                    <div style="width:28px;height:3px;background:#EB9900;border-radius:1px;opacity:0.6;"></div>
+                    <div style="width:22px;height:3px;background:#C0C0C0;border-radius:1px;"></div>
+                  </div>
+                  <div style="background:#F4F4F4;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px;">
+                    <div style="width:20px;height:24px;background:#C8C8C8;border-radius:2px;"></div>
+                    <div style="width:28px;height:3px;background:#EB9900;border-radius:1px;opacity:0.6;"></div>
+                    <div style="width:22px;height:3px;background:#C0C0C0;border-radius:1px;"></div>
+                  </div>
+                  <div style="background:#F4F4F4;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px;">
+                    <div style="width:16px;height:28px;background:#C8C8C8;border-radius:2px;"></div>
+                    <div style="width:28px;height:3px;background:#EB9900;border-radius:1px;opacity:0.6;"></div>
+                    <div style="width:22px;height:3px;background:#C0C0C0;border-radius:1px;"></div>
+                  </div>
+                  <div style="background:#F4F4F4;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px;">
+                    <div style="width:20px;height:24px;background:#C8C8C8;border-radius:2px;"></div>
+                    <div style="width:28px;height:3px;background:#EB9900;border-radius:1px;opacity:0.6;"></div>
+                    <div style="width:22px;height:3px;background:#C0C0C0;border-radius:1px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sec-info">
+              <div class="sec-name">제품설명</div>
+              <div class="sec-desc">흰 배경 위에 4개의 제품 카드가 2×2 격자로 배치됩니다. 각 카드는 연회색 배경에 제품 사진, 모델명, 사양이 표시됩니다.</div>
+            </div>
+          </div>
+
+          <!-- SEC 3 -->
+          <div class="sec-item">
+            <div class="sec-num">3</div>
+            <div class="sec-thumb">
+              <div style="background:#fff;height:130px;padding:10px;display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+                  <div style="width:50px;height:4px;background:#60B404;border-radius:2px;opacity:0.7;"></div>
+                  <div style="width:70px;height:6px;background:#383838;border-radius:2px;opacity:0.2;"></div>
+                </div>
+                <div style="position:relative;flex:1;">
+                  <div style="width:14px;height:14px;background:#60B404;border-radius:50%;position:absolute;top:0;left:4px;z-index:1;"></div>
+                  <div style="background:#D8D8D8;height:28px;border-radius:2px;margin-top:8px;"></div>
+                  <div style="background:#F4F4F4;height:18px;border-radius:0 0 2px 2px;padding:4px 6px;display:flex;flex-direction:column;gap:2px;">
+                    <div style="height:2px;background:#CACACA;border-radius:1px;width:80%;"></div>
+                    <div style="height:2px;background:#CACACA;border-radius:1px;width:60%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sec-info">
+              <div class="sec-name">베네핏</div>
+              <div class="sec-desc">흰 배경. 각 포인트마다 초록색 원형 뱃지(Point 1·2·3)가 이미지 위에 겹쳐 보입니다. 이미지 아래에 연회색 텍스트 영역이 이어집니다.</div>
+            </div>
+          </div>
+
+          <!-- SEC 4 -->
+          <div class="sec-item">
+            <div class="sec-num">4</div>
+            <div class="sec-thumb">
+              <div style="background:#28292D;height:130px;padding:10px;display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+                  <div style="width:40px;height:3px;background:#60B404;border-radius:2px;"></div>
+                  <div style="width:60px;height:5px;background:#ffffff40;border-radius:2px;"></div>
+                </div>
+                <div style="background:#3A3C40;height:28px;border-radius:2px;"></div>
+                <div style="display:flex;flex-direction:column;gap:4px;">
+                  <div style="display:flex;align-items:center;gap:3px;"><div style="width:18px;height:3px;background:#EB9834;border-radius:1px;"></div><div style="flex:1;height:3px;background:#ffffff20;border-radius:1px;"></div></div>
+                  <div style="display:flex;align-items:center;gap:3px;"><div style="width:18px;height:3px;background:#EB9834;border-radius:1px;"></div><div style="flex:1;height:3px;background:#ffffff20;border-radius:1px;"></div></div>
+                  <div style="display:flex;align-items:center;gap:3px;"><div style="width:18px;height:3px;background:#EB9834;border-radius:1px;"></div><div style="flex:1;height:3px;background:#ffffff20;border-radius:1px;"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="sec-info">
+              <div class="sec-name">각 제품별 사용법</div>
+              <div class="sec-desc">짙은 어두운 배경. 스위치 전체 사진이 가로 전체를 차지하고, 아래에 step 1~5 사용 방법이 주황색 단계 번호와 함께 나열됩니다.</div>
+            </div>
+          </div>
+
+          <!-- SEC 5 -->
+          <div class="sec-item">
+            <div class="sec-num">5</div>
+            <div class="sec-thumb">
+              <div style="background:#fff;height:130px;padding:10px;display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+                  <div style="width:40px;height:3px;background:#60B404;border-radius:2px;opacity:0.7;"></div>
+                  <div style="width:60px;height:5px;background:#383838;border-radius:2px;opacity:0.2;"></div>
+                </div>
+                <div style="background:#F4F4F4;flex:1;border-radius:3px;position:relative;display:flex;align-items:center;justify-content:center;">
+                  <div style="width:30px;height:36px;background:#D0D0D0;border-radius:2px;"></div>
+                  <div style="position:absolute;top:6px;left:16px;width:1px;height:12px;background:#EB9834;"></div>
+                  <div style="position:absolute;top:6px;right:20px;width:1px;height:18px;background:#EB9834;"></div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:2px;">
+                  <div style="display:flex;gap:2px;height:5px;">
+                    <div style="width:25%;background:#F0F0F0;border-radius:1px;"></div>
+                    <div style="flex:1;background:#E8E8E8;border-radius:1px;"></div>
+                    <div style="width:25%;background:#F0F0F0;border-radius:1px;"></div>
+                    <div style="flex:1;background:#E8E8E8;border-radius:1px;"></div>
+                  </div>
+                  <div style="display:flex;gap:2px;height:5px;">
+                    <div style="width:25%;background:#F0F0F0;border-radius:1px;"></div>
+                    <div style="flex:1;background:#E8E8E8;border-radius:1px;"></div>
+                    <div style="width:25%;background:#F0F0F0;border-radius:1px;"></div>
+                    <div style="flex:1;background:#E8E8E8;border-radius:1px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sec-info">
+              <div class="sec-name">제품 상세정보</div>
+              <div class="sec-desc">흰 배경. 연회색 박스 안에 제품 다이어그램이 주황색 화살표 및 기능 설명과 함께 표시됩니다. 아래에 규격 표가 이어집니다.</div>
+            </div>
+          </div>
+
+          <!-- INFO group divider -->
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0 4px;">
+            <div style="background:#484A4E;color:#fff;font-size:11px;font-weight:800;padding:3px 10px;border-radius:3px;letter-spacing:0.06em;">INFO</div>
+            <div style="flex:1;height:1px;background:#E4E4E4;"></div>
+          </div>
+
+          <!-- SEC 6 -->
+          <div class="sec-item">
+            <div class="sec-num">6</div>
+            <div class="sec-thumb">
+              <div style="background:#fff;height:130px;padding:10px;display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+                  <div style="width:40px;height:3px;background:#60B404;border-radius:2px;opacity:0.7;"></div>
+                  <div style="width:60px;height:5px;background:#383838;border-radius:2px;opacity:0.2;"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
+                  <div style="height:14px;background:#F5F5F5;border:1px solid #E8E8E8;border-radius:1px;"></div>
+                  <div style="height:14px;background:#F5F5F5;border:1px solid #E8E8E8;border-radius:1px;"></div>
+                  <div style="height:14px;background:#F5F5F5;border:1px solid #E8E8E8;border-radius:1px;"></div>
+                  <div style="height:14px;background:#F5F5F5;border:1px solid #E8E8E8;border-radius:1px;"></div>
+                  <div style="height:14px;background:#F5F5F5;border:1px solid #E8E8E8;border-radius:1px;"></div>
+                  <div style="height:14px;background:#F5F5F5;border:1px solid #E8E8E8;border-radius:1px;"></div>
+                  <div style="height:14px;background:#F5F5F5;border:1px solid #E8E8E8;border-radius:1px;"></div>
+                  <div style="height:14px;background:#F5F5F5;border:1px solid #E8E8E8;border-radius:1px;"></div>
+                  <div style="height:14px;background:#F5F5F5;border:1px solid #E8E8E8;border-radius:1px;"></div>
+                </div>
+                <div style="background:#EAEAEA;flex:1;border-radius:2px;"></div>
+              </div>
+            </div>
+            <div class="sec-info">
+              <div class="sec-name">구매설치전 확인사항</div>
+              <div class="sec-desc">흰 배경. 호환 가능한 브랜드 로고 9개가 3×3 표 형식으로 배치됩니다. 아래에 스위치 ID 확인 이미지가 이어집니다.</div>
+            </div>
+          </div>
+
+          <!-- SEC 7 -->
+          <div class="sec-item">
+            <div class="sec-num">7</div>
+            <div class="sec-thumb">
+              <div style="background:#28292D;height:130px;padding:10px;display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+                  <div style="width:40px;height:3px;background:#60B404;border-radius:2px;"></div>
+                  <div style="width:60px;height:5px;background:#ffffff30;border-radius:2px;"></div>
+                </div>
+                <div style="background:#484A4E;border-radius:3px;padding:5px 6px;display:flex;flex-direction:column;gap:3px;flex:1;">
+                  <div style="height:2px;background:#ffffff20;border-radius:1px;width:80%;"></div>
+                  <div style="height:2px;background:#ffffff20;border-radius:1px;width:65%;"></div>
+                  <div style="height:2px;background:#ffffff20;border-radius:1px;width:72%;"></div>
+                  <div style="height:2px;background:#ffffff20;border-radius:1px;width:55%;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="sec-info">
+              <div class="sec-name">제품 안내 (교환·환불 / 설치)</div>
+              <div class="sec-desc">짙은 어두운 배경. 교환·환불 안내와 설치 안내 두 파트로 구성됩니다. 각 항목 앞에 점(·) 구분자가 있습니다.</div>
+            </div>
+          </div>
+
+          <!-- SEC 8 -->
+          <div class="sec-item">
+            <div class="sec-num">8</div>
+            <div class="sec-thumb">
+              <div style="background:#28292D;height:130px;padding:10px;display:flex;flex-direction:column;gap:5px;">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;margin-bottom:2px;">
+                  <div style="width:40px;height:3px;background:#60B404;border-radius:2px;"></div>
+                  <div style="width:55px;height:5px;background:#ffffff30;border-radius:2px;"></div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:4px;">
+                  <div>
+                    <div style="background:#3F4145;border-radius:2px 2px 0 0;height:8px;display:flex;align-items:center;padding:0 4px;"><div style="height:2px;width:60%;background:#ffffff50;border-radius:1px;"></div></div>
+                    <div style="background:#484A4E;border-radius:0 0 2px 2px;height:12px;padding:2px 4px;display:flex;flex-direction:column;gap:2px;"><div style="height:2px;background:#ffffff20;border-radius:1px;width:75%;"></div><div style="height:2px;background:#ffffff20;border-radius:1px;width:55%;"></div></div>
+                  </div>
+                  <div>
+                    <div style="background:#3F4145;border-radius:2px 2px 0 0;height:8px;display:flex;align-items:center;padding:0 4px;"><div style="height:2px;width:70%;background:#ffffff50;border-radius:1px;"></div></div>
+                    <div style="background:#484A4E;border-radius:0 0 2px 2px;height:12px;padding:2px 4px;display:flex;flex-direction:column;gap:2px;"><div style="height:2px;background:#ffffff20;border-radius:1px;width:80%;"></div><div style="height:2px;background:#ffffff20;border-radius:1px;width:60%;"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sec-info">
+              <div class="sec-name">자주하는 질문 (FAQ)</div>
+              <div class="sec-desc">짙은 어두운 배경. 질문(더 어두운 박스)과 답변(약간 밝은 박스)이 번갈아 쌓이는 형태입니다.</div>
+            </div>
+          </div>
+
+          <!-- SEC 9 -->
+          <div class="sec-item">
+            <div class="sec-num">9</div>
+            <div class="sec-thumb">
+              <div style="background:#28292D;height:130px;padding:10px;display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;margin-bottom:2px;">
+                  <div style="width:40px;height:3px;background:#60B404;border-radius:2px;"></div>
+                  <div style="width:55px;height:5px;background:#ffffff30;border-radius:2px;"></div>
+                </div>
+                <div style="background:#484A4E;border-radius:3px;padding:6px;display:flex;flex-direction:column;gap:5px;flex:1;">
+                  <div style="height:3px;width:35%;background:#60B404;border-radius:1px;"></div>
+                  <div style="height:2px;background:#ffffff20;border-radius:1px;width:80%;"></div>
+                  <div style="height:2px;background:#ffffff20;border-radius:1px;width:65%;"></div>
+                  <div style="height:1px;background:#ffffff10;border-radius:1px;"></div>
+                  <div style="height:3px;width:35%;background:#60B404;border-radius:1px;"></div>
+                  <div style="height:2px;background:#ffffff20;border-radius:1px;width:70%;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="sec-info">
+              <div class="sec-name">배송 및 교환안내</div>
+              <div class="sec-desc">짙은 어두운 배경. 배송안내와 교환·반품 안내가 초록색 소제목과 함께 카드 형태로 정리됩니다.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ════════════ 03 · 히어로 이미지 가이드 ════════════ -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+    <div class="ch"><div class="ch-num">3</div><h2>상단 히어로 이미지 가이드</h2></div>
+
+    <!-- 구조 시각화 -->
+    <div class="card">
+      <div class="card-head">히어로 섹션 — 위에서 아래로 어떻게 구성되는지</div>
+      <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
+
+        <div class="hero-mock">
+          <div class="hero-mock-bar">📐 배경 이미지가 이 영역 전체를 꽉 채움 (가로 860px)</div>
+
+          <div class="hero-pad top">↕ 위 여백</div>
+
+          <div class="hero-zone top">
+            <div class="hero-zone-badge">① 상단 텍스트</div>
+            <div style="font-size:15px;font-weight:800;color:#383838;letter-spacing:-0.02em;margin-top:10px;">다산지앤지</div>
+            <div style="font-size:11px;color:#666;margin-bottom:6px;">브랜드명</div>
+            <div style="font-size:28px;font-weight:800;color:#383838;letter-spacing:-0.02em;text-align:center;line-height:1.15;">대기전력<br>차단 스위치</div>
+            <div style="font-size:11px;color:#666;margin-top:4px;">제품명 (가장 큰 텍스트)</div>
+          </div>
+
+          <div class="hero-gap">
+            ↕ 가운데 여백<br>
+            <span style="font-size:11px;font-weight:400;color:#888;margin-top:4px;display:block;">배경 이미지의 핵심 장면(제품 사진 등)이 이 공간에서 보여야 합니다</span>
+          </div>
+
+          <div class="hero-zone">
+            <div class="hero-zone-badge">② 하단 텍스트</div>
+            <div style="font-size:14px;font-weight:500;color:#383838;text-align:center;line-height:1.6;margin-top:10px;">
+              매번 플러그 뽑는 번거로움 없이,<br>터치 한 번으로 완성하는<br>스마트한 전기 요금 다이어트
+            </div>
+            <div style="font-size:11px;color:#666;margin-bottom:8px;">설명 문구</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;">
+              <span class="tag-pill">#대기전력자동차단</span>
+              <span class="tag-pill">#에너지세이빙</span>
+              <span class="tag-pill">#올인원스마트제어</span>
+            </div>
+            <div style="font-size:11px;color:#666;margin-top:4px;margin-bottom:8px;">초록 해시태그 뱃지</div>
+          </div>
+
+          <div class="hero-pad bot">↕ 아래 여백</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 이미지 안내 -->
+    <div class="card">
+      <div class="card-head">히어로(상단 메인) 이미지 준비 방법</div>
+      <div class="card-body" style="display:flex;flex-direction:column;gap:14px;">
+
+        <div class="img-need">
+          <div class="img-need-icon">🖼</div>
+          <div class="img-need-info">
+            <div class="title">배경 이미지 1장 — 파일명: hero-bg.png</div>
+            <div class="desc">
+              제품의 분위기를 보여주는 배경 사진입니다.<br>
+              <strong>권장 크기: 가로 860px 이상</strong> (선명하게 보이려면 더 크게 제작 권장)<br>
+              이미지가 섹션 전체 영역을 꽉 채우므로, 여유 있게 제작해 주세요.
+            </div>
+          </div>
+        </div>
+
+        <table class="tbl">
+          <tr><th>항목</th><th>내용</th></tr>
+          <tr>
+            <td><strong>배경 컬러 권장</strong></td>
+            <td>단순 단색(Solid Color) 회색 배경은 지양하며, 제품이 돋보이도록 <strong>자연스러운 조명(Lighting), 그림자(Drop Shadow), 은은한 질감(Texture)</strong>을 더해 퀄리티를 높여야 합니다.</td>
+          </tr>
+          <tr>
+            <td><strong>최종 완성본 업로드 (Export)</strong></td>
+            <td>배경, 제품 사진, 그리고 모든 텍스트(메인 카피, 설명 등)의 디자인이 완료된 최종 통이미지 1장을 업로드합니다.</td>
+          </tr>
+          <tr>
+            <td><strong>텍스트 안전 영역 (Safe Zone) 주의</strong></td>
+            <td>모바일 환경을 고려하여 텍스트가 잘리지 않도록 양옆에 충분한 안전 여백(Safe Zone)을 확보하여 디자인을 완성해 주세요.</td>
+          </tr>
+          <tr style="background:#FFF5F5;">
+            <td><strong style="color:#C0000A;">⚠ 이미지 용량 제한</strong></td>
+            <td style="color:#C0000A;font-weight:700;">웹 로딩 속도 최적화를 위해 모든 전달 이미지는 <span style="background:#C0000A;color:#fff;padding:1px 6px;border-radius:3px;">단일 파일 기준 5MB 이하</span> (JPG, PNG, GIF, WebP 권장)로 최적화하여 전달해 주세요. 초과 시 페이지 로딩 지연 및 SEO 불이익이 발생합니다.</td>
+          </tr>
+        </table>
+
+        <div class="callout-yellow">
+          <strong>💡 배경 컬러 팁:</strong> 비슷한 톤의 배경으로 제품을 촬영하거나 배경 처리를 하면 자연스럽게 어울립니다.
+        </div>
+
+        <div style="background:#FFF0F0;border:2px solid #E05050;border-radius:8px;padding:14px 18px;font-size:14px;color:#5A0000;line-height:1.75;margin-top:2px;">
+          🚨 <strong>[예외 허용]</strong> 단, 제품 자체가 흰색/은색이어서 그레이톤 배경에서 명시성이 떨어질 경우, 디자이너 판단하에 배경 톤(명도/채도)을 유동적으로 변경할 수 있습니다.
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════ 04 · 상품 대표이미지 ════════════ -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+    <div class="ch"><div class="ch-num">4</div><h2>상품 대표이미지 가이드</h2></div>
+
+    <div class="card">
+      <div class="card-head">핵심 규격 — 목록·검색·상세 상단 썸네일</div>
+      <div class="card-body">
+        <table class="tbl">
+          <tr><th>항목</th><th>규격</th></tr>
+          <tr><td><strong>크기</strong></td><td>1000 × 1000 px</td></tr>
+          <tr><td><strong>비율</strong></td><td>1 : 1 (정사각) — 잘림 없이 동일 비율 노출</td></tr>
+          <tr><td><strong>배경</strong></td><td><span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid #ccc;background:#FAF7F0;vertical-align:middle;margin-right:5px;"></span>미색 단색 <strong>#FAF7F0</strong> 기본 (회색 <strong>#F7F8F9~#DCE0E4</strong> / 진한 배경은 조건부 허용)</td></tr>
+          <tr><td><strong>파일 형식</strong></td><td>JPG / PNG (sRGB)</td></tr>
+          <tr><td><strong>용량</strong></td><td>단일 파일 5MB 이하</td></tr>
+          <tr><td><strong>구성</strong></td><td>제품 1개를 정면·중앙 배치, 상하좌우 약 10%(100px) 여백(안전 영역) 확보</td></tr>
+        </table>
+
+        <div class="callout-yellow">
+          <strong>💡 배경 팁:</strong> 기본은 미색 #FAF7F0. 흰색·은색 제품은 그레이톤(#F7F8F9~#DCE0E4)으로 명시성을 높이고, 프리미엄·테크 제품은 진한 배경 + 약한 바닥 그림자를 조건부로 사용합니다. 그라데이션·패턴·배경 사진은 사용하지 않습니다(단색만).
+        </div>
+
+        <div style="margin-top:2px;background:#F2FAEA;border:1px solid #CDE9AE;border-radius:8px;padding:14px 18px;font-size:14px;color:#33571A;line-height:1.75;">
+          📐 배경 색상 팔레트 · 구성 예시(안전 영역) · 권장/금지 전체 가이드는 다음에서 확인하세요.<br>
+          <a href="product-image-guide.html#spec" style="display:inline-block;margin-top:10px;background:#60B404;color:#fff;text-decoration:none;font-weight:700;padding:9px 18px;border-radius:6px;">상품 대표이미지 가이드 전체 보기 →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
