@@ -92,6 +92,34 @@
     .col.do li::before { content: "✓"; position: absolute; left: 0; color: #2E7D46; font-weight: 800; }
     .col.dont li::before { content: "✕"; position: absolute; left: 0; color: #C0392B; font-weight: 800; }
 
+    /* ── 배경 팔레트 ── */
+    .pal-block { margin-bottom: 28px; }
+    .pal-block:last-child { margin-bottom: 0; }
+    .pal-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+    .pal-head .pal-name { font-size: 15px; font-weight: 700; color: var(--dark); }
+    .pal-head .pal-tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+    .pal-tag.rec  { background: #E7F6F2; color: #1F8F7E; }
+    .pal-tag.ok   { background: #EEF1F4; color: #5A6571; }
+    .pal-tag.cond { background: #FBF1E2; color: #9A6B1E; }
+    .pal-head .pal-range { font-size: 12px; color: var(--sub); }
+    .pal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 12px; }
+    .pal-item { margin: 0; }
+    .pal-canvas { position: relative; width: 100%; aspect-ratio: 1/1; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .pal-prod { width: 54%; height: 54%; border-radius: 12px; background: linear-gradient(160deg, #C9CDD2, #A7ACB4); box-shadow: 0 2px 6px rgba(0,0,0,0.10), inset 0 1px 2px rgba(255,255,255,0.4); }
+    .pal-canvas--beige .pal-prod { background: linear-gradient(160deg, #CDBFA6, #B6A488); }
+    .pal-canvas--dark { border-color: rgba(255,255,255,0.12); }
+    .pal-canvas--dark .pal-prod { background: linear-gradient(160deg, #F2F3F5, #C9CDD2); box-shadow: 0 8px 16px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.6); }
+    .pal-item figcaption { margin-top: 8px; display: flex; flex-direction: column; gap: 1px; }
+    .pal-item figcaption b { font-family: 'Menlo', monospace; font-size: 12px; color: var(--dark); font-weight: 700; }
+    .pal-item figcaption span { font-size: 11px; color: var(--sub); }
+    .pal-item.std .pal-canvas { box-shadow: 0 0 0 2px var(--primary); }
+    .pal-item.std figcaption b { color: var(--primary); }
+    .pal-item.limit .pal-canvas { box-shadow: 0 0 0 2px #C99A3A; }
+    .pal-item.limit figcaption span { color: #A2741B; font-weight: 700; }
+    .pal-note { font-size: 12.5px; color: var(--sub); line-height: 1.6; margin-top: 12px; }
+    .pal-note code { font-family: 'Menlo', monospace; font-size: 11.5px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; }
+    .pal-note b { color: var(--dark); }
+
     @media (max-width: 860px) {
       header, nav, main { padding-left: 20px; padding-right: 20px; }
       .example { grid-template-columns: 1fr; }
@@ -134,6 +162,7 @@
   <nav>
     <a href="#spec" class="active">핵심 규격</a>
     <a href="#example">구성 예시</a>
+    <a href="#palette">배경 팔레트</a>
     <a href="#rules">권장 / 금지</a>
   </nav>
 
@@ -167,10 +196,89 @@
         </div>
         <div class="notes">
           <div class="note"><div class="nt">정사각 1:1, 1000×1000px</div><div class="nd">목록 썸네일부터 상세 상단까지 동일 비율로 잘림 없이 노출됩니다.</div></div>
-          <div class="note"><div class="nt">배경은 미색 단색 <code>#FAF7F0</code></div><div class="nd">그라데이션·패턴·다른 색 배경을 쓰지 않습니다. 흰 제품도 경계가 살도록 옅은 미색을 사용합니다.</div></div>
+          <div class="note"><div class="nt">배경은 단색 — 기본 미색 <code>#FAF7F0</code></div><div class="nd">아래 <b>배경 팔레트</b>의 미색·회색·진한 색 범위 안에서 단색으로 선택합니다. 그라데이션·패턴·배경 사진은 사용하지 않습니다.</div></div>
           <div class="note"><div class="nt">제품은 중앙, 여백 ~10%</div><div class="nd">상하좌우 약 100px 여백(안전 영역) 안에 제품을 꽉 차지 않게 배치합니다.</div></div>
           <div class="note"><div class="nt">단일 제품 · 정면 · 실물 색</div><div class="nd">대표 컷은 제품 1개를 정면에서, 과한 보정 없이 실제 색감으로 촬영합니다.</div></div>
         </div>
+      </div>
+    </section>
+
+    <section id="palette">
+      <div class="section-header">
+        <h2><span class="icon">🎨</span>배경 색상 팔레트</h2>
+        <p>기본은 미색 #FAF7F0. 아래 범위 안의 단색이면 제품이 잘 보입니다. 각 견본 위 도형은 더미 제품으로, 배경 대비 가독성을 나타냅니다.</p>
+      </div>
+
+      <div class="pal-block">
+        <div class="pal-head">
+          <span class="pal-name">미색 · 따뜻한 기본</span>
+          <span class="pal-tag rec">권장</span>
+          <span class="pal-range">대부분의 생활가전·인테리어 제품에 무난</span>
+        </div>
+        <div class="pal-grid">
+          <figure class="pal-item std">
+            <div class="pal-canvas pal-canvas--beige" style="background:#FAF7F0"><span class="pal-prod"></span></div>
+            <figcaption><b>#FAF7F0</b><span>표준 미색</span></figcaption>
+          </figure>
+          <figure class="pal-item">
+            <div class="pal-canvas pal-canvas--beige" style="background:#F6F1E7"><span class="pal-prod"></span></div>
+            <figcaption><b>#F6F1E7</b><span>미색 (중간)</span></figcaption>
+          </figure>
+          <figure class="pal-item">
+            <div class="pal-canvas pal-canvas--beige" style="background:#F0E9D9"><span class="pal-prod"></span></div>
+            <figcaption><b>#F0E9D9</b><span>미색 (진한)</span></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="pal-block">
+        <div class="pal-head">
+          <span class="pal-name">회색 · 쿨 뉴트럴</span>
+          <span class="pal-tag ok">사용 가능</span>
+          <span class="pal-range">범위 #F7F8F9 → #DCE0E4 · 화이트·블랙 가전 모두 무난</span>
+        </div>
+        <div class="pal-grid">
+          <figure class="pal-item">
+            <div class="pal-canvas" style="background:#F7F8F9"><span class="pal-prod"></span></div>
+            <figcaption><b>#F7F8F9</b><span>거의 흰색</span></figcaption>
+          </figure>
+          <figure class="pal-item">
+            <div class="pal-canvas" style="background:#EEF0F2"><span class="pal-prod"></span></div>
+            <figcaption><b>#EEF0F2</b><span>라이트 그레이</span></figcaption>
+          </figure>
+          <figure class="pal-item">
+            <div class="pal-canvas" style="background:#E5E8EB"><span class="pal-prod"></span></div>
+            <figcaption><b>#E5E8EB</b><span>그레이</span></figcaption>
+          </figure>
+          <figure class="pal-item limit">
+            <div class="pal-canvas" style="background:#DCE0E4"><span class="pal-prod"></span></div>
+            <figcaption><b>#DCE0E4</b><span>권장 하한</span></figcaption>
+          </figure>
+        </div>
+        <p class="pal-note">이보다 진한 회색(예: <code>#C5CACF</code> 이하)은 어두운 제품의 윤곽이 묻혀 <b>비권장</b>입니다.</p>
+      </div>
+
+      <div class="pal-block">
+        <div class="pal-head">
+          <span class="pal-name">진한 배경 · 프리미엄/특수</span>
+          <span class="pal-tag cond">조건부</span>
+          <span class="pal-range">테크·프리미엄 가전 한정</span>
+        </div>
+        <div class="pal-grid">
+          <figure class="pal-item">
+            <div class="pal-canvas pal-canvas--dark" style="background:#3A3F47"><span class="pal-prod"></span></div>
+            <figcaption><b>#3A3F47</b><span>차콜</span></figcaption>
+          </figure>
+          <figure class="pal-item">
+            <div class="pal-canvas pal-canvas--dark" style="background:#2A2D33"><span class="pal-prod"></span></div>
+            <figcaption><b>#2A2D33</b><span>딥 차콜</span></figcaption>
+          </figure>
+          <figure class="pal-item">
+            <div class="pal-canvas pal-canvas--dark" style="background:#1E2124"><span class="pal-prod"></span></div>
+            <figcaption><b>#1E2124</b><span>브랜드 다크</span></figcaption>
+          </figure>
+        </div>
+        <p class="pal-note">밝은·메탈·유광 제품에 약한 바닥 그림자/림라이트로 형태를 살립니다. <b>어두운 제품은 묻히므로 금지.</b> 같은 카테고리 안에서는 하나의 배경으로 통일하세요.</p>
       </div>
     </section>
 
@@ -195,7 +303,7 @@
           <ul>
             <li>텍스트·로고·워터마크·뱃지 삽입</li>
             <li>그림자 박스·테두리·콜라주</li>
-            <li>배경색 변경·그라데이션·배경 사진</li>
+            <li>그라데이션·패턴·배경 사진(단색만)</li>
             <li>여백 없이 제품을 꽉 채우기</li>
             <li>저해상도·비율 왜곡·과한 보정</li>
           </ul>
