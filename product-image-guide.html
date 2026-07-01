@@ -17,7 +17,7 @@
       --bg:      #F4F5F6;
       --card:    #FFFFFF;
       --radius:  12px;
-      --beige:   #FAF7F0; /* 대표이미지 배경(미색) */
+      --beige:   #CDCBBC; /* 대표이미지 배경(미색 보조) */
     }
 
     body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--bg); color: var(--text); }
@@ -70,7 +70,7 @@
     .example { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,380px); gap: 32px; align-items: start; }
     .fig { display: flex; flex-direction: column; gap: 10px; }
     .dim-top { text-align: center; font-size: 12px; color: var(--primary); font-weight: 700; font-family: 'Menlo', monospace; }
-    .canvas { position: relative; width: 100%; aspect-ratio: 1/1; background: #EEEEEE; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .canvas { position: relative; width: 100%; aspect-ratio: 1/1; background: #EDEDEE; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
     .safe { position: absolute; inset: 10%; border: 1.5px dashed var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
     .safe .tag { position: absolute; top: 8px; left: 10px; font-size: 11px; color: var(--primary); font-weight: 700; font-family: 'Menlo', monospace; }
     .prod { width: 60%; height: 60%; background: linear-gradient(160deg,#FFFFFF,#EFF0F1); border-radius: 16px; position: relative; box-shadow: 0 12px 26px rgba(0,0,0,0.13), inset 0 1px 2px rgba(255,255,255,0.7); }
@@ -155,9 +155,10 @@
     <h1>상품 대표이미지 가이드</h1>
     <p>상품 목록·검색·상세 상단에 노출되는 대표이미지의 표준 규격입니다.<br>모든 대표이미지는 동일한 정사각 비율과 중립 그레이 배경으로 통일해 진열 일관성을 유지합니다.</p>
     <div class="header-meta">
-      <span>크기 1000 × 1000px</span>
-      <span>비율 1:1</span>
-      <span>배경 중립그레이 #EEEEEE</span>
+      <span>표준 1,000 × 1,000px (최소 500 · 최대 3,000)</span>
+      <span>비율 1:1 정방형</span>
+      <span>배경 중립 그레이 #EDEDEE</span>
+      <span>JPG·JPEG·PNG·WEBP · ≤ 2MB · 1장</span>
     </div>
   </header>
 
@@ -175,11 +176,14 @@
         <p>모든 대표이미지에 공통 적용되는 기본 사양입니다.</p>
       </div>
       <div class="spec-grid">
-        <div class="spec-card"><div class="k">크기</div><div class="v">1000 × 1000 <small>px</small></div></div>
-        <div class="spec-card"><div class="k">비율</div><div class="v">1 : 1</div></div>
-        <div class="spec-card"><div class="k">배경 (중립 그레이)</div><div class="v"><span class="sw" style="background:#EEEEEE"></span>#EEEEEE</div></div>
-        <div class="spec-card"><div class="k">파일 형식</div><div class="v" style="font-size:18px">JPG / PNG <small>sRGB</small></div></div>
-        <div class="spec-card"><div class="k">용량</div><div class="v" style="font-size:18px">≤ 5MB</div></div>
+        <div class="spec-card"><div class="k">권장(표준) 크기</div><div class="v">1,000 × 1,000 <small>px</small></div></div>
+        <div class="spec-card"><div class="k">최소 크기</div><div class="v">500 × 500 <small>px</small></div></div>
+        <div class="spec-card"><div class="k">최대 크기</div><div class="v">3,000 × 3,000 <small>px</small></div></div>
+        <div class="spec-card"><div class="k">비율</div><div class="v">1 : 1 <small>정방형 필수</small></div></div>
+        <div class="spec-card"><div class="k">배경 (중립 그레이)</div><div class="v"><span class="sw" style="background:#EDEDEE"></span>#EDEDEE</div></div>
+        <div class="spec-card"><div class="k">파일 형식</div><div class="v" style="font-size:15px">JPG · JPEG · PNG · WEBP</div></div>
+        <div class="spec-card"><div class="k">용량</div><div class="v" style="font-size:18px">≤ 2MB</div></div>
+        <div class="spec-card"><div class="k">이미지 수</div><div class="v" style="font-size:18px">1장 <small>확대보기 지원</small></div></div>
       </div>
     </section>
 
@@ -198,9 +202,10 @@
         </div>
         <div class="notes">
           <div class="note"><div class="nt">정사각 1:1, 1000×1000px</div><div class="nd">목록 썸네일부터 상세 상단까지 동일 비율로 잘림 없이 노출됩니다.</div></div>
-          <div class="note"><div class="nt">배경은 단색 — 기본 중립 그레이 <code>#EEEEEE</code></div><div class="nd">실측 대표컷 기준(흰색 제품이 부드러운 그림자로 분리됨). 아래 <b>배경 팔레트</b>의 중립 그레이·웜 미색·진한 색 범위 안에서 단색으로 선택합니다. 그라데이션·패턴·배경 사진은 사용하지 않습니다.</div></div>
+          <div class="note"><div class="nt">배경은 단색 — 기본 중립 그레이 <code>#EDEDEE</code></div><div class="nd">실측 대표컷 기준(흰색 제품이 부드러운 그림자로 분리됨). 아래 <b>배경 팔레트</b>의 회색계열(기본)·미색계열(보조) 범위 안에서 단색으로 선택합니다. 그라데이션·패턴·배경 사진은 사용하지 않습니다.</div></div>
           <div class="note"><div class="nt">제품은 중앙, 여백 ~10%</div><div class="nd">상하좌우 약 100px 여백(안전 영역) 안에 제품을 꽉 차지 않게 배치합니다.</div></div>
-          <div class="note"><div class="nt">단일 제품 · 정면 · 실물 색</div><div class="nd">대표 컷은 제품 1개를 정면에서, 과한 보정 없이 실제 색감으로 촬영합니다.</div></div>
+          <div class="note"><div class="nt">단일 제품 · 정면 · 실물 색</div><div class="nd">대표 컷은 제품 1개(1장)를 정면에서, 과한 보정 없이 실제 색감으로 촬영합니다.</div></div>
+          <div class="note"><div class="nt">확대보기 지원 · 크기 제한</div><div class="nd">확대보기가 있어 고해상이 유리합니다. <b>500×500 미만·3,000×3,000 초과는 등록되지 않습니다.</b> 문구·합성·GIF 불가, 워터마크 미사용 권장.</div></div>
         </div>
       </div>
     </section>
@@ -208,57 +213,53 @@
     <section id="palette">
       <div class="section-header">
         <h2><span class="icon">🎨</span>배경 색상 팔레트</h2>
-        <p>실측 대표컷 기준 배경은 <b>중립 그레이 #EEEEEE</b>. 아래 범위 안의 단색이면 흰색 제품이 부드러운 그림자로 잘 분리됩니다. 견본 위 도형은 더미 제품으로 배경 대비 가독성을 나타냅니다. (사선광·그림자 연출은 대표 썸네일이 아닌 보조 이미지로만)</p>
+        <p>대표이미지 배경은 <b>회색계열을 기본</b>으로 합니다 (기본 #EDEDEE). 우드·패브릭 등 따뜻한 소재 제품엔 미색계열을 보조로 씁니다. 아래 범위 안의 단색이면 제품이 부드러운 그림자로 잘 분리됩니다. 견본 위 도형은 더미 제품으로 배경 대비 가독성을 나타냅니다. (사선광·그림자 연출은 대표 썸네일이 아닌 보조 이미지로만)</p>
       </div>
 
       <div class="pal-block">
         <div class="pal-head">
-          <span class="pal-name">중립 그레이 · 기본</span>
+          <span class="pal-name">회색계열 · 기본</span>
           <span class="pal-tag rec">권장 · 실측 기준</span>
-          <span class="pal-range">범위 #F4F4F4 → #E0E0E0 (R=G=B 중립) · 흰색·은색 가전 표준</span>
+          <span class="pal-range">범위 #EDEDEE → #ACAAAC (쿨 뉴트럴) · 기본 배경 · 흰색·은색 가전 표준</span>
         </div>
         <div class="pal-grid">
-          <figure class="pal-item">
-            <div class="pal-canvas pal-canvas--neutral" style="background:#F4F4F4"><span class="pal-prod"></span></div>
-            <figcaption><b>#F4F4F4</b><span>거의 흰색</span></figcaption>
-          </figure>
           <figure class="pal-item std">
-            <div class="pal-canvas pal-canvas--neutral" style="background:#EEEEEE"><span class="pal-prod"></span></div>
-            <figcaption><b>#EEEEEE</b><span>표준 (실측)</span></figcaption>
+            <div class="pal-canvas pal-canvas--neutral" style="background:#EDEDEE"><span class="pal-prod"></span></div>
+            <figcaption><b>#EDEDEE</b><span>라이트 그레이 · 기본</span></figcaption>
           </figure>
           <figure class="pal-item">
-            <div class="pal-canvas pal-canvas--neutral" style="background:#E6E6E6"><span class="pal-prod"></span></div>
-            <figcaption><b>#E6E6E6</b><span>그레이</span></figcaption>
+            <div class="pal-canvas pal-canvas--neutral" style="background:#D5D6D7"><span class="pal-prod"></span></div>
+            <figcaption><b>#D5D6D7</b><span>쿨 그레이 · 중간</span></figcaption>
           </figure>
           <figure class="pal-item limit">
-            <div class="pal-canvas pal-canvas--neutral" style="background:#E0E0E0"><span class="pal-prod"></span></div>
-            <figcaption><b>#E0E0E0</b><span>권장 하한</span></figcaption>
+            <div class="pal-canvas pal-canvas--neutral" style="background:#ACAAAC"><span class="pal-prod"></span></div>
+            <figcaption><b>#ACAAAC</b><span>미드 그레이 · 그림자/하한</span></figcaption>
           </figure>
         </div>
-        <p class="pal-note">실제 제품 대표컷에서 측정한 배경(≈ <code>#EEEEEE</code>). 흰색·은색 제품도 <b>부드러운 바닥 그림자</b>로 윤곽이 분리됩니다. <code>#E0E0E0</code>보다 진해지면 어두운 제품이 묻혀 비권장.</p>
+        <p class="pal-note">권장 컷에서 측정한 쿨 뉴트럴 그레이. 대표이미지 <b>기본 배경</b>이며 기본 톤은 <code>#EDEDEE</code>. 흰색·은색 제품이 부드러운 그림자로 분리됩니다. <code>#ACAAAC</code>는 그림자/하한 톤으로, 이보다 진해지면 어두운 제품이 묻혀 비권장.</p>
       </div>
 
       <div class="pal-block">
         <div class="pal-head">
-          <span class="pal-name">웜 미색 · 보조</span>
+          <span class="pal-name">미색계열 · 보조</span>
           <span class="pal-tag ok">상황별</span>
-          <span class="pal-range">우드·패브릭·라탄 등 따뜻한 소재 제품에 한해</span>
+          <span class="pal-range">범위 #E4E1D3 → #B6B4A3 (웜 그레이지) · 우드·패브릭·라탄 등 따뜻한 소재</span>
         </div>
         <div class="pal-grid">
           <figure class="pal-item">
-            <div class="pal-canvas pal-canvas--beige" style="background:#FAF7F0"><span class="pal-prod"></span></div>
-            <figcaption><b>#FAF7F0</b><span>웜 미색</span></figcaption>
+            <div class="pal-canvas pal-canvas--beige" style="background:#E4E1D3"><span class="pal-prod"></span></div>
+            <figcaption><b>#E4E1D3</b><span>아이보리 · 밝은 미색</span></figcaption>
           </figure>
           <figure class="pal-item">
-            <div class="pal-canvas pal-canvas--beige" style="background:#F6F1E7"><span class="pal-prod"></span></div>
-            <figcaption><b>#F6F1E7</b><span>미색 (중간)</span></figcaption>
+            <div class="pal-canvas pal-canvas--beige" style="background:#CDCBBC"><span class="pal-prod"></span></div>
+            <figcaption><b>#CDCBBC</b><span>그레이지 (중간)</span></figcaption>
           </figure>
           <figure class="pal-item">
-            <div class="pal-canvas pal-canvas--beige" style="background:#F0E9D9"><span class="pal-prod"></span></div>
-            <figcaption><b>#F0E9D9</b><span>미색 (진한)</span></figcaption>
+            <div class="pal-canvas pal-canvas--beige" style="background:#B6B4A3"><span class="pal-prod"></span></div>
+            <figcaption><b>#B6B4A3</b><span>웜 그레이 (하한)</span></figcaption>
           </figure>
         </div>
-        <p class="pal-note">중립 그레이가 기본이며, 웜 미색은 따뜻한 소재 제품의 색감을 살릴 때 보조로 사용합니다. <b>같은 카테고리 안에서는 하나의 배경으로 통일</b>하세요.</p>
+        <p class="pal-note">회색계열이 기본이며, 미색계열은 우드·패브릭 등 따뜻한 소재 제품의 색감을 살릴 때 보조로 사용합니다. <b>같은 카테고리 안에서는 하나의 배경으로 통일</b>하세요.</p>
       </div>
 
       <div class="pal-block">
@@ -294,20 +295,22 @@
         <div class="col do">
           <h3>권장 (Do)</h3>
           <ul>
-            <li>1000×1000px, 정사각 1:1</li>
-            <li>중립 그레이 #EEEEEE 단색 배경 (웜 미색은 보조)</li>
-            <li>제품 1개를 정면·중앙 배치</li>
+            <li>정방형 1:1 필수 · 권장 1,000×1,000px</li>
+            <li>중립 그레이 #EDEDEE 기본 배경 (미색계열은 보조)</li>
+            <li>제품 1개(1장)를 정면·중앙 배치</li>
             <li>상하좌우 ~10% 여백 확보</li>
-            <li>고해상도 · 실물에 가까운 색감</li>
+            <li>고해상도 · 실물에 가까운 색감 (확대보기 지원)</li>
+            <li>JPG · JPEG · PNG · WEBP · ≤ 2MB</li>
           </ul>
         </div>
         <div class="col dont">
           <h3>금지 (Don't)</h3>
           <ul>
-            <li>텍스트·로고·워터마크·뱃지 삽입</li>
-            <li>그림자 박스·테두리·콜라주</li>
+            <li>문구·텍스트·합성·GIF 삽입 불가</li>
+            <li>워터마크 미사용 권장</li>
             <li>그라데이션·패턴·배경 사진(단색만)</li>
             <li>여백 없이 제품을 꽉 채우기</li>
+            <li>500×500 미만 · 3,000×3,000 초과 → 등록 불가</li>
             <li>저해상도·비율 왜곡·과한 보정</li>
           </ul>
         </div>
