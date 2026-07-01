@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>엣지케이스 보완 페이지</title>
+<style>
+  :root{--primary:#31ADB8;--purple:#7A3FA0;--ink:#1F2937;--sub:#6B7280;--border:#E5E7EB;--bg:#F9FAFB;--radius:12px;
+    --sans:'Pretendard',-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;--mono:'Menlo','Monaco','Courier New',monospace;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  .nav{display:flex;gap:6px;flex-wrap:wrap;align-items:center;background:#fff;border-bottom:1px solid var(--border);padding:10px 24px;font-size:12.5px}
+  .nav .brand{font-weight:700;margin-right:8px}
+  .nav a{color:var(--sub);text-decoration:none;padding:5px 10px;border-radius:6px}
+  .nav a:hover{color:var(--primary);background:#EFFAFB}
+  .nav a.active{color:#fff;background:var(--purple)}
+  header.head{max-width:1080px;margin:0 auto;padding:36px 24px 8px}
+  .badge{display:inline-flex;align-items:center;gap:6px;background:#F3E8FB;color:var(--purple);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:.4px}
+  header.head h1{font-size:27px;font-weight:800;letter-spacing:-.5px;margin:14px 0 8px}
+  header.head p{margin:0;font-size:13.5px;color:var(--sub);line-height:1.6;max-width:70ch}
+  .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .meta span{font-size:12px;color:var(--sub);background:#fff;border:1px solid var(--border);padding:5px 11px;border-radius:8px}
+  main{max-width:1080px;margin:0 auto;padding:20px 24px 80px;display:flex;flex-direction:column;gap:18px}
+  .card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px 22px}
+  .card-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+  .code{font-family:var(--mono);font-size:12px;font-weight:800;color:#fff;background:var(--purple);border-radius:6px;padding:2px 8px}
+  .cat{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--sub)}
+  .chip{font-size:11px;font-weight:700;border-radius:20px;padding:2px 9px;white-space:nowrap}
+  .card-title{font-size:19px;font-weight:800;margin:0 0 16px}
+  .grid{display:grid;grid-template-columns:280px minmax(0,1fr);gap:22px;align-items:start}
+  @media (max-width:720px){.grid{grid-template-columns:1fr}}
+  .canvas{width:100%;max-width:280px;height:520px;border:2px dashed var(--purple);border-radius:26px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px}
+  .canvas .ico{font-size:28px}.canvas .ct{font-size:15px;font-weight:800;color:var(--purple)}.canvas .cd{font-size:12.5px;color:var(--sub);line-height:1.6}
+  .cap{font-family:var(--mono);font-size:10.5px;color:var(--sub);text-align:center;margin-top:8px;max-width:280px}
+  .spec{display:flex;flex-direction:column;gap:12px}
+  .row{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 15px}
+  .row .k{font-size:11.5px;color:var(--sub);margin-bottom:5px}
+  .row .v{font-size:13.5px;font-weight:600;line-height:1.5}
+  .v.mono{font-family:var(--mono);font-size:12px;font-weight:700}
+  .checklist{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:15px 16px}
+  .clh{font-size:11.5px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.06em;margin-bottom:11px}
+  .check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5;padding:5px 0}
+  .check .box{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);flex-shrink:0;margin-top:2px}
+  footer{max-width:1080px;margin:0 auto;padding:0 24px 60px;font-family:var(--mono);font-size:11.5px;color:var(--sub)}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <span class="brand">엣지케이스 설계</span>
+  <a href="edge-case-priority.html">선행 페이지</a><a href="edge-case-followup.html" class="active">보완 페이지</a>
+  <a href="product-image-guide.html" style="margin-left:auto">← 대표이미지 가이드</a>
+</nav>
+<header class="head">
+  <span class="badge">🎨 EDGE CASE — DESIGN SCAFFOLD</span>
+  <h1>엣지케이스 보완 페이지</h1>
+  <p>선행(높음) 이후 추가로 필요한 중간 우선순위 · 디자인 필요 케이스를 distinct 페이지로 정리했습니다.</p>
+  <div class="meta"><span>우선순위 중간~낮음</span><span>10개 페이지</span><span>로딩·검색·폼·지도·한도</span></div>
+</header>
+<main>
+<article class="card">
+  <div class="card-head">
+    <span class="code">G-2</span>
+    <span class="cat">G. 목록·데이터</span>
+    <span class="chip" style="color:#9A6B1E;background:#FBF1E2">우선순위 중간</span>
+    <span class="chip" style="color:#C0392B;background:#FDECEA">⚠ 미구현·신규</span>
+  </div>
+  <h2 class="card-title">로딩 스켈레톤 세트</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">목록·상세·검색 진입 시 로딩 스켈레톤 코드상 미발견 — 빈 화면·레이아웃 시프트</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">데이터 로딩 동안 콘텐츠 골격형 스켈레톤 노출, 전환 시 흔들림 없음.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">로딩 상태 · 스켈레톤</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">코드 미발견 (전역 공통 필요)</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>목록/상세/검색 각각 콘텐츠 골격형 스켈레톤</label>
+<label class="check"><span class="box"></span>pulse/shimmer 애니메이션 (prefers-reduced-motion 대응)</label>
+<label class="check"><span class="box"></span>실제 데이터와 동일 높이 — 레이아웃 시프트 방지</label>
+<label class="check"><span class="box"></span>최소 노출 시간으로 깜빡임 방지</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">E-5·E-3</span>
+    <span class="cat">E. 검색</span>
+    <span class="chip" style="color:#9A6B1E;background:#FBF1E2">우선순위 중간</span>
+    <span class="chip" style="color:#C0392B;background:#FDECEA">⚠ 미구현·신규</span>
+  </div>
+  <h2 class="card-title">검색 빈 결과 · 입력 전 상태</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">검색 결과 0건 / 빈 쿼리·공백·최소 글자수 처리 미발견</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">입력 전(최근검색), 검색 중, 결과 0건 상태를 각각 정의.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">빈 상태(EmptyState)</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">검색 시트 · apt/autocomplete</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>입력 전 상태: 최근 검색 / 안내 문구</label>
+<label class="check"><span class="box"></span>결과 0건: 일러스트 + 문구 + 재검색 제안</label>
+<label class="check"><span class="box"></span>공백·최소 글자수 안내 (불필요 요청 방지)</label>
+<label class="check"><span class="box"></span>검색 중 로딩 인디케이터</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">E-2</span>
+    <span class="cat">E. 검색</span>
+    <span class="chip" style="color:#9A6B1E;background:#FBF1E2">우선순위 중간</span>
+    
+  </div>
+  <h2 class="card-title">검색 결과 과다 안내</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">autocomplete PER_LIMIT_MAX=50 로 잘림 — 결과 51+ 시 안내 없음</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">상위 50개만 노출됨을 알리고 검색어를 좁히도록 유도.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">안내 모달 · 토스트</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">apt/autocomplete/route.ts (PER_LIMIT_MAX=50)</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>상위 50개만 표기됨 안내 배너/문구</label>
+<label class="check"><span class="box"></span>'검색어를 좁혀주세요' 유도 카피</label>
+<label class="check"><span class="box"></span>결과 개수 표시</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">C-1~4,8</span>
+    <span class="cat">C. 회원 폼 검증</span>
+    <span class="chip" style="color:#9A6B1E;background:#FBF1E2">우선순위 중간</span>
+    
+  </div>
+  <h2 class="card-title">비밀번호 변경 인라인 검증</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">규칙 위반·현재 불일치·동일·중복 제출·메일 실패 등 에러 상태 UI 필요</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">규칙 실시간 체크 + 인풋 에러 상태 + 서버 에러 한글 토스트.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">폼 인라인 검증 피드백</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">change-password/route.ts · EditContent.tsx</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>규칙 실시간 체크리스트 (8~20자·영문·숫자·특수문자)</label>
+<label class="check"><span class="box"></span>현재≠새 / 현재 불일치 인풋 에러 상태</label>
+<label class="check"><span class="box"></span>서버 에러 코드 → 한글 토스트 매핑</label>
+<label class="check"><span class="box"></span>제출 버튼 disabled / 로딩 (중복 제출 방지)</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">I-1~4</span>
+    <span class="cat">I. 리뷰·문의·신고</span>
+    <span class="chip" style="color:#9A6B1E;background:#FBF1E2">우선순위 중간</span>
+    
+  </div>
+  <h2 class="card-title">리뷰 작성 폼 검증</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">별점·글자수(10~1000)·사진(≤5)·중복 제출 등 폼 검증 상태</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">필수 항목 미충족 시 제출 제한, 진행 상태·중복 제출 방지.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">폼 인라인 검증 피드백</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">ReviewWriteContent.tsx</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>별점(제품/설치) 필수 표시 · 미선택 시 제출 불가</label>
+<label class="check"><span class="box"></span>글자수 카운터 (MIN 10 · MAX 1000)</label>
+<label class="check"><span class="box"></span>사진 최대 5장 · 개수 표시</label>
+<label class="check"><span class="box"></span>제출 중 버튼 로딩 · 새로고침 재제출 가드</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">J-1·J-2</span>
+    <span class="cat">J. 지도 (Naver Maps)</span>
+    <span class="chip" style="color:#9A6B1E;background:#FBF1E2">우선순위 중간</span>
+    <span class="chip" style="color:#C0392B;background:#FDECEA">⚠ 미구현·신규</span>
+  </div>
+  <h2 class="card-title">지도 오류 폴백</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">SDK 미로드(10초 타임아웃) / 인증 실패 시 사용자 안내 UI 없음(console.error만)</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">로드 실패·인증 실패 시 폴백 화면 + 재시도. 좌표 없음 처리.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">에러 · 폴백 UI</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">MapView.tsx:131</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>SDK 로드 실패(10초) 폴백 + 재시도 버튼</label>
+<label class="check"><span class="box"></span>인증 실패 사용자 안내 (현재 로그만)</label>
+<label class="check"><span class="box"></span>좌표 없는 아파트 목록 대체 안내</label>
+<label class="check"><span class="box"></span>네트워크/오프라인 상태 구분</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">B-2</span>
+    <span class="cat">B. 인증·세션</span>
+    <span class="chip" style="color:#9A6B1E;background:#FBF1E2">우선순위 중간</span>
+    
+  </div>
+  <h2 class="card-title">세션 만료 안내</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">refresh token 만료 후 재진입 → RefreshTokenExpired, 로그인 유도</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">만료 감지 시 안내 후 재로그인(현재 위치 복귀) 유도.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">에러 · 폴백 UI</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">auth.ts · requirePageAuth.ts</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>세션 만료 안내 모달/토스트</label>
+<label class="check"><span class="box"></span>재로그인 CTA (callbackUrl 로 원위치 복귀)</label>
+<label class="check"><span class="box"></span>진행 중 작업 손실 경고 (해당 시)</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">H-1·2·4</span>
+    <span class="cat">H. 등록 한도</span>
+    <span class="chip" style="color:#9A6B1E;background:#FBF1E2">우선순위 중간</span>
+    
+  </div>
+  <h2 class="card-title">등록 한도 안내 (아파트 · 배송지)</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">내 아파트 5개 / 배송지 5개 도달 · 다른 탭 동시 등록으로 초과 시도</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">한도 도달 안내 + 추가 버튼 비활성 사유, 서버 거부 시 에러 안내.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">안내 모달 · 토스트</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">AptListContent.tsx:225 · address/insert/route.ts</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>아파트 5개 / 배송지 5개 도달 안내 문구</label>
+<label class="check"><span class="box"></span>'추가' 버튼 disabled + 사유 팁/툴팁</label>
+<label class="check"><span class="box"></span>서버 거부(동시성 초과) 시 토스트 안내</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">I-6</span>
+    <span class="cat">I. 리뷰·문의·신고</span>
+    <span class="chip" style="color:#9A6B1E;background:#FBF1E2">우선순위 중간</span>
+    <span class="chip" style="color:#C0392B;background:#FDECEA">⚠ 미구현·신규</span>
+  </div>
+  <h2 class="card-title">문의 · 신고 작성 폼</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">문의 작성 / 매장·리뷰 신고 form·API 실제 구현 코드상 미발견</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">사유 선택 + 내용 입력 폼, 필수 검증·중복/본인글 차단.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">에러 · 폴백 UI (신규 폼)</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">코드 미발견 (신규)</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>사유 선택 + 내용 입력 폼 (Textarea 재사용)</label>
+<label class="check"><span class="box"></span>필수 검증 · 글자수 제한</label>
+<label class="check"><span class="box"></span>본인 글 신고 · 중복 신고 차단 안내</label>
+<label class="check"><span class="box"></span>제출 완료 피드백(토스트)</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">G-1·G-3</span>
+    <span class="cat">G. 목록·데이터</span>
+    <span class="chip" style="color:#5A6571;background:#EEF1F4">우선순위 낮음</span>
+    
+  </div>
+  <h2 class="card-title">빈 목록 상태 세트</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">아파트·설치제품·문의·리뷰·스토어 목록 0개 시 EmptyState</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">목록별 빈 상태를 통일된 톤으로, 다음 행동 CTA 포함.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">빈 상태(EmptyState)</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">EmptyState 컴포넌트 · AptListContent.tsx</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>목록별 EmptyState (아파트·설치제품·문의·리뷰·스토어)</label>
+<label class="check"><span class="box"></span>아이콘/문구 + 다음 행동 CTA</label>
+<label class="check"><span class="box"></span>EmptyState 공통 컴포넌트 재사용 — 톤 통일</label></div>
+    </div>
+  </div>
+</article>
+</main>
+<footer>스마트홈스토어 · 엣지케이스 설계 스캐폴드 · 생성 2026-07-01 · 각 캔버스에 실제 디자인을 붙여 완성하세요.</footer>
+</body>
+</html>

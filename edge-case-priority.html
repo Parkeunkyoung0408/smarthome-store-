@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>엣지케이스 선행 페이지</title>
+<style>
+  :root{--primary:#31ADB8;--purple:#7A3FA0;--ink:#1F2937;--sub:#6B7280;--border:#E5E7EB;--bg:#F9FAFB;--radius:12px;
+    --sans:'Pretendard',-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;--mono:'Menlo','Monaco','Courier New',monospace;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  .nav{display:flex;gap:6px;flex-wrap:wrap;align-items:center;background:#fff;border-bottom:1px solid var(--border);padding:10px 24px;font-size:12.5px}
+  .nav .brand{font-weight:700;margin-right:8px}
+  .nav a{color:var(--sub);text-decoration:none;padding:5px 10px;border-radius:6px}
+  .nav a:hover{color:var(--primary);background:#EFFAFB}
+  .nav a.active{color:#fff;background:var(--purple)}
+  header.head{max-width:1080px;margin:0 auto;padding:36px 24px 8px}
+  .badge{display:inline-flex;align-items:center;gap:6px;background:#F3E8FB;color:var(--purple);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:.4px}
+  header.head h1{font-size:27px;font-weight:800;letter-spacing:-.5px;margin:14px 0 8px}
+  header.head p{margin:0;font-size:13.5px;color:var(--sub);line-height:1.6;max-width:70ch}
+  .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .meta span{font-size:12px;color:var(--sub);background:#fff;border:1px solid var(--border);padding:5px 11px;border-radius:8px}
+  main{max-width:1080px;margin:0 auto;padding:20px 24px 80px;display:flex;flex-direction:column;gap:18px}
+  .card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px 22px}
+  .card-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+  .code{font-family:var(--mono);font-size:12px;font-weight:800;color:#fff;background:var(--purple);border-radius:6px;padding:2px 8px}
+  .cat{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--sub)}
+  .chip{font-size:11px;font-weight:700;border-radius:20px;padding:2px 9px;white-space:nowrap}
+  .card-title{font-size:19px;font-weight:800;margin:0 0 16px}
+  .grid{display:grid;grid-template-columns:280px minmax(0,1fr);gap:22px;align-items:start}
+  @media (max-width:720px){.grid{grid-template-columns:1fr}}
+  .canvas{width:100%;max-width:280px;height:520px;border:2px dashed var(--purple);border-radius:26px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px}
+  .canvas .ico{font-size:28px}.canvas .ct{font-size:15px;font-weight:800;color:var(--purple)}.canvas .cd{font-size:12.5px;color:var(--sub);line-height:1.6}
+  .cap{font-family:var(--mono);font-size:10.5px;color:var(--sub);text-align:center;margin-top:8px;max-width:280px}
+  .spec{display:flex;flex-direction:column;gap:12px}
+  .row{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 15px}
+  .row .k{font-size:11.5px;color:var(--sub);margin-bottom:5px}
+  .row .v{font-size:13.5px;font-weight:600;line-height:1.5}
+  .v.mono{font-family:var(--mono);font-size:12px;font-weight:700}
+  .checklist{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:15px 16px}
+  .clh{font-size:11.5px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.06em;margin-bottom:11px}
+  .check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5;padding:5px 0}
+  .check .box{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);flex-shrink:0;margin-top:2px}
+  footer{max-width:1080px;margin:0 auto;padding:0 24px 60px;font-family:var(--mono);font-size:11.5px;color:var(--sub)}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <span class="brand">엣지케이스 설계</span>
+  <a href="edge-case-priority.html" class="active">선행 페이지</a><a href="edge-case-followup.html">보완 페이지</a>
+  <a href="product-image-guide.html" style="margin-left:auto">← 대표이미지 가이드</a>
+</nav>
+<header class="head">
+  <span class="badge">🎨 EDGE CASE — DESIGN SCAFFOLD</span>
+  <h1>엣지케이스 선행 페이지</h1>
+  <p>엣지 케이스 카탈로그에서 심각도 '높음' + 디자인 필요 케이스를 먼저 설계되어야 하는 페이지로 스캐폴드했습니다. 각 캔버스에 실제 디자인을 붙여 완성하세요.</p>
+  <div class="meta"><span>우선순위 높음</span><span>5개 페이지</span><span>본인인증 · iOS · 이미지 검증</span></div>
+</header>
+<main>
+<article class="card">
+  <div class="card-head">
+    <span class="code">A-3</span>
+    <span class="cat">A. 아파트 일일 진입 제한</span>
+    <span class="chip" style="color:#C0392B;background:#FBEAE7">우선순위 높음</span>
+    
+  </div>
+  <h2 class="card-title">일일 진입 한도 도달 안내 모달</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">하루 5개 초과로 새 아파트 진입 → /?limit=reached 로 redirect</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">홈에서 DailyLimitModal 자동 노출. 왜 막혔는지 + 다음 리셋 시각 안내.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">안내 모달 · 토스트</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">DAILY_APT_VIEW_LIMIT=5 · requireAndRecordAptView.ts</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>한도 도달 안내 카피 (오늘 5개까지 열람했음을 명확히)</label>
+<label class="check"><span class="box"></span>다음 리셋 시각 표기 (내일 00:00 KST)</label>
+<label class="check"><span class="box"></span>로그인 시 '등록 아파트는 무제한' 면제 안내 + 로그인 CTA</label>
+<label class="check"><span class="box"></span>단일 확인 버튼 — ConfirmDialog 안내형(단일버튼) 재사용</label>
+<label class="check"><span class="box"></span>이미 본 아파트는 재진입 가능함을 부연</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">D-1</span>
+    <span class="cat">D. 본인인증 (PASS)</span>
+    <span class="chip" style="color:#C0392B;background:#FBEAE7">우선순위 높음</span>
+    <span class="chip" style="color:#C0392B;background:#FDECEA">⚠ 미구현·신규</span>
+  </div>
+  <h2 class="card-title">본인인증(PASS) 진입 화면</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">본인인증 진행 — 현재 실제 PASS SDK 미연동, 더미 데이터로 통과</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">통신사/PASS 인증 진입, 약관 동의, 실패·취소 처리. 실서비스 연동 전제.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">본인인증(PASS) 플로우</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">EditContent.tsx (더미: 홍길동/010-9876-5432)</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>인증 수단 선택 진입 (PASS/통신사) — 버튼 컴포넌트 재사용</label>
+<label class="check"><span class="box"></span>필수 약관 동의 UI</label>
+<label class="check"><span class="box"></span>인증 실패·취소 시 재시도 안내</label>
+<label class="check"><span class="box"></span>더미 통과 상태 제거 (실연동 시)</label>
+<label class="check"><span class="box"></span>인증 완료 → 결과 전달(이름·CI/DI) 흐름 정의</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">D-2</span>
+    <span class="cat">D. 본인인증 (PASS)</span>
+    <span class="chip" style="color:#C0392B;background:#FBEAE7">우선순위 높음</span>
+    <span class="chip" style="color:#C0392B;background:#FDECEA">⚠ 미구현·신규</span>
+  </div>
+  <h2 class="card-title">인증번호 입력 · 타이머 · 재전송 상태</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">인증번호 타임아웃 / 재전송 / 실패 — 처리 로직·UI 코드상 미발견</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">만료 카운트다운, 재전송 쿨다운, 오류/만료/성공 상태 정의.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">본인인증(PASS) 플로우</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">코드 미발견 (신규 설계)</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>인증번호 6자리 입력 필드 (Input 재사용)</label>
+<label class="check"><span class="box"></span>만료 카운트다운 타이머 (예: 3:00) 표시</label>
+<label class="check"><span class="box"></span>재전송 버튼 — 쿨다운 중 disabled + 남은 시간</label>
+<label class="check"><span class="box"></span>오류 상태: 번호 불일치 / 만료 / 시도 초과</label>
+<label class="check"><span class="box"></span>성공 상태 → 다음 단계 전환</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">F-3</span>
+    <span class="cat">F. 상품 이미지 업로드</span>
+    <span class="chip" style="color:#C0392B;background:#FBEAE7">우선순위 높음</span>
+    <span class="chip" style="color:#C0392B;background:#FDECEA">⚠ 미구현·신규</span>
+  </div>
+  <h2 class="card-title">대표이미지 업로드 검증 · 크롭</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">가이드는 1:1·1000×1000·≤2MB·1장이나 업로드는 image/*·20MB·3장 허용 — 정사각/크기/용량 검증 미구현</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">규격 위반 인라인 피드백 + 1:1 크롭/리사이즈 UI로 가이드에 맞춰 업로드.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">이미지 업로드 검증 + 크롭</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">store/upload · 대표이미지 가이드(product-image-guide)</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>규격 위반 인라인 에러 (비율·크기·용량·형식/GIF 차단)</label>
+<label class="check"><span class="box"></span>1:1 크롭 · 리사이즈 UI (1000×1000 기준)</label>
+<label class="check"><span class="box"></span>미리보기 썸네일 + 대표이미지 가이드 안내/링크</label>
+<label class="check"><span class="box"></span>용량 ≤2MB · 1장 제한 반영</label>
+<label class="check"><span class="box"></span>업로드 진행 · 실패 재시도 상태</label></div>
+    </div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <span class="code">K-3</span>
+    <span class="cat">K. 모바일 · iOS</span>
+    <span class="chip" style="color:#C0392B;background:#FBEAE7">우선순위 높음</span>
+    <span class="chip" style="color:#C0392B;background:#FDECEA">⚠ 미구현·신규</span>
+  </div>
+  <h2 class="card-title">iOS 키보드 회피 레이아웃 (검색 시트 · 입력 폼)</h2>
+  <div class="grid">
+    <div>
+      <div class="canvas"><div class="ico">🎨</div><div class="ct">설계 필요</div><div class="cd">이 상태의 화면을 이곳에<br>디자인하세요. (모바일 390px 기준)</div></div>
+      <div class="cap">설계 캔버스 · 프로토타입 붙일 자리</div>
+    </div>
+    <div class="spec">
+      <div class="row"><div class="k">상황 · 트리거</div><div class="v">iOS 키보드 등장 시 동적 높이 보정 미발견 — 입력창/버튼이 키보드에 가림 (CLAUDE.md 명시 요구)</div></div>
+      <div class="row"><div class="k">기대 동작</div><div class="v">키보드 등장에 맞춰 입력창·CTA가 항상 보이도록 높이/스크롤 보정.</div></div>
+      <div class="row"><div class="k">딜리버러블</div><div class="v" style="color:#7A3FA0">모바일 / iOS 대응</div></div>
+      <div class="row"><div class="k">근거</div><div class="v mono">코드 미발견 (검색 시트·입력 폼 공통)</div></div>
+      <div class="checklist"><div class="clh">설계 체크리스트</div><label class="check"><span class="box"></span>키보드 등장 시 입력창·제출 버튼 가림 방지 (동적 높이 / scroll-into-view)</label>
+<label class="check"><span class="box"></span>하단 고정 CTA safe-area-inset-bottom 여백</label>
+<label class="check"><span class="box"></span>바텀시트 높이 보정 + 배경 touchmove 스크롤 잠금</label>
+<label class="check"><span class="box"></span>포커스 시 뷰포트 스크롤 동작 정의</label>
+<label class="check"><span class="box"></span>키보드 닫힘 시 원복 애니메이션</label></div>
+    </div>
+  </div>
+</article>
+</main>
+<footer>스마트홈스토어 · 엣지케이스 설계 스캐폴드 · 생성 2026-07-01 · 각 캔버스에 실제 디자인을 붙여 완성하세요.</footer>
+</body>
+</html>
