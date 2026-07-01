@@ -91,6 +91,9 @@
     .col li { font-size: 13.5px; color: var(--text); line-height: 1.5; padding: 6px 0 6px 24px; position: relative; }
     .col.do li::before { content: "✓"; position: absolute; left: 0; color: #2E7D46; font-weight: 800; }
     .col.dont li::before { content: "✕"; position: absolute; left: 0; color: #C0392B; font-weight: 800; }
+    .col.warn h3 { color: #9A6B1E; background: #FBF1E2; }
+    .col.warn li::before { content: "⚠"; position: absolute; left: 0; color: #C99A3A; font-weight: 800; }
+    .col.warn { margin-top: 16px; }
 
     /* ── 배경 팔레트 ── */
     .pal-block { margin-bottom: 28px; }
@@ -206,7 +209,7 @@
           <div class="note"><div class="nt">배경은 단색 — 기본 중립 그레이 <code>#EDEDEE</code></div><div class="nd">실측 대표컷 기준(흰색 제품이 부드러운 그림자로 분리됨). 아래 <b>배경 팔레트</b>의 회색계열(기본)·미색계열(보조) 범위 안에서 단색으로 선택합니다. 그라데이션·패턴·배경 사진은 사용하지 않습니다.</div></div>
           <div class="note"><div class="nt">제품은 중앙, 여백 ~10%</div><div class="nd">상하좌우 약 100px 여백(안전 영역) 안에 제품을 꽉 차지 않게 배치합니다.</div></div>
           <div class="note"><div class="nt">단일 제품 · 정면 · 실물 색</div><div class="nd">대표 컷은 제품 1개(1장)를 정면에서, 과한 보정 없이 실제 색감으로 촬영합니다.</div></div>
-          <div class="note"><div class="nt">확대보기 지원 · 크기 제한</div><div class="nd">확대보기가 있어 고해상이 유리합니다. <b>500×500 미만·3,000×3,000 초과는 등록되지 않습니다.</b> 문구·합성·GIF 불가, 워터마크 미사용 권장.</div></div>
+          <div class="note"><div class="nt">확대보기 지원 · 등록 기준</div><div class="nd">확대보기가 있어 고해상이 유리합니다. <b>500×500 미만·3,000×3,000 초과·GIF는 등록 불가(자동 반려).</b> 문구·합성·워터마크·과한 보정 등은 등록은 되나 추후 수정 요청될 수 있어요.</div></div>
         </div>
       </div>
     </section>
@@ -325,8 +328,8 @@
 
     <section id="rules">
       <div class="section-header">
-        <h2><span class="icon">✓</span>권장 / 금지</h2>
-        <p>대표이미지 제작 시 반드시 지켜야 할 사항입니다.</p>
+        <h2><span class="icon">✓</span>등록 기준 — 권장 / 불가 / 주의</h2>
+        <p>등록 시 <b>자동 반려</b>되는 항목과, 등록은 되지만 <b>추후 수정 요청</b>될 수 있는 항목을 구분합니다.</p>
       </div>
       <div class="dd">
         <div class="col do">
@@ -341,16 +344,23 @@
           </ul>
         </div>
         <div class="col dont">
-          <h3>금지 (Don't)</h3>
+          <h3>등록 불가 — 자동 반려</h3>
           <ul>
-            <li>문구·텍스트·합성·GIF 삽입 불가</li>
-            <li>워터마크 미사용 권장</li>
-            <li>그라데이션·패턴·배경 사진(단색만)</li>
-            <li>여백 없이 제품을 꽉 채우기</li>
-            <li>500×500 미만 · 3,000×3,000 초과 → 등록 불가</li>
-            <li>저해상도·비율 왜곡·과한 보정</li>
+            <li>500 × 500px 미만</li>
+            <li>3,000 × 3,000px 초과</li>
+            <li>GIF 파일</li>
           </ul>
         </div>
+      </div>
+      <div class="col warn">
+        <h3>가이드 위반 — 등록은 되나 추후 수정 요청될 수 있음</h3>
+        <ul>
+          <li>문구·텍스트·합성 이미지</li>
+          <li>워터마크 사용</li>
+          <li>그라데이션·패턴·배경 사진 (단색 권장)</li>
+          <li>여백 없이 제품을 꽉 채운 이미지</li>
+          <li>저해상도 · 비율 왜곡 · 과한 보정</li>
+        </ul>
       </div>
     </section>
   </main>
